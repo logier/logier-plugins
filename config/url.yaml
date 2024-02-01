@@ -1,0 +1,24 @@
+# 定时发图
+Switch: true
+GalleryimageUrls: 
+  - 'https://t.mwm.moe/pc'
+
+# 今日运势
+jrysSwitch: true
+jrysimageUrls:
+  - 'https://t.mwm.moe/mp'
+
+#算卦
+suanguaSwitch: true
+suanguaimageUrls:
+  - 'https://t.mwm.moe/mp'
+
+# 天气
+weatherSwitch: true
+weatherimageUrls:
+  - 'https://t.mwm.moe/mp'
+
+#签到
+signSwitch: true
+signimageUrls:
+  - "https://t.mwm.moe/pc"
