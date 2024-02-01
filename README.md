@@ -3,7 +3,7 @@
 
 <p align="center">
   <a href="https://www.logier.icu/">
-    <img src="./readme-image/logo.png" alt="Logo" height="150">
+    <img src="./img/logo.png" alt="Logo" height="150">
   </a>
 <br>
 
@@ -25,8 +25,12 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 ```
 ## 功能
 
-发送 **#logier帮助** 获取插件详细信息（待完善）
+发送 **#鸢尾花帮助** 获取插件详细信息（待完善）
+<details> <summary>鸢尾花帮助</summary>
+<img src="./img/help.jpg" >
+</details>
 
+<br>
 插件配置很多，但关键配置可通过锅巴配置
 
 | 功能 |
@@ -61,3 +65,4 @@ logier
 - [jryspro](https://github.com/twiyin0/koishi-plugin-jryspro)
 - [一些基础插件示例~](https://gitee.com/Zyy955/Miao-Yunzai-plugin)
 - [Yunzai-Bot 相关内容索引](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-indexn)
+- [Xrk-plugin](https://gitee.com/xrk114514/xrk-plugin)

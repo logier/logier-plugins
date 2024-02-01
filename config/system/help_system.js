@@ -1,6 +1,6 @@
 export const helpCfg = {
   "themeSet": false,
-  "title": "Logier帮助",
+  "title": "鸢尾花帮助",
   "subTitle": "Yunzai-Bot & Logier-Plugin",
   "colWidth": 265,
   "theme": "all",
