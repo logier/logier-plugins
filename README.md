@@ -50,6 +50,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 进退群通知 | 
 | 打招呼回复 | 
 
+查看具体效果可以看这个仓库 [logier的js插件合集](https://gitee.com/logier/logier-plugin)
 
 
 ## 作者
