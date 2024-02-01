@@ -1,11 +1,10 @@
 
 # 鸢尾花插件(logier-plugin)
 
-<div style="display: flex; justify-content: center;">
-    <a href="https://logier.gitee.io/" alt="Security Status">
-        <img src="./readme-image/logo.png" height="150" />
-    </a>
-</div>
+<p align="center">
+  <a href="https://www.logier.icu/">
+    <img src="./readme-image/logo.png" alt="Logo" height="150">
+  </a>
 <br>
 
 [![Gitee](https://img.shields.io/badge/Gitee-鸢尾花插件-black?style=flat-square&logo=gitee)](https://gitee.com/xwy231321/ql-plugin)&nbsp; [![云崽bot](https://img.shields.io/badge/云崽-v3.0.0-black?style=flat-square&logo=dependabot)](https://gitee.com/Le-niao/Yunzai-Bot) &nbsp; [![Group](https://img.shields.io/badge/群号-315239849-red?style=flat-square&logo=GroupMe&logoColor=white)](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY) &nbsp; <a href='https://gitee.com/logier/logier-plugins/stargazers'><img src='https://gitee.com/logier/logier-plugins/badge/star.svg?theme=dark' alt='star'></img></a>
