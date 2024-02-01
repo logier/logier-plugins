@@ -14,8 +14,8 @@ export class TextMsg extends plugin {
           priority: 6,   // 插件优先度，数字越小优先度越高
           rule: [
               {
-                  reg: '^#?(今日签到)$',   // 正则表达式,有关正则表达式请自行百度
-                  fnc: '今日签到'  // 执行方法
+                  reg: '^#?(签到)$',   // 正则表达式,有关正则表达式请自行百度
+                  fnc: '签到'  // 执行方法
               }
           ]
       })
@@ -23,7 +23,7 @@ export class TextMsg extends plugin {
   }
 
   // 执行方法1
-  async 今日签到(e) {
+  async 签到(e) {
 
   const Config = await readAndParseYAML('../config/url.yaml');
 
