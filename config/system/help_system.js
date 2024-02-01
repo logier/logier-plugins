@@ -57,7 +57,7 @@ export const helpList = [
       {
         "icon": 8,
         "title": "塔罗牌",
-        "desc": "#塔罗牌"
+        "desc": "#塔罗牌 #占卜 两种抽牌方式"
       }
     ]
   },
@@ -97,7 +97,7 @@ export const helpList = [
       {
         "icon": 14,
         "title": "问候回复",
-        "desc": "问候回复"
+        "desc": "发送问候，调用GPT回复"
       }
     ]
   }

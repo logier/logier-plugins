@@ -7,7 +7,7 @@ import { readAndParseJSON, readAndParseYAML, numToChinese, getRandomImage, getIm
 export class TextMsg extends plugin {
     constructor() {
         super({
-            name: '今日运势', // 插件名称
+            name: '[鸢尾花插件]今日运势', // 插件名称
             dsc: '今日运势',  // 插件描述            
             event: 'message',  // 更多监听事件请参考下方的 Events
             priority: 6,   // 插件优先度，数字越小优先度越高

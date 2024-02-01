@@ -6,7 +6,7 @@ import { readAndParseYAML, getRandomUrl, getRandomImage } from '../utils/getdate
 export class example extends plugin {
   constructor() {
     super({
-      name: '定时发图',
+      name: '[鸢尾花插件]定时发图',
       dsc: '定时发图',
       event: 'message',
       priority: 1000,

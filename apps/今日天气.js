@@ -7,7 +7,7 @@ const weatherConfig = await readAndParseYAML('../config/push.yaml');
 export class example extends plugin {
   constructor() {
     super({
-      name: '今日天气',
+      name: '[鸢尾花插件]今日天气',
       dsc: '今日天气',
       event: 'message',
       priority: 5000,
@@ -66,13 +66,17 @@ async function pushweather(e, isAuto = 0) {
 
   const output = await getIndices(location,  key.qweather, toRoman);
 
-  const forecastresult = await getForecast(location, key.qweather, name);
+  const {forecastresult, iconDays, iconNights} = await getForecast(location, key.qweather);
 
   const Config = await readAndParseYAML('../config/url.yaml');
+
+  let now = new Date();
+  let datatime =  now.toLocaleDateString('zh-CN'); //日期格式
+
   
   let imageUrl;
   if (Config.weatherSwitch) {
-      imageUrl = await getRandomImage();
+      imageUrl = await getRandomImage('竖图');
   } else {
       imageUrl = await getImageUrl(Config.weatherimageUrls)
   }
@@ -88,6 +92,7 @@ async function pushweather(e, isAuto = 0) {
          <!DOCTYPE html>
          <html>
          <head>
+         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/qweather-icons@1.3.0/font/qweather-icons.css">
          <style>
          @font-face {
           font-family: AlibabaPuHuiTi-2-55-Regular;
@@ -113,10 +118,9 @@ async function pushweather(e, isAuto = 0) {
            justify-content: space-between;
            border-radius:10px 10px 10px 10px;
            border:1px solid #a1a1a1;
-           background: rgba(255, 255, 255, 0.1);
+           background: rgba(255, 255, 255, 0.5);
            z-index:1;
            position:absolute;
-           backdrop-filter: blur(10px);
          }
          p {
            color : rgba(0,0,0, 0.6);
@@ -150,6 +154,8 @@ async function pushweather(e, isAuto = 0) {
          <div class="nei">
            <div class="centered-content">
             <br>
+            <p style="font-weight:bolder; font-size: 2.5em; line-height:150%">${datatime} ${name}</p>
+            <i style="font-size: 3em;" class="qi-${iconDays[0]}">/<i class="qi-${iconNights[0]}"></i></i>
              <p>${forecastresult[0]}</p>
              <br>
              <p>${output}</p>
@@ -166,8 +172,6 @@ async function pushweather(e, isAuto = 0) {
          const imgElement = await page.$('.tu img');
          // 对图片元素进行截图
          const image = await imgElement.screenshot();
-
-         logger.info(image)
  
          if (isAuto) {
           e.sendMsg(segment.image(image));
@@ -189,13 +193,15 @@ async function pushweather(e, isAuto = 0) {
 
 
 
-async function getForecast(location, key, name) {
+async function getForecast(location, key) {
   const forecast = `https://devapi.qweather.com/v7/weather/3d?location=${location}&key=${key}`;
   const forecastresponse = await fetch(forecast);
   const forecastdata = await forecastresponse.json();
 
   // 创建一个空数组来存储结果
   const forecastresult = [];
+  const iconDays = [];
+  const iconNights = [];
 
   // 遍历 forecastdata.daily 数组
   for (const item of forecastdata.daily) {
@@ -207,15 +213,19 @@ async function getForecast(location, key, name) {
     const precip = item.precip; // 获取 precip 属性
     const uvIndex = item.uvIndex; // 获取 uvIndex 属性
     const humidity = item.humidity; // 获取 humidity 属性
+    const iconDay = item.iconDay; // 获取 humidity 属性
+    const iconNight = item.iconNight; // 获取 humidity 属性
 
     // 创建模板字符串
-    const output = `<span style="font-weight:bold; font-size=2em; line-height:150%">${fxDate}  ${name}</span>\n气温：${tempMin}°C/${tempMax}°C\n风力：${windScaleDay}/${windScaleNight}\n降水量：${precip}\n紫外线指数：${uvIndex} \n湿度：${humidity}%\n`;
+    const output = `气温：${tempMin}°C/${tempMax}°C\n风力：${windScaleDay}/${windScaleNight}\n降水量：${precip}\n紫外线指数：${uvIndex} \n湿度：${humidity}%\n`;
 
     // 将模板字符串添加到 forecastresult 数组
     forecastresult.push(output);
+    iconDays.push(iconDay);
+    iconNights.push(iconNight);
   }
 
-  return forecastresult;
+  return {forecastresult, iconDays, iconNights};
 }
 
 

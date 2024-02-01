@@ -5,7 +5,7 @@ import { readAndParseJSON, readAndParseYAML, gpt } from '../utils/getdate.js'
 export class TextMsg extends plugin {
     constructor() {
         super({
-            name: '戳一戳表情包', 
+            name: '[鸢尾花插件]戳一戳表情包', 
             dsc: '戳一戳表情包',            
             event: 'notice.group.poke',  
             priority: 4999,   

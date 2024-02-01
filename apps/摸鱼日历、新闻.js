@@ -6,7 +6,7 @@ const Config = await readAndParseYAML('../config/push.yaml');
 export class example extends plugin {
   constructor() {
     super({
-      name: '摸鱼日历和60s新闻',
+      name: '[鸢尾花插件]摸鱼日历和60s新闻',
       dsc: '获取摸鱼日历和60s新闻',
       event: 'message',
       priority: 5000,

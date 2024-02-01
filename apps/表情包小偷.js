@@ -5,7 +5,7 @@ import { readAndParseYAML } from '../utils/getdate.js'
 export class TextMsg extends plugin {
     constructor() {
         super({
-            name: '表情包小偷', // 插件名称
+            name: '[鸢尾花插件]表情包小偷', // 插件名称
             dsc: '表情包小偷',  // 插件描述            
             event: 'message',  // 更多监听事件请参考下方的 Events
             priority: 9999,   // 插件优先度，数字越小优先度越高

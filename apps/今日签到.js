@@ -8,7 +8,7 @@ import { readAndParseYAML, getRandomImage, getImageUrl } from '../utils/getdate.
 export class TextMsg extends plugin {
   constructor() {
       super({
-          name: '今日签到', // 插件名称
+          name: '[鸢尾花插件]今日签到', // 插件名称
           dsc: '今日签到',  // 插件描述            
           event: 'message',  // 更多监听事件请参考下方的 Events
           priority: 6,   // 插件优先度，数字越小优先度越高
@@ -67,6 +67,20 @@ export class TextMsg extends plugin {
   
   let position = favorValues.indexOf(data.favor) + 1;
 
+  let date = new Date();
+  let hours = date.getHours();
+  
+  let timeOfDay;
+  if (hours >= 0 && hours < 6) {
+      timeOfDay = '凌晨';
+  } else if (hours >= 6 && hours < 12) {
+      timeOfDay = '上午';
+  } else if (hours >= 12 && hours < 18) {
+      timeOfDay = '下午';
+  } else {
+      timeOfDay = '晚上';
+  }
+
   let Html = `
   <!DOCTYPE html>
   <html lang="zh">
@@ -77,28 +91,27 @@ export class TextMsg extends plugin {
     </head>
     <body>
       <div id="main">
-        <img alt="" id="main_img" class="bgimg"/>
         <canvas id="cav"></canvas>
         <div id="wrapper">
-          <div id="left" style="width: 100%; align-items: center; display: flex!important; font-weight: bold; color: white; text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;">
+          <div id="left" style="width: 100%; align-items: center; display: flex!important; font-weight: bold; color: white; text-shadow: -1px 1px 0 #000, 1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
             <div id="user_line" style=" text-align: center;">
             <br>
-              <img alt="" id="avatar" src="https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.user_id}" style="width: 80px; float: left; margin-right: 20px;border-radius: 50%;" />
-              <p style="text-align: left; "><span style="font-size: 23px;text-align: center;">欢迎回来！</span><br>${e.nickname}</p>
-              <br>
-              <div style="text-align: left">
-              <p>${issign}</p>
-              <p>当前好感度：${finaldata.favor}</p>
-              <p>当前群排名：第${position}位</p>
-              <p style="line-height: 150%;">今日一言：<br>${content}</p>   
-              </div>       
-            </div>
+            <img alt="" id="avatar" src="https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.user_id}" style="width: 80px; float: left; margin-right: 20px;border-radius: 50%;" />
+            <p style="text-align: left; "><span style="font-size: 1.8em;text-align: center;">${timeOfDay}好！</span><br>${e.nickname}</p>
+            <br>
+            <div style="text-align: left;font-size: 1.2em;">
+            <p>${issign}</p>
+            <p>当前好感度：${finaldata.favor}</p>
+            <p>当前群排名：第${position}位</p>
+            <p style="line-height: 150%;">今日一言：<br>${content}</p>   
+            </div>       
           </div>
+        </div>
           <div id="right">
             <div id="img_top" class="img_around">
-              <span id="date_text">${datatime}</span>
+              <span id="date_text" >${datatime}</span>
             </div>
-            <img alt="" id="cont_img" class="bgimg"/>
+            <img alt="" id="cont_img" class="bgimg" />
             <div id="img_bottom" class="img_around"></div>
           </div>
         </div>
@@ -116,16 +129,10 @@ export class TextMsg extends plugin {
       width: 900px;
       overflow: hidden;
     }
-    #main_img {
-      grid-area: i;
-      z-index: -1;
-      width: 900px;
-      filter: blur(10px); /*模糊强度*/
-    }
     #cav {
       grid-area: i;
-      z-index: -2;
-      visibility: hidden;
+      z-index: -1;
+      /* visibility: hidden; */
       width: 100%;
       height: 100%;
     }
@@ -135,10 +142,10 @@ export class TextMsg extends plugin {
       grid-template-columns: 30% 70%;
     }
     #left {
-      padding-left: 30px;
+      padding: 10px;
     }
     #right {
-    padding-left: 10px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -319,6 +326,12 @@ export class TextMsg extends plugin {
     }
   </style>
   <script>
+    //这里其实就是导入了一个全局变量myimg
+    //如果想要替换，直接把这个script的src去掉
+    //然后把下面的注释取消掉
+    window.myimg = '${imageUrl}'; //里面是你图片的base64
+  </script>
+  <script>
     Function.prototype.rereturn = function (re) {
       return (...args) => re(this(...args));
     };
@@ -327,9 +340,61 @@ export class TextMsg extends plugin {
       .rereturn((list) => (call_back) => list.forEach(call_back));
   </script>
   <script>
-  $(".bgimg")((img) => {
-    img.src = "${imageUrl}"; //图片url,建议使用base64
-  });
+  
+    $(".bgimg")((img) => {
+      img.src = myimg;
+    });
+
+    $("#cav")((c) => drawToCanvas(c, myimg, 5));
+  
+    function drawToCanvas(canvas_blur, imgData, blur) {
+      let context = canvas_blur.getContext("2d");
+      let img = new Image();
+      img.src = imgData;
+      img.onload = function () {
+        context.clearRect(0, 0, canvas_blur.width, canvas_blur.height);
+        let img_w = img.width;
+        let img_h = img.height;
+        canvas_blur.width = img_w;
+        canvas_blur.height = img_h;
+        context.drawImage(
+          img,
+          0,
+          0,
+          img.width,
+          img.height,
+          (canvas_blur.width - img_w) / 2,
+          (canvas_blur.height - img_h) / 2,
+          img_w,
+          img_h
+        );
+        let canvas = canvas_blur;
+        let ctx = context;
+        let sum = 0;
+        let delta = 5;
+        let alpha_left = 1 / (2 * Math.PI * delta * delta);
+        let step = blur < 3 ? 1 : 2;
+        for (let y = -blur; y <= blur; y += step) {
+          for (let x = -blur; x <= blur; x += step) {
+            let weight =
+              alpha_left * Math.exp(-(x * x + y * y) / (2 * delta * delta));
+            sum += weight;
+          }
+        }
+        let count = 0;
+        for (let y = -blur; y <= blur; y += step) {
+          for (let x = -blur; x <= blur; x += step) {
+            count++;
+            ctx.globalAlpha =
+              ((alpha_left * Math.exp(-(x * x + y * y) / (2 * delta * delta))) /
+                sum) *
+              blur;
+            ctx.drawImage(canvas, x, y);
+          }
+        }
+        ctx.globalAlpha = 1;
+      };
+    }
   </script>
           `;
  

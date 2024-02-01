@@ -3,7 +3,7 @@ import { readAndParseJSON, readAndParseYAML, getRandomUrl } from '../utils/getda
 export class TextMsg extends plugin {
     constructor() {
         super({
-            name: '表情包仓库', 
+            name: '[鸢尾花插件]表情包仓库', 
             dsc: '发送表情包',            
             event: 'message',  
             priority: 5000,   

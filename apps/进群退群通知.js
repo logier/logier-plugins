@@ -2,7 +2,7 @@
 export class newcomer extends plugin {
   constructor () {
     super({
-      name: '进退群群通知',
+      name: '[鸢尾花插件]进退群群通知',
       dsc: '进退群群通知',
       /** https://oicqjs.github.io/oicq/#events */
       event: 'notice.group.increase',

@@ -11,37 +11,40 @@ export function supportGuoba() {
   return {
     pluginInfo: {
       name: "logier-plugin",
-      title: "logier-插件",
+      title: "鸢尾花插件(logier-plugin)",
       author: "@logier",
       authorLink: "https://gitee.com/logier",
-      link: "https://gitee.com/logier/logier-plugin",
+      link: "https://gitee.com/logier/logier-plugins",
       isV3: true,
       isV2: false,
-      description: "logier插件",
+      description: "表情包仓库、定时系列和运势系列",
       icon: "mdi:stove",
       iconColor: "#d19f56",
-      iconPath: path.join(_path, "img/logo.png"),
+      iconPath: path.join(_path, "img/fox.jpg"),
     },
       // 配置项信息
     configInfo: {
       // 配置项 schemas
       schemas: [
       {
+        component: 'Divider',
+        label: '表情包'
+      },
+      {
         field: 'config.customerrate',
-        label: '调用自定义表情包的概率',
-        bottomHelpMessage: '0-1之间',
+        label: '自定义表情包几率',
+        bottomHelpMessage: '触发表情包时使用自定义表情包的概率，0-1之间',
         component: "InputNumber",
         required: true,
           componentProps: {
             min: 0,
             max: 1,
-            placeholder: '调用自定义表情包的概率',
           },
       },
       {
         field: 'config.imageUrls',
         label: '自定义表情包地址',
-        bottomHelpMessage: '自定义表情包地址',
+        bottomHelpMessage: '自定义表情包地址，可以本地文件和网络链接',
         component: 'GTags',
         componentProps: {
           allowAdd: true,
@@ -50,20 +53,19 @@ export function supportGuoba() {
       },
       {
         field: 'config.emojirate',
-        label: '群聊中接收到消息后随机发送表情概率',
-        bottomHelpMessage: '0-1之间',
+        label: '随机表情包几率',
+        bottomHelpMessage: '群聊中收到消息后随机发送表情包的几率，0-1之间',
         component: "InputNumber",
         required: true,
           componentProps: {
             min: 0,
             max: 1,
-            placeholder: '机发送表情概率',
           },
       },
       {
         field: 'config.groupList',
-        label: '随机发送表情包的群号',
-        bottomHelpMessage: '随机发送表情包的群号',
+        label: '随机表情包群号',
+        bottomHelpMessage: '只有填入的群号才会在接收到消息后随机发送表情包',
         component: 'Select',
         componentProps: {
           allowAdd: true,
@@ -75,22 +77,14 @@ export function supportGuoba() {
       {
         field: 'config.minDelay',
         label: '发送表情包延迟',
-        helpMessage: '随机发送表情包定义延迟的最小值',
-        bottomHelpMessage: '不建议设置太久',
+        bottomHelpMessage: '随机发送表情包定义延迟的最小值',
         component: 'InputNumber',
-        componentProps: {
-          placeholder: '请输入延迟的最小值'
-        }
       },
       {
         field: 'config.maxDelay',
         label: '发送表情包延迟',
-        helpMessage: '随机发送表情包定义延迟的最大值',
-        bottomHelpMessage: '不建议设置太久',
+        bottomHelpMessage: '随机发送表情包定义延迟的最大值',
         component: 'InputNumber',
-        componentProps: {
-          placeholder: '请输入延迟的最大值'
-        }
       },
       {
         field: 'config.emojipath',
@@ -98,9 +92,6 @@ export function supportGuoba() {
         bottomHelpMessage: '表情包保存地址',
         component: 'Input',
         required: true,
-        componentProps: {
-        placeholder: '请输入绝对路径',   
-      },
     },
 
     {
@@ -110,42 +101,30 @@ export function supportGuoba() {
     {
       field: 'key.gptkey',
       label: 'gptkey',
-      bottomHelpMessage: 'gptkey',
+      bottomHelpMessage: '请前往https://github.com/chatanywhere/GPT_API_free获得',
       component: 'Input',
       required: true,
-      componentProps: {
-      placeholder: 'gptkey',   
-    },
   },
   {
     field: 'key.model',
     label: 'gpt模型',
-    bottomHelpMessage: 'gpt模型',
+    bottomHelpMessage: 'gpt模型，chatanywhere最高支持这个，一般不需要修改',
     component: 'Input',
     required: true,
-    componentProps: {
-    placeholder: 'gpt模型',   
-  },
   },
   {
     field: 'key.gpturl',
     label: 'gpturl',
-    bottomHelpMessage: 'gpturl',
+    bottomHelpMessage: 'gpt请求地址，key是chatanywhere的不用修改这里',
     component: 'Input',
     required: true,
-    componentProps: {
-    placeholder: 'gpturl',   
-  },
   },
   {
     field: 'key.qweather',
     label: '和风天气api',
-    bottomHelpMessage: '和风天气api',
+    bottomHelpMessage: '和风天气api，请前往https://console.qweather.com/#/console获得',
     component: 'Input',
     required: true,
-    componentProps: {
-    placeholder: '和风天气api',   
-  },
   },
 
   {
@@ -153,14 +132,17 @@ export function supportGuoba() {
     label: '定时发图'
   },
   {
+    field: 'push.GalleryisAutoPush',
+    label: '定时发图开关',
+    bottomHelpMessage: '定时发图开关',
+    component: 'Switch'
+  },
+  {
     field: 'push.Gallerytime',
     label: '定时发图时间',
-    bottomHelpMessage: '定时发图时间',
+    bottomHelpMessage: '定时发图时间，使用cron表达式',
     component: 'Input',
     required: false,
-    componentProps: {
-    placeholder: '定时发图时间',   
-  },
   },
   {
     field: 'push.GallerygroupList',
@@ -174,26 +156,24 @@ export function supportGuoba() {
       options: groupList
     }
   },
-  {
-    field: 'push.GalleryisAutoPush',
-    label: '是否定时发图',
-    bottomHelpMessage: '是否定时发图',
-    component: 'Switch'
-  },
+
 
   {
     component: 'Divider',
     label: '摸鱼日历'
   },
   {
+    field: 'push.moyuisAutoPush',
+    label: '摸鱼日历定时开关',
+    bottomHelpMessage: '摸鱼日历定时开关',
+    component: 'Switch'
+  },
+  {
     field: 'push.moyutime',
     label: '摸鱼日历时间',
-    bottomHelpMessage: '摸鱼日历时间',
+    bottomHelpMessage: '摸鱼日历时间，使用cron表达式',
     component: 'Input',
     required: false,
-    componentProps: {
-    placeholder: '摸鱼日历时间',   
-  },
   },
   {
     field: 'push.moyugroupList',
@@ -207,26 +187,23 @@ export function supportGuoba() {
       options: groupList
     }
   },
-  {
-    field: 'push.moyuisAutoPush',
-    label: '是否定时摸鱼日历',
-    bottomHelpMessage: '是否定时摸鱼日历',
-    component: 'Switch'
-  },
 
   {
     component: 'Divider',
     label: '今日新闻'
   },
   {
+    field: 'push.newsisAutoPush',
+    label: '今日新闻定时开关',
+    bottomHelpMessage: '今日新闻定时开关',
+    component: 'Switch'
+  },
+  {
     field: 'push.newstime',
     label: '今日新闻时间',
-    bottomHelpMessage: '今日新闻时间',
+    bottomHelpMessage: '今日新闻时间，使用cron表达式',
     component: 'Input',
     required: false,
-    componentProps: {
-    placeholder: '今日新闻时间',   
-  },
   },
   {
     field: 'push.newsgroupList',
@@ -240,31 +217,29 @@ export function supportGuoba() {
       options: groupList
     }
   },
-  {
-    field: 'push.newsisAutoPush',
-    label: '是否定时今日新闻',
-    bottomHelpMessage: '是否定时今日新闻',
-    component: 'Switch'
-  },
+
 
   {
     component: 'Divider',
     label: '今日天气'
   },
   {
+    field: 'push.WeatherisAutoPush',
+    label: '天气推送开关',
+    bottomHelpMessage: '天气推送开关',
+    component: 'Switch'
+  },
+  {
     field: 'push.Weathertime',
     label: '天气时间',
-    bottomHelpMessage: '天气时间',
+    bottomHelpMessage: '天气时间，使用cron表达式',
     component: 'Input',
     required: false,
-    componentProps: {
-    placeholder: '天气时间',   
-  },
   },
   {
     field: 'push.WeathergroupList',
-    label: '天气群号',
-    bottomHelpMessage: '天气的群号',
+    label: '推送天气群号',
+    bottomHelpMessage: '推送天气的群号',
     component: 'Select',
     componentProps: {
       allowAdd: true,
@@ -272,12 +247,6 @@ export function supportGuoba() {
       mode: 'multiple',
       options: groupList
     }
-  },
-  {
-    field: 'push.WeatherisAutoPush',
-    label: '是否定时天气',
-    bottomHelpMessage: '是否定时天气',
-    component: 'Switch'
   },
   {
     field: 'push.defaultCity',
@@ -289,6 +258,93 @@ export function supportGuoba() {
     placeholder: '推送天气地点',   
   },
   },
+
+  {
+    component: 'Divider',
+    label: '图片api'
+  },
+  {
+    field: 'url.Switch',
+    label: '定时发图自带图床',
+    bottomHelpMessage: '使用p站反代发图，有稳定的图源推荐更换',
+    component: 'Switch'
+  },
+  {
+    field: 'url.GalleryimageUrls',
+    label: '定时发图自定义链接',
+    bottomHelpMessage: '定时发图自定义链接，支持网络和本地',
+    component: 'GTags',
+    componentProps: {
+      allowAdd: true,
+      allowDel: true,
+    },
+  },
+  {
+    field: 'url.jrysSwitch',
+    label: '今日运势自带图床',
+    bottomHelpMessage: '使用p站反代发图，有稳定的图源推荐更换',
+    component: 'Switch'
+  },
+  {
+    field: 'url.jrysimageUrls',
+    label: '今日运势自定义链接',
+    bottomHelpMessage: '今日运势自定义链接，支持网络和本地，推荐竖图',
+    component: 'GTags',
+    componentProps: {
+      allowAdd: true,
+      allowDel: true,
+    },
+  },
+  {
+    field: 'url.suanguaSwitch',
+    label: '算卦自带图床',
+    bottomHelpMessage: '使用p站反代发图，有稳定的图源推荐更换',
+    component: 'Switch'
+  },
+  {
+    field: 'url.suanguaimageUrls',
+    label: '算卦自定义链接',
+    bottomHelpMessage: '算卦自定义链接，支持网络和本地，推荐竖图',
+    component: 'GTags',
+    componentProps: {
+      allowAdd: true,
+      allowDel: true,
+    },
+  },
+  {
+    field: 'url.weatherSwitch',
+    label: '天气自带图床',
+    bottomHelpMessage: '使用p站反代发图，有稳定的图源推荐更换',
+    component: 'Switch'
+  },
+  {
+    field: 'url.weatherimageUrls',
+    label: '天气自定义链接',
+    bottomHelpMessage: '天气自定义链接，支持网络和本地，推荐横图',
+    component: 'GTags',
+    componentProps: {
+      allowAdd: true,
+      allowDel: true,
+    },
+  },
+  {
+    field: 'url.signSwitch',
+    label: '签到自带图床',
+    bottomHelpMessage: '使用p站反代发图，有稳定的图源推荐更换',
+    component: 'Switch'
+  },
+  {
+    field: 'url.signimageUrls',
+    label: '签到自定义链接',
+    bottomHelpMessage: '签到自定义链接，支持网络和本地，推荐横图',
+    component: 'GTags',
+    componentProps: {
+      allowAdd: true,
+      allowDel: true,
+    },
+  },
+
+
 
 ],
 
