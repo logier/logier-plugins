@@ -13,12 +13,12 @@ export class ql_help extends plugin {
       rule: [
         {
           reg: '^#?(logier)(帮助|help|指令|菜单|命令)$',
-          fnc: 'ahelp'
+          fnc: 'logierhelp'
         }
       ]
     });
   }
-  async ahelp() {
+  async logierhelp() {
     return await help(this.e);
   }
 
