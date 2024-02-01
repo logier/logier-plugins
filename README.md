@@ -1,12 +1,17 @@
 
-<h1>鸢尾花插件(logier-plugin)</h1>
+# 鸢尾花插件(logier-plugin)
 
-<a href="https://logier.gitee.io/" alt="Security Status"><img src="./readme-image/logo.png" /></a>
+<div style="display: flex; justify-content: center;">
+    <a href="https://logier.gitee.io/" alt="Security Status">
+        <img src="./readme-image/logo.png" height="150" />
+    </a>
+</div>
+<br>
 
-[![Gitee](https://img.shields.io/badge/Gitee-鸢尾花插件-black?style=flat-square&logo=gitee)](https://gitee.com/xwy231321/ql-plugin) [![云崽bot](https://img.shields.io/badge/云崽-v3.0.0-black?style=flat-square&logo=dependabot)](https://gitee.com/Le-niao/Yunzai-Bot)  [![Group](https://img.shields.io/badge/群号-315239849-red?style=flat-square&logo=GroupMe&logoColor=white)](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY)  <a href='https://gitee.com/logier/logier-plugins/stargazers'><img src='https://gitee.com/logier/logier-plugins/badge/star.svg?theme=dark' alt='star'></img></a>
+[![Gitee](https://img.shields.io/badge/Gitee-鸢尾花插件-black?style=flat-square&logo=gitee)](https://gitee.com/xwy231321/ql-plugin)&nbsp; [![云崽bot](https://img.shields.io/badge/云崽-v3.0.0-black?style=flat-square&logo=dependabot)](https://gitee.com/Le-niao/Yunzai-Bot) &nbsp; [![Group](https://img.shields.io/badge/群号-315239849-red?style=flat-square&logo=GroupMe&logoColor=white)](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY) &nbsp; <a href='https://gitee.com/logier/logier-plugins/stargazers'><img src='https://gitee.com/logier/logier-plugins/badge/star.svg?theme=dark' alt='star'></img></a>
 
 
-***如果发现bug，希望即使告知我或提交issue***
+***如果发现bug，希望及时Q群告知我或提交issue***
 
 ## 安装教程
 
@@ -20,6 +25,10 @@ github
 git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logier-plugin/
 ```
 ## 功能
+
+发送 **#logier帮助** 获取插件详细信息（待完善）
+
+插件配置很多，但关键配置可通过锅巴配置
 
 | 功能 |
 |----|
@@ -37,6 +46,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 签到 | 
 | 进退群通知 | 
 | 打招呼回复 | 
+
 
 
 ## 作者
