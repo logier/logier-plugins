@@ -37,6 +37,6 @@ logger.info(logger.yellow(' | |___  | (_) | | (_| | | | |  __/ | |   '))
 logger.info(logger.yellow(' |_____|  \\___/   \\__, | |_|  \\___| |_|   '))
 logger.info(logger.yellow('                  |___/                    '))
 logger.info(logger.yellow('                                         '))
-logger.info(logger.yellow('----------欢迎加入Q群：315239849---------'))
+logger.info(logger.yellow('----------欢迎加入Q群：315239849----------'))
 
 
