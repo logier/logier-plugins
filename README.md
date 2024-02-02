@@ -34,7 +34,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 <br>
 插件配置很多，但关键配置可通过锅巴配置
 
-| 名称 | 功能 |
+| 名称<div style="width:45px"> | 功能 |
 |---|---|
 | 表情包仓库 | 指令触发，**#表情包**全随机，**#龙图**发送龙图，**#自定义表情包**发送自定义表情包 |
 | 表情包小偷 | 无指令，设定好群后，每当有人在群里发表情就会记录到数据库，当有人发消息时会概率发送记录的表情包，概率默认为0 |
@@ -50,8 +50,6 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 签到 | **#签到**触发 |
 | 进退群通知 | 有人进群、退群时触发，发送诙谐的进群欢迎 | 
 | 问候回复 |  **早上好**、**晚上好** 等打招呼词触发，AI回复 |
-
-
 
 
 ## 注意
