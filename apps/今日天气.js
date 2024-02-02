@@ -83,6 +83,10 @@ async function pushweather(e, isAuto = 0) {
   logger.info(imageUrl)
 
 
+
+
+
+
   let browser;
   try {
     browser = await puppeteer.launch({headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] });
@@ -92,7 +96,7 @@ async function pushweather(e, isAuto = 0) {
          <!DOCTYPE html>
          <html>
          <head>
-         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/qweather-icons@1.3.0/font/qweather-icons.css">
+         <link rel="stylesheet" href="https://jsd.cdn.zzko.cn/npm/qweather-icons@1.3.0/font/qweather-icons.css"> 
          <style>
          @font-face {
           font-family: AlibabaPuHuiTi-2-55-Regular;
@@ -156,7 +160,7 @@ async function pushweather(e, isAuto = 0) {
            <div class="centered-content">
             <br>
             <p style="font-weight:bolder; font-size: 2.5em;">${datatime} ${name}</p>
-            <i style="font-size: 2.5em;" class="qi-${iconDays[0]}">/<i class="qi-${iconNights[0]}"></i></i>
+            <i style="font-size: 2.5em;" class="qi-${iconDays[0]}"> / <i class="qi-${iconNights[0]}"></i></i>
              <p>${forecastresult[0]}</p>
              <br>
              <p>${output}</p>
