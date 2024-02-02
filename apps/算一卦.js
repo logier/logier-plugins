@@ -165,7 +165,7 @@ export class TextMsg extends plugin {
         <p>${guachi[randomIndex]}</p>
       </div>
       <br>
-      <p style="font-weight: bold; margin-bottom: 20px;">Create By Logier-Plugin </p>
+      <p style="font-weight: bold; margin-bottom: 20px;">Create By 鸢尾花插件 </p>
     </div>
     </body>
     </html>

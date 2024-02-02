@@ -109,7 +109,7 @@ async function push今日运势(e, isRejrys = false) {
             <p >${item.unsignText}</p>
           </div>
           <p>| 相信科学，请勿迷信 |</p>
-          <p>Create By Logier-Plugin </p>
+          <p>Create By 鸢尾花插件 </p>
         </div>
         <div class="image" style="height:65rem; width: 70%; float: right; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3); text-align: center;">
           <img src=${imageUrl} style="height: 100%; filter: brightness(100%); overflow: hidden; display: inline-block; vertical-align: middle; margin: 0; padding: 0;"/>

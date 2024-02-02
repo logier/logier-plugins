@@ -10,7 +10,7 @@ export function supportGuoba() {
   groupList = groupList.map(item => item = { label: `${item.group_name}-${item.group_id}`, value: item.group_id })
   return {
     pluginInfo: {
-      name: "logier-plugin",
+      name: "鸢尾花插件",
       title: "鸢尾花插件(logier-plugin)",
       author: "@logier",
       authorLink: "https://gitee.com/logier",

@@ -184,7 +184,7 @@ async function 抽塔罗牌(e, 占卜内容) {
       <p style="font-size: 25px;">${content}</p>
       </div>
       <p>${meaning}</p>
-      <p>Create By Logier-Plugin</p>
+      <p>Create By 鸢尾花插件</p>
     </div>
     <div class="image" style="height:65rem; width: 65%; float: right; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3); text-align: center;">
       <img src=${imageurl} style="height: 100%; filter: brightness(100%); overflow: hidden; display: inline-block; vertical-align: middle; margin: 0; padding: 0;"/>

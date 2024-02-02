@@ -166,7 +166,7 @@ async function pushweather(e, isAuto = 0) {
              <p>${output}</p>
            </div>
            <br>
-           <p style="font-weight: bold; margin-bottom: 20px; text-align: center;">Create By Logier-Plugin </p>
+           <p style="font-weight: bold; margin-bottom: 20px; text-align: center;">Create By 鸢尾花插件 </p>
          </div>
          </body>
          </html>

@@ -114,7 +114,7 @@ export class TextMsg extends plugin {
             <img alt="" id="cont_img" class="bgimg" />
             <div id="img_bottom" class="img_around"></div>
           </div>
-          <p style="font-weight: bold; margin-bottom: 20px;margin-left: 20px; color: white;">Create By Logier-Plugin </p> 
+          <p style="font-weight: bold; margin-bottom: 20px;margin-left: 20px; color: white;">Create By 鸢尾花插件 </p> 
         </div>
       </div>
     </body>
