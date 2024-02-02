@@ -77,6 +77,10 @@ export class TextMsg extends plugin {
                     fnc: '孤独摇滚' 
                 },
                 {
+                    reg: '^#?(心海|珊瑚宫心海|小心海|心海酱)(表情包)?$',   
+                    fnc: '心海' 
+                },
+                {
                     reg: '^#?(自定义表情包|我的表情包)$',   
                     fnc: '自定义表情包' 
                 },
@@ -135,6 +139,9 @@ export class TextMsg extends plugin {
     }
     async 孤独摇滚(e) {
         sendEmoji(e, '孤独摇滚')
+    }
+    async 心海(e) {
+        sendEmoji(e, '心海')
     }
     async 自定义表情包(e) {
         sendEmoji(e, '自定义')

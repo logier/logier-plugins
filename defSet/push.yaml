@@ -1,25 +1,17 @@
-# 定时发送时间
-Gallerytime: '0 0/30 * * * ? '
-GallerygroupList: 
+Gallerytime: 0 0/30 * * * ?
+GallerygroupList:
   - null
 GalleryisAutoPush: false
-
-
-#摸鱼
-moyutime: '0 30 9 * * ?'
-moyugroupList: 
+moyutime: 0 30 9 * * ?
+moyugroupList:
   - null
 moyuisAutoPush: false
-
-#新闻
-newstime: '0 30 8 * * ?'
-newsgroupList: 
+newstime: 0 30 8 * * ?
+newsgroupList:
   - null
 newsisAutoPush: false
-
-#天气
-Weathertime: '0 30 8 * * ?'
-WeathergroupList: 
+Weathertime: 0 30 8 * * ?
+WeathergroupList:
   - null
 WeatherisAutoPush: false
 defaultCity: 北京

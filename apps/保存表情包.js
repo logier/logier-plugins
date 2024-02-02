@@ -21,7 +21,7 @@ export class TextMsg extends plugin {
                   permission: "master",
               },
               {
-                reg: '#?(查看表情包)$',   // 正则表达式,有关正则表达式请自行百度
+                reg: '#?(查看表情包)(\\d+)?$',   // 正则表达式,有关正则表达式请自行百度
                 fnc: '查看表情包',  // 执行方法
                 permission: "master",
              },
@@ -86,7 +86,8 @@ export class TextMsg extends plugin {
         return true;
     }
     
-    async 查看表情包(e) {
+    async 查看表情包(e) {       
+
         const config = await readAndParseYAML('../config/config.yaml');
         const savePath = config.emojipath;
     
@@ -94,21 +95,36 @@ export class TextMsg extends plugin {
             e.reply("目录不存在", true);
             return false;
         }
-    
-        const files = fs.readdirSync(savePath);
-        const numbers = files.map(file => parseInt(file.split('.')[0])).sort((a, b) => a - b);
-    
-        let ranges = [];
-        for (let i = 0; i < numbers.length; i++) {
-            let start = numbers[i];
-            while (i + 1 < numbers.length && numbers[i + 1] === numbers[i] + 1) {
-                i++;
+
+        let number = parseInt(this.e.msg.replace(/#?(查看表情包)/, ''));
+        if (number){
+            let filePath = path.join(savePath, `${number}.jpg`); // 根据你的文件类型修改后缀
+            if (fs.existsSync(filePath)) {
+                // 如果文件存在，获取它的链接
+                let fileUrl = `file://${filePath}`;
+                e.reply([`表情包编号${number}`,segment.image(fileUrl)]);
+            } else {
+                console.log('文件不存在');
             }
-            let end = numbers[i];
-            ranges.push(start === end ? `${start}` : `${start}-${end}`);
+        } else {
+            const files = fs.readdirSync(savePath);
+            const numbers = files.map(file => parseInt(file.split('.')[0])).sort((a, b) => a - b);
+        
+            let ranges = [];
+            for (let i = 0; i < numbers.length; i++) {
+                let start = numbers[i];
+                while (i + 1 < numbers.length && numbers[i + 1] === numbers[i] + 1) {
+                    i++;
+                }
+                let end = numbers[i];
+                ranges.push(start === end ? `${start}` : `${start}-${end}`);
+            }
+        
+            e.reply(`当前目录下，编号为${ranges.join(', ')}`, true);
+
         }
-    
-        e.reply(`当前目录下，编号为${ranges.join(', ')}`, true);
+        
+
         return true;
     }
     

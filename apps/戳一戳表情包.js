@@ -20,8 +20,9 @@ export class TextMsg extends plugin {
     async chuoemoji(e) {
 
         const key = await readAndParseYAML('../config/key.yaml');
+        const config = await readAndParseYAML('../config/config.yaml');
         if (e.target_id == e.self_id && key.gptkey) {
-            if (Math.random() < 0.5) {
+            if (Math.random() > config.chuoyichuorate) {
                 logger.info('[戳一戳表情包]表情包回复戳一戳')   
                 emoji(e)
             }else {

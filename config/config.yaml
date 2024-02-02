@@ -1,9 +1,10 @@
 customerrate: 0
 imageUrls:
-  - https:t.mwm.moe/xhl
+  - ./resources/logier/emoji
 emojirate: 0
 groupList:
   - null
 minDelay: 2
 maxDelay: 10
 emojipath: ./resources/logier/emoji
+chuoyichuorate: 0

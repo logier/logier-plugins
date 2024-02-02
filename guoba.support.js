@@ -93,6 +93,17 @@ export function supportGuoba() {
         component: 'Input',
         required: true,
     },
+    {
+      field: 'config.chuoyichuorate',
+      label: '戳一戳GPT回复概率',
+      bottomHelpMessage: '戳一戳后GPT回复的几率，0-1之间，默认为0',
+      component: "InputNumber",
+      required: true,
+        componentProps: {
+          min: 0,
+          max: 1,
+        },
+    },
 
     {
       component: 'Divider',
