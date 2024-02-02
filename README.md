@@ -38,7 +38,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 |-------|------ |
 | 表情包仓库 | 指令触发，**#表情包**全随机，**#龙图**发送龙图，**#自定义表情包**发送自定义表情包 |
 | 表情包小偷 | 无指令，设定好群后，每当有人在群里发表情就会记录到数据库，当有人发消息时会概率发送记录的表情包，概率默认为0 |
-| 戳一戳表情包 | 戳一戳触发，50%概率发送表情包，50%概率触发GPT回复，GPT回复可以去key.yaml修改人格。 |
+| 戳一戳表情 | 戳一戳触发，50%概率发送表情包，50%概率触发GPT回复，GPT回复可以去key.yaml修改人格。 |
 | 保存表情包 | **#保存+图片**或者 **#保存+引用回复**，将图片保存到指令目录，**#查看表情包**显示已存储表情包编号，**#删除表情包+对应编号** | 
 | 定时发图 | 定时向群里发送相册，**#定时发图**手动触发 |
 | 摸鱼日历 | 定时向群里发送摸鱼日历，**#摸鱼日历**手动触发 | 
@@ -93,9 +93,11 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 还是不懂？👉[和风天气官方教程](https://dev.qweather.com/docs/configuration/project-and-key/)
 
-<br>
+
 
 ### 如何获取图片api？
+
+本插件自带一个logier严选的pid索引，使用p站反代获取图片，推荐自行更换更稳定的图源，最好本地图源。
 
 [我的个人博客](https://logier.gitee.io/gallery/)有很多我收集的图片api
 
