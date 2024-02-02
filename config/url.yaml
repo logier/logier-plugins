@@ -7,7 +7,7 @@ jrysimageUrls:
 suanguaSwitch: true
 suanguaimageUrls:
   - https://t.mwm.moe/mp
-weatherSwitch: true
+weatherSwitch: false
 weatherimageUrls:
   - https://t.mwm.moe/mp
 signSwitch: true

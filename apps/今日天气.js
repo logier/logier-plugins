@@ -112,6 +112,7 @@ async function pushweather(e, isAuto = 0) {
            float: left;
            box-shadow: 3px 3px 3px #666666;
            width: 50%;
+           min-width: 400px;
            height:100%;
            display:flex;
            flex-direction: column;
@@ -124,7 +125,7 @@ async function pushweather(e, isAuto = 0) {
          }
          p {
            color : rgba(0,0,0, 0.6);
-           font-size:1.5rem;
+           font-size:1.8rem;
            padding: 2px; 
            word-wrap: break-word;
            white-space: pre-wrap;
@@ -154,8 +155,8 @@ async function pushweather(e, isAuto = 0) {
          <div class="nei">
            <div class="centered-content">
             <br>
-            <p style="font-weight:bolder; font-size: 2.5em; line-height:150%">${datatime} ${name}</p>
-            <i style="font-size: 3em;" class="qi-${iconDays[0]}">/<i class="qi-${iconNights[0]}"></i></i>
+            <p style="font-weight:bolder; font-size: 2.5em;">${datatime} ${name}</p>
+            <i style="font-size: 2.5em;" class="qi-${iconDays[0]}">/<i class="qi-${iconNights[0]}"></i></i>
              <p>${forecastresult[0]}</p>
              <br>
              <p>${output}</p>
@@ -176,7 +177,7 @@ async function pushweather(e, isAuto = 0) {
          if (isAuto) {
           e.sendMsg(segment.image(image));
         } else {
-          e.reply(segment.image(image), true);
+          e.reply(segment.image(image));
         }
    
        } catch (error) {

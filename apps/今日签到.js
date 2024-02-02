@@ -93,8 +93,8 @@ export class TextMsg extends plugin {
       <div id="main">
         <canvas id="cav"></canvas>
         <div id="wrapper">
-          <div id="left" style="width: 100%; align-items: center; display: flex!important; font-weight: bold; color: white; text-shadow: -1px 1px 0 #000, 1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
-            <div id="user_line" style=" text-align: center;">
+          <div id="left" style="width: 100%; align-items: center; display: flex!important; font-weight: bold; color: white; text-shadow: -2px 2px 0 #000, 2px 2px 0 #000,2px -2px 0 #000,-2px -2px 0 #000;">
+            <div id="user_line" style=" text-align: center;margin-left: 20px;">
             <br>
             <img alt="" id="avatar" src="https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.user_id}" style="width: 80px; float: left; margin-right: 20px;border-radius: 50%;" />
             <p style="text-align: left; "><span style="font-size: 1.8em;text-align: center;">${timeOfDay}好！</span><br>${e.nickname}</p>
@@ -104,7 +104,7 @@ export class TextMsg extends plugin {
             <p>当前好感度：${finaldata.favor}</p>
             <p>当前群排名：第${position}位</p>
             <p style="line-height: 150%;">今日一言：<br>${content}</p>   
-            </div>       
+            </div>  
           </div>
         </div>
           <div id="right">
@@ -114,6 +114,7 @@ export class TextMsg extends plugin {
             <img alt="" id="cont_img" class="bgimg" />
             <div id="img_bottom" class="img_around"></div>
           </div>
+          <p style="font-weight: bold; margin-bottom: 20px;margin-left: 20px; color: white;">Create By Logier-Plugin </p> 
         </div>
       </div>
     </body>
