@@ -35,13 +35,12 @@ export class greetings extends plugin {
     }
         
     const key = await readAndParseYAML('../config/key.yaml');
-    logger.info(key.messages)
-    let messages =  [...key.messages,
+    let arr2 = [        
         {"role": "system", "content": `现在的时间是${timeOfDay}，请你结合现在的时间和我的话来回复。`},
-        {"role": "user", "content": `${e.msg}`}
-    ];
-    
-    const content = await gpt(key.gptkey, key.gpturl, key.model, messages);
+        {"role": "user", "content": `${e.msg}`}];
+    key.messages.push(...arr2);
+    logger.info(key.messages)
+    const content = await gpt(key.gptkey, key.gpturl, key.model, key.messages);
 
     e.reply(content, true)
 

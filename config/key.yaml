@@ -1,4 +1,4 @@
-gptkey: xxxxx
+gptkey:  xxxxx
 model: gpt-3.5-turbo
 gpturl: https://api.chatanywhere.tech/v1/chat/completions
 messages:
