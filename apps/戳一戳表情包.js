@@ -25,7 +25,9 @@ export class TextMsg extends plugin {
                 logger.info('[戳一戳表情包]表情包回复戳一戳')   
                 emoji(e)
             }else {
-                const content = await gpt(key.gptkey, key.gpturl, key.model, key.messages);
+                let message =  key.message.push(
+                    {"role": "user", "content": `戳一戳你`});
+                const content = await gpt(key.gptkey, key.gpturl, key.model, message);
                 if (content) {
                     e.reply(content)
                 }else {

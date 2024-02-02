@@ -6,8 +6,8 @@ import Theme from './Help/Helptheme.js'
 export class ql_help extends plugin {
   constructor() {
     super({
-      name: 'logier帮助',
-      dsc: 'logierhelp',
+      name: '[鸢尾花插件]鸢尾花帮助',
+      dsc: '鸢尾花帮助',
       event: 'message',
       priority: 1000,
       rule: [

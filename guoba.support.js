@@ -320,7 +320,7 @@ export function supportGuoba() {
   {
     field: 'url.weatherimageUrls',
     label: '天气自定义链接',
-    bottomHelpMessage: '天气自定义链接，支持网络和本地，推荐横图',
+    bottomHelpMessage: '天气自定义链接，支持网络和本地，推荐竖图',
     component: 'GTags',
     componentProps: {
       allowAdd: true,
