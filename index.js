@@ -29,7 +29,7 @@ for (let i in files) {
 }
 export { apps }
 
-logger.info(logger.yellow('---------------鸢尾花插件-----------------'))
+logger.info(logger.yellow('----------------鸢尾花插件----------------'))
 logger.info(logger.yellow('  _                       _               '))
 logger.info(logger.yellow(' | |       ___     __ _  (_)   ___   _ __ '))
 logger.info(logger.yellow(' | |      / _ \\   / _` | | |  / _ \\ | \'__|'))
@@ -37,5 +37,6 @@ logger.info(logger.yellow(' | |___  | (_) | | (_| | | | |  __/ | |   '))
 logger.info(logger.yellow(' |_____|  \\___/   \\__, | |_|  \\___| |_|   '))
 logger.info(logger.yellow('                  |___/                    '))
 logger.info(logger.yellow('                                         '))
-logger.info(logger.yellow('---------------鸢尾花插件-----------------'))
+logger.info(logger.yellow('----------欢迎加入Q群：315239849---------'))
+
 

@@ -108,7 +108,7 @@ export function supportGuoba() {
   {
     field: 'key.model',
     label: 'gpt模型',
-    bottomHelpMessage: 'gpt模型，chatanywhere最高支持这个，一般不需要修改',
+    bottomHelpMessage: 'gpt模型，chatanywhere免费最高只支持gpt-3.5-turbo，一般不需要修改',
     component: 'Input',
     required: true,
   },

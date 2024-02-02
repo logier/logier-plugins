@@ -26,7 +26,7 @@ export default async function (path, params, cfg) {
     },
     sys: {
       scale: 1,
-      copyright: `Created By Yunzai-Bot<span class="version">${Version.yunzai}</span> & ql-Plugin<span class="version">${Version.ver}</span>`
+      copyright: `Created By Yunzai-Bot<span class="version">${Version.yunzai}</span> & logier-Plugin<span class="version">${Version.ver}</span>`
     },
     quality: 100
   }

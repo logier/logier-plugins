@@ -24,7 +24,7 @@ export default async function (path, params, cfg) {
     },
     sys: {
       scale: `style=transform:scale(${cfg.scale || 1})`,
-	    copyright: `Yunzai-Bot<span class="version">${Version.yunzai}</span> & logier-plugin<span class="version">${Version.ver}</span>`
+	    copyright: `欢迎加Q群：315239849<br>Yunzai-Bot<span class="version">${Version.yunzai}</span> & logier-plugin<span class="version">${Version.ver}</span>`
     },
     quality: 100
   }
