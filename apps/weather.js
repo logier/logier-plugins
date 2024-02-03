@@ -76,7 +76,7 @@ async function pushweather(e, isAuto = 0) {
   
   let imageUrl;
   if (Config.weatherSwitch) {
-      imageUrl = await getRandomImage('竖图');
+      imageUrl = await getRandomImage('mb');
   } else {
       imageUrl = await getImageUrl(Config.weatherimageUrls)
   }

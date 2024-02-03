@@ -36,7 +36,7 @@ export class TextMsg extends plugin {
 
   let imageUrl;
   if (Config.signSwitch) {
-      imageUrl = await getRandomImage('横图');
+      imageUrl = await getRandomImage('pc');
   } else {
       imageUrl = await getImageUrl(Config.signimageUrls);
   }

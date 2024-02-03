@@ -12,7 +12,7 @@ export class ql_help extends plugin {
       priority: 1000,
       rule: [
         {
-          reg: '^#?(logier|鸢尾花|yuanweihua)(帮助|help|指令|菜单|命令)$',
+          reg: '^#?(logier|鸢尾花|yuanweihua|iris|鸢尾|yuanwei)(帮助|help|指令|菜单|命令)$',
           fnc: 'logierhelp'
         }
       ]

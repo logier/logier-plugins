@@ -83,7 +83,7 @@ async function push今日运势(e, isRejrys = false) {
   
   let imageUrl;
   if (Config.jrysSwitch) {
-      imageUrl = await getRandomImage('竖图');
+      imageUrl = await getRandomImage('mb');
   } else {
       imageUrl = await getImageUrl(Config.jrysimageUrls);
   }

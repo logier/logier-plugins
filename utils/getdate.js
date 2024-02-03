@@ -108,10 +108,10 @@ async function readCategoryFiles(category) {
   
 export async function getRandomImage(category) {
 let file;
-if (['横图', '竖图', '方图'].includes(category)) {
+if (['pc', 'mb', 'sq'].includes(category)) {
     file = await readCategoryFiles(category);
 } else {
-    const allFiles = await Promise.all(['横图', '竖图', '方图'].map(readCategoryFiles));
+    const allFiles = await Promise.all(['pc', 'mb', 'sq'].map(readCategoryFiles));
     file = getRandomFile([].concat(...allFiles));
 }
 

@@ -41,7 +41,7 @@ export class TextMsg extends plugin {
       
       let imageUrl;
       if (Config.suanguaSwitch) {
-          imageUrl = await getRandomImage('竖图');
+          imageUrl = await getRandomImage('mb');
       } else {
           imageUrl = await getImageUrl(Config.suanguaimageUrls);
       }
