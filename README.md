@@ -5,10 +5,9 @@
   <a href="https://logier.gitee.io/">
     <img src="./img/logo.png" alt="Logo" height="120">
   </a>
-
 <br>
 
- [![Group](https://img.shields.io/badge/QQ群-blue?style=social&labelColor=white&logo=tencentqq&logoColor=black)](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY) &nbsp; [![Group](https://img.shields.io/badge/个人网站-blue?style=flat-square&labelColor=white&logo=hexo&logoColor=black)](https://logier.gitee.io/) &nbsp;[![Group](https://img.shields.io/badge/表情包仓库-blue?style=flat-square&labelColor=white&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAgCAMAAACrZuH4AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACfUExURf////j1/O7p9Ozo8+ri9eTZ8uPZ8d3P79bG7NbF7M+86cmz5siy5cGp4rug37Gcz7Gbz7SW3LSV3LKW2a+Xz6qbw62M2aeD1qaC1Z950pd6v5Z6v5lwz5hvz5VyxJZszZNryYp1rZJmzIVktYVktIddv4RcvYBesHVdnnxUsndYpnlVrndSrHZPrHROqmhQjls8jlk6jEQ9WS0xNykvM/nZ+iEAAAEtSURBVHjavZLNUsMgFIUPSSENYNtxbHWj7/9Wblw4OprGhPyXuCCkAaIbZ2RxQ5iPA/dwgL8P4vwkLBWAqrt2XCXkgdlpl6mQICex1FNvk0w8L52kczyjk0pkV1Lp3VAmHrEPmjh4BA8I4RJ0xQnqavw4fiNGh+hXiMHVqAKg9E4JRS4eUQREbj6b+a10BNzEl8JWPXgEdARsCIGtGu7LHZ+2A7AlY2OrvCXVkriXpAOasYStCdPnJVHs4n62YAAA1jyPc4IOHKnoW7eVhKoaKjc3vePz9oUdVAjw3GhEO4FWxB6hEqgvfc3pFMKzapO9mWbZNcmUQZq8vFYAwB9MmEt0vSEep/zU79bHYzo5/WK65RQA+o9P66MuexYDQFsaDSJTVGG3HHU54n/GNzfuY3xEoh+0AAAAAElFTkSuQmCC&logoColor=black)](https://gitee.com/logier/emojihub/) &nbsp; <a href='https://gitee.com/logier/logier-plugins/stargazers'><img src='https://gitee.com/logier/logier-plugins/badge/star.svg?theme=dark' alt='star'></img></a>
+ [![Group](https://img.shields.io/badge/QQ群-blue?style=plastic&labelColor=white&logo=tencentqq&logoColor=black)](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY) &nbsp; [![Group](https://img.shields.io/badge/个人网站-blue?style=plastic&labelColor=white&logo=hexo&logoColor=black)](https://logier.gitee.io/) &nbsp;[![Group](https://img.shields.io/badge/表情包仓库-blue?style=plastic&labelColor=white&logo=data:image/png;base64,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&logoColor=black)](https://gitee.com/logier/emojihub/) &nbsp; <a href='https://gitee.com/logier/logier-plugins/stargazers'><img src='https://gitee.com/logier/logier-plugins/badge/star.svg?theme=dark' alt='star'></img></a>
 
  <img src="https://count.getloli.com/get/@:logier?theme=moebooru-h" alt=":logier" />
 </div>
@@ -43,17 +42,17 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 表情包仓库 | 指令触发发送表情包 |
 | 表情包小偷 | 记录群友表情包并随机发送 |
 | 戳一戳表情 | 戳一戳触发，可接入GPT。 |
-| 保存表情包 | 手动保存群友表情包，**保存+图片**触发 | 
-| 定时发图 | 定时向群里发送相册，**#定时发图**手动触发 |
-| 摸鱼日历 | 定时向群里发送摸鱼日历，**#摸鱼日历**手动触发 | 
-| 今日新闻 | 定时向群里发送每天60s新闻，**#今日新闻**手动触发 | 
-| 城市天气 | 定时向群里发送城市天气，**#天气+城市**手动触发 | 
-| 今日运势 | **#今日运势**触发 | 
-| 算一卦 | **#算一卦**触发 | 
-| 塔罗牌 | 抽卡后由GPT占卜结果，**塔罗牌、占卜+占卜内容**触发 |
-| 签到 | **#签到**触发 |
-| 进退群通知 | 有人进群、退群时触发，发送诙谐的进群欢迎 | 
-| 问候回复 |  **早上好**、**晚上好** 等打招呼词触发，AI回复 |
+| 保存表情包 | 手动保存群友表情包 | 
+| 定时发图 | 定时向群里发送相册 |
+| 摸鱼日历 | 定时向群里发送摸鱼日历 | 
+| 今日新闻 | 定时向群里发送每天60s新闻 | 
+| 城市天气 | 定时向群里发送城市天气 | 
+| 今日运势 | 算算你的今日运势 | 
+| 算一卦 | 给你算一卦 | 
+| 塔罗牌 | 抽取塔罗牌，并让GPT占卜 |
+| 签到 | 签到涨好感度吧 |
+| 进退群通知 | 发送诙谐的进群欢迎 | 
+| 问候回复 |  回复打招呼 |
 <br>
 
 <details> <summary>表情包仓库</summary>
@@ -218,7 +217,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 1.点击领取内测免费API Key
 
-<img src="./img/chatanywhere.png" >
+<img src="./img/chatanywhere.png">
 
 <br>
 
@@ -227,11 +226,10 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 <img src="./img/apikey.png" >
 </details>
 <br>
+
+
+城市天气可以前往[和风天气](https://console.qweather.com/#/apps)免费获得，👉[和风天气官方教程](https://dev.qweather.com/docs/configuration/project-and-key/)
 <br>
-
-城市天气可以前往[和风天气](https://console.qweather.com/#/apps)免费获得
-
-还是不懂？👉[和风天气官方教程](https://dev.qweather.com/docs/configuration/project-and-key/)
 <br>
 
 ### 如何获取图片api
