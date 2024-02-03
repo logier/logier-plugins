@@ -109,7 +109,7 @@ export function supportGuoba() {
       field: 'key.gptkey',
       label: 'gptkey',
       bottomHelpMessage: '请前往https://github.com/chatanywhere/GPT_API_free获得',
-      component: 'Input',
+      component: 'InputPassword',
   },
   {
     field: 'key.model',
@@ -127,7 +127,7 @@ export function supportGuoba() {
     field: 'key.qweather',
     label: '和风天气api',
     bottomHelpMessage: '和风天气api，请前往https://console.qweather.com/#/console获得',
-    component: 'Input',
+    component: 'InputPassword',
   },
 
   {
