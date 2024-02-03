@@ -1,17 +1,20 @@
-Gallerytime: 0 0/30 * * * ?
+GalleryisAutoPush: false
+Gallerytime: '0 0 */1 * * ?'
 GallerygroupList:
   - null
-GalleryisAutoPush: false
-moyutime: 0 30 9 * * ?
+
+moyuisAutoPush: false
+moyutime: '0 30 9 * * ?'
 moyugroupList:
   - null
-moyuisAutoPush: false
-newstime: 0 30 8 * * ?
+
+newsisAutoPush: false
+newstime: '0 30 7 * * ?'
 newsgroupList:
   - null
-newsisAutoPush: false
-Weathertime: 0 30 8 * * ?
+
+WeatherisAutoPush: false
+Weathertime: '0 30 8 * * ?'
 WeathergroupList:
   - null
-WeatherisAutoPush: false
 defaultCity: 北京

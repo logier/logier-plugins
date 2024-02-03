@@ -35,7 +35,6 @@ export function supportGuoba() {
         label: '自定义表情包几率',
         bottomHelpMessage: '触发表情包时使用自定义表情包的概率，0-1之间',
         component: "InputNumber",
-        required: true,
           componentProps: {
             min: 0,
             max: 1,
@@ -56,7 +55,6 @@ export function supportGuoba() {
         label: '随机表情包几率',
         bottomHelpMessage: '群聊中收到消息后随机发送表情包的几率，0-1之间',
         component: "InputNumber",
-        required: true,
           componentProps: {
             min: 0,
             max: 1,
@@ -91,14 +89,12 @@ export function supportGuoba() {
         label: '表情包保存地址',
         bottomHelpMessage: '表情包保存地址',
         component: 'Input',
-        required: true,
     },
     {
       field: 'config.chuoyichuorate',
       label: '戳一戳GPT回复概率',
       bottomHelpMessage: '戳一戳后GPT回复的几率，0-1之间，默认为0',
       component: "InputNumber",
-      required: true,
         componentProps: {
           min: 0,
           max: 1,
@@ -114,28 +110,24 @@ export function supportGuoba() {
       label: 'gptkey',
       bottomHelpMessage: '请前往https://github.com/chatanywhere/GPT_API_free获得',
       component: 'Input',
-      required: true,
   },
   {
     field: 'key.model',
     label: 'gpt模型',
     bottomHelpMessage: 'gpt模型，chatanywhere免费最高只支持gpt-3.5-turbo，一般不需要修改',
     component: 'Input',
-    required: true,
   },
   {
     field: 'key.gpturl',
     label: 'gpturl',
     bottomHelpMessage: 'gpt请求地址，key是chatanywhere的不用修改这里',
     component: 'Input',
-    required: true,
   },
   {
     field: 'key.qweather',
     label: '和风天气api',
     bottomHelpMessage: '和风天气api，请前往https://console.qweather.com/#/console获得',
     component: 'Input',
-    required: true,
   },
 
   {
@@ -214,7 +206,6 @@ export function supportGuoba() {
     label: '今日新闻时间',
     bottomHelpMessage: '今日新闻时间，使用cron表达式',
     component: 'Input',
-    required: false,
   },
   {
     field: 'push.newsgroupList',
@@ -245,7 +236,6 @@ export function supportGuoba() {
     label: '天气时间',
     bottomHelpMessage: '天气时间，使用cron表达式',
     component: 'Input',
-    required: false,
   },
   {
     field: 'push.WeathergroupList',
@@ -264,7 +254,6 @@ export function supportGuoba() {
     label: '推送天气地点',
     bottomHelpMessage: '推送天气地点',
     component: 'Input',
-    required: true,
     componentProps: {
     placeholder: '推送天气地点',   
   },

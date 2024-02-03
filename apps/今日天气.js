@@ -2,7 +2,6 @@ import schedule from 'node-schedule'
 import puppeteer from "puppeteer";
 import { readAndParseYAML, getRandomImage, getImageUrl } from '../utils/getdate.js'
 
-const weatherConfig = await readAndParseYAML('../config/push.yaml');
 
 export class example extends plugin {
   constructor() {
@@ -27,13 +26,14 @@ export class example extends plugin {
 }
 }
 
-function autoTask(time, groupList, isAutoPush,taskName) {
-  if (isAutoPush) {
-    schedule.scheduleJob(time, () => {
-      logger.info(`[${taskName}]：开始自动推送...`);
-      for (let i = 0; i < groupList.length; i++) {
+async function autoTask() {
+  const weatherConfig = await readAndParseYAML('../config/push.yaml');
+  if (weatherConfig.WeatherisAutoPush) {
+    schedule.scheduleJob(weatherConfig.Weathertime, () => {
+      logger.info(`[今日天气]：开始自动推送...`);
+      for (let i = 0; i < weatherConfig.WeathergroupList.length; i++) {
         setTimeout(() => {
-          let group = Bot.pickGroup(groupList[i]);
+          let group = Bot.pickGroup(weatherConfig.WeathergroupList[i]);
             pushweather(group, 1);
         }, i * 1000);  // 延迟 i 秒
       }
@@ -42,7 +42,7 @@ function autoTask(time, groupList, isAutoPush,taskName) {
 }
 
 
-autoTask(weatherConfig.Weathertime, weatherConfig.WeathergroupList, weatherConfig.WeatherisAutoPush, '今日天气');
+await autoTask();
 
 
 async function pushweather(e, isAuto = 0) {
@@ -59,16 +59,16 @@ async function pushweather(e, isAuto = 0) {
     }
   }
 
+  const Config = await readAndParseYAML('../config/url.yaml');
+
   const city = (e?.msg ?? '').replace(/#?(天气)/, '').trim();
-  const cityToUse = city || defaultCity;
+  const cityToUse = city || Config.defaultCity;
 
   const {location, name} = await getCityGeo(e, cityToUse, key.qweather, isAuto)
 
-  const output = await getIndices(location,  key.qweather, toRoman);
+  const output = await getIndices(location,  key.qweather);
 
   const {forecastresult, iconDays, iconNights} = await getForecast(location, key.qweather);
-
-  const Config = await readAndParseYAML('../config/url.yaml');
 
   let now = new Date();
   let datatime =  now.toLocaleDateString('zh-CN'); //日期格式
@@ -81,11 +81,6 @@ async function pushweather(e, isAuto = 0) {
       imageUrl = await getImageUrl(Config.weatherimageUrls)
   }
   logger.info(imageUrl)
-
-
-
-
-
 
   let browser;
   try {
@@ -210,7 +205,6 @@ async function getForecast(location, key) {
 
   // 遍历 forecastdata.daily 数组
   for (const item of forecastdata.daily) {
-    const fxDate = item.fxDate; // 获取 tempMax 属性
     const tempMax = item.tempMax; // 获取 tempMax 属性
     const tempMin = item.tempMin; // 获取 tempMin 属性
     const windScaleDay = item.windScaleDay; // 获取 windScaleDay 属性
@@ -235,7 +229,7 @@ async function getForecast(location, key) {
 
 
 
-async function getIndices(location, key, toRoman) {
+async function getIndices(location, key) {
   const indices = `https://devapi.qweather.com/v7/indices/1d?type=1,3,5,9,11,14,15,16&location=${location}&key=${key}`;
   const indicesresponse = await fetch(indices);
   const indicesdata = await indicesresponse.json();

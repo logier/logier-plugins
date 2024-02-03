@@ -1,7 +1,5 @@
 import schedule from 'node-schedule'
-
 import { readAndParseYAML} from '../utils/getdate.js'
-const Config = await readAndParseYAML('../config/push.yaml');
 
 export class example extends plugin {
   constructor() {
@@ -33,45 +31,47 @@ export class example extends plugin {
 }
 
 async function pushContent(e, url, isAuto = 0) {
-  let msg;
-  let maxAttempts = 3;
-  for(let attempt = 1; attempt <= maxAttempts; attempt++) {
-    try {
-      if (url === moyuapiUrl) {
-        let fetchUrl = await fetch(url).catch(err => logger.error(err));
-        let imgUrl = await fetchUrl.json();
-        url = await imgUrl.url;
-      }
-      msg = [segment.image(url, false, 120)];
-      // 如果图片获取成功，就跳出循环
-      break;
-    } catch (error) {
-      console.error(`Attempt ${attempt} failed. Retrying...`);
-    }
-  }
-  // 如果尝试了最大次数后仍然失败，就记录错误并退出
-  if(!msg) {
-    console.error('Failed to get image after maximum attempts');
-    return;
-  }
 
-  // 回复消息
-  if (isAuto) {
-    e.sendMsg(msg);
-  } else {
-    e.reply(msg);
-  }
+    // 回复消息
+    if (isAuto) {
+      e.sendMsg([segment.image(url)]);
+    } else {
+      e.reply([segment.image(url)]);
+    }
+
 }
 
 
-function autoTask(time, groupList, isAutoPush, url, taskName) {
-  if (isAutoPush) {
-    schedule.scheduleJob(time, () => {
+
+async function autoTask(taskName) {
+  const Config = await readAndParseYAML('../config/push.yaml');
+  
+  let taskConfig;
+  let apiUrl;
+  
+  if (taskName === '摸鱼人日历') {
+    taskConfig = {
+      isAutoPush: Config.moyuisAutoPush,
+      time: Config.moyutime,
+      groupList: Config.moyugroupList
+    };
+    apiUrl = moyuapiUrl;
+  } else if (taskName === '60s新闻') {
+    taskConfig = {
+      isAutoPush: Config.newsisAutoPush,
+      time: Config.newstime,
+      groupList: Config.newsgroupList
+    };
+    apiUrl = newsimageUrl;
+  }
+  
+  if (taskConfig && taskConfig.isAutoPush) {
+    schedule.scheduleJob(taskConfig.time, () => {
       logger.info(`[${taskName}]：开始自动推送...`);
-      for (let i = 0; i < groupList.length; i++) {
+      for (let i = 0; i < taskConfig.groupList.length; i++) {
         setTimeout(() => {
-          let group = Bot.pickGroup(groupList[i]);
-          pushContent(group, url, 1);
+          let group = Bot.pickGroup(taskConfig.groupList[i]);
+          pushContent(group, apiUrl, 1);
         }, i * 1000);  // 延迟 i 秒
       }
     });
@@ -79,8 +79,8 @@ function autoTask(time, groupList, isAutoPush, url, taskName) {
 }
 
 
-const moyuapiUrl = 'https://api.vvhan.com/api/moyu?type=json';// 摸鱼日历接口地址
+const moyuapiUrl = 'https://api.vvhan.com/api/moyu';// 摸鱼日历接口地址
 const newsimageUrl = 'http://bjb.yunwj.top/php/tp/60.jpg';// 60s新闻图片的 URL
 
-autoTask(Config.moyutime, Config.moyugroupList, Config.moyuisAutoPush, moyuapiUrl, '摸鱼人日历');
-autoTask(Config.newstime, Config.newsgroupList, Config.newsisAutoPush, newsimageUrl, '60s新闻');
+autoTask('摸鱼人日历');
+autoTask('60s新闻');

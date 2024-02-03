@@ -1,14 +1,19 @@
 
 # 鸢尾花插件(logier-plugin)
 
-<p align="center">
-  <a href="https://www.logier.icu/">
-    <img src="./img/logo.png" alt="Logo" height="150">
+<div align="center">
+  <a href="https://logier.gitee.io/">
+    <img src="./img/logo.png" alt="Logo" height="120">
   </a>
+
 <br>
 
-[![Gitee](https://img.shields.io/badge/Gitee-鸢尾花插件-black?style=flat-square&logo=gitee)](https://gitee.com/xwy231321/ql-plugin)&nbsp; [![云崽bot](https://img.shields.io/badge/云崽-v3.0.0-black?style=flat-square&logo=dependabot)](https://gitee.com/Le-niao/Yunzai-Bot) &nbsp; [![Group](https://img.shields.io/badge/群号-315239849-red?style=flat-square&logo=GroupMe&logoColor=white)](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY) &nbsp; <a href='https://gitee.com/logier/logier-plugins/stargazers'><img src='https://gitee.com/logier/logier-plugins/badge/star.svg?theme=dark' alt='star'></img></a>
+ [![Group](https://img.shields.io/badge/QQ群-blue?style=flat-square&labelColor=white&logo=tencentqq&logoColor=black)](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY) &nbsp; [![Group](https://img.shields.io/badge/个人网站-blue?style=flat-square&labelColor=white&logo=hexo&logoColor=black)](https://logier.gitee.io/) &nbsp;[![Group](https://img.shields.io/badge/表情包仓库-blue?style=flat-square&labelColor=white&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAgCAMAAACrZuH4AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACfUExURf////j1/O7p9Ozo8+ri9eTZ8uPZ8d3P79bG7NbF7M+86cmz5siy5cGp4rug37Gcz7Gbz7SW3LSV3LKW2a+Xz6qbw62M2aeD1qaC1Z950pd6v5Z6v5lwz5hvz5VyxJZszZNryYp1rZJmzIVktYVktIddv4RcvYBesHVdnnxUsndYpnlVrndSrHZPrHROqmhQjls8jlk6jEQ9WS0xNykvM/nZ+iEAAAEtSURBVHjavZLNUsMgFIUPSSENYNtxbHWj7/9Wblw4OprGhPyXuCCkAaIbZ2RxQ5iPA/dwgL8P4vwkLBWAqrt2XCXkgdlpl6mQICex1FNvk0w8L52kczyjk0pkV1Lp3VAmHrEPmjh4BA8I4RJ0xQnqavw4fiNGh+hXiMHVqAKg9E4JRS4eUQREbj6b+a10BNzEl8JWPXgEdARsCIGtGu7LHZ+2A7AlY2OrvCXVkriXpAOasYStCdPnJVHs4n62YAAA1jyPc4IOHKnoW7eVhKoaKjc3vePz9oUdVAjw3GhEO4FWxB6hEqgvfc3pFMKzapO9mWbZNcmUQZq8vFYAwB9MmEt0vSEep/zU79bHYzo5/WK65RQA+o9P66MuexYDQFsaDSJTVGG3HHU54n/GNzfuY3xEoh+0AAAAAElFTkSuQmCC&logoColor=black)](https://gitee.com/logier/emojihub/) &nbsp; <a href='https://gitee.com/logier/logier-plugins/stargazers'><img src='https://gitee.com/logier/logier-plugins/badge/star.svg?theme=dark' alt='star'></img></a>
 
+<br>
+ <img src="https://count.getloli.com/get/@:logier?theme=rule34" alt=":logier" />
+</div>
+<br>
 
 ***如果发现bug，希望及时Q群告知我或提交issue***
 
@@ -222,15 +227,13 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 <img src="./img/apikey.png" >
 </details>
-
 <br>
 <br>
 
 城市天气可以前往[和风天气](https://console.qweather.com/#/apps)免费获得
 
 还是不懂？👉[和风天气官方教程](https://dev.qweather.com/docs/configuration/project-and-key/)
-
-
+<br>
 
 ### 如何获取图片api
 
@@ -262,7 +265,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 ## 作者
 logier
 - qq群：[315239849](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY)
-- 个人网站：[logier.icu](https://logier.gitee.io)
+- 个人网站：[logier.icu](https://logier.gitee.io/)
 
 ## 鸣谢
 - [jryspro](https://github.com/twiyin0/koishi-plugin-jryspro)
