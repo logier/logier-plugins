@@ -81,6 +81,10 @@ export class TextMsg extends plugin {
                     fnc: '心海' 
                 },
                 {
+                    reg: '^#?(时雨羽衣|羽衣|UI)(表情包)?$',   
+                    fnc: '羽衣' 
+                },
+                {
                     reg: '^#?(自定义表情包|我的表情包)$',   
                     fnc: '自定义表情包' 
                 },
@@ -142,6 +146,9 @@ export class TextMsg extends plugin {
     }
     async 心海(e) {
         sendEmoji(e, '心海')
+    }
+    async 羽衣(e) {
+        sendEmoji(e, '羽衣')
     }
     async 自定义表情包(e) {
         sendEmoji(e, '自定义')

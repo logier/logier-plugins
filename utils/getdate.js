@@ -154,7 +154,7 @@ export async function numToChinese(num) {
 
 
 export async function getemoji(e, category) {
-    const BASE_URL = 'https://gitee.com/logier/emojihub/raw/master/';
+    const BASE_URL = 'https://gitee.com/logier/emojihub/raw/dev/';
     try {
         const emojihub = await readAndParseYAML('../config/emojihub.yaml');
         const blackgouplist = emojihub.blackgouplist;
