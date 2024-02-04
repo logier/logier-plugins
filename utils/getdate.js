@@ -165,8 +165,11 @@ export async function getemoji(e, category) {
         const EmojiConfig = await readAndParseYAML('../config/config.yaml');
 
         let imageUrl;
-        if (!exclude.includes(category)) {
+        if (exclude.includes(category)) {
             logger.info(`[鸢尾花插件] 表情包在黑名单: ${category}`)
+        }
+        if (!exclude.includes(category)) {
+            
             if (category === '表情包仓库') {
                 if (Math.random() < Number(EmojiConfig.customerrate)) {
                     imageUrl = await getRandomUrl(EmojiConfig.imageUrls);
