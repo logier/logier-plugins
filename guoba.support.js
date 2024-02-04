@@ -55,7 +55,7 @@ export function supportGuoba() {
       },
       {
         field: 'config.imageUrls',
-        label: '自定义表情包地址',
+        label: '自定义表情地址',
         helpMessage: '填写保存表情包地址，可以在表情包仓库随机你存入的表情',
         bottomHelpMessage: '自定义表情包地址，可以本地文件夹和网络链接',
         component: 'GTags',
