@@ -1,4 +1,4 @@
-import { readAndParseJSON, readAndParseYAML, gpt } from '../utils/getdate.js'
+import { readAndParseJSON, readAndParseYAML, gpt, getemoji } from '../utils/getdate.js'
 
 
 
@@ -18,13 +18,17 @@ export class TextMsg extends plugin {
     }
 
     async chuoemoji(e) {
-
+        
         const key = await readAndParseYAML('../config/key.yaml');
         const config = await readAndParseYAML('../config/config.yaml');
         if (e.target_id == e.self_id && key.gptkey) {
             if (Math.random() > config.chuoyichuorate) {
-                logger.info('[戳一戳表情包]表情包回复戳一戳')   
-                emoji(e)
+                logger.info('[鸢尾花插件]表情包回复戳一戳')   
+                let imageUrl = await getemoji(e, config.chuoyichuocategory);
+                if (imageUrl) {
+                    logger.info(`[鸢尾花插件]发送“${config.chuoyichuocategory}”表情包`);
+                    e.reply([segment.image(imageUrl)]);
+                }
             }else {
                 let arr2 = [        
                     {"role": "user", "content": `戳一戳你`}];
@@ -34,7 +38,11 @@ export class TextMsg extends plugin {
                 if (content) {
                     e.reply(content)
                 }else {
-                    emoji(e) 
+                    let imageUrl = await getemoji(e, config.chuoyichuocategory);
+                    if (imageUrl) {
+                        logger.info(`[鸢尾花插件]发送“${config.chuoyichuocategory}”表情包`);
+                        e.reply([segment.image(imageUrl)]);
+                    }
                 }
                 
             }
@@ -43,33 +51,7 @@ export class TextMsg extends plugin {
     }
 }
 
-async function emoji(e) {
 
-    const EmojiIndex = await readAndParseJSON('../data/EmojiIndex.json');
-    const EmojiConfig = await readAndParseYAML('../config/config.yaml');
-    
-    //排除不要的表情包
-    const emojihub = await readAndParseYAML('../config/emojihub.yaml');
-    const blackgouplist = emojihub.blackgouplist;
-    const groupData = blackgouplist.find(item => String(item.group) === String(e.group_id)) || blackgouplist.find(item => item.group === 'default');
-    const exclude = groupData ? groupData.NotEmojiindex : [];  
-
-    if (Math.random() < Number(EmojiConfig.customerrate)) {
-        e.reply([segment.image(getRandomUrl(EmojiConfig.imageUrls))])
-    } else {
-    // 提取所有的键
-    let keys = Object.keys(EmojiIndex);
-    // 排除 exclude 数组中包含的键
-    let filteredKeys = keys.filter(key => !exclude.includes(key));
-
-    // 随机抽取一个键
-    let randomKey = filteredKeys[Math.floor(Math.random() * filteredKeys.length)];
-    // 随机抽取该键对应的一个值
-    let randomValue = EmojiIndex[randomKey][Math.floor(Math.random() * EmojiIndex[randomKey].length)];
-    e.reply([segment.image(`https://gitee.com/logier/emojihub/raw/master/${randomKey}/${randomValue}`)])
-    }
-    return true
-}
 
 
 

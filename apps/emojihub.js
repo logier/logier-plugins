@@ -1,4 +1,4 @@
-import { readAndParseJSON, readAndParseYAML, getRandomUrl } from '../utils/getdate.js'
+import { readAndParseJSON, readAndParseYAML, getRandomUrl, getemoji } from '../utils/getdate.js'
 
 export class TextMsg extends plugin {
     constructor() {
@@ -149,48 +149,11 @@ export class TextMsg extends plugin {
 }
   
 
-const BASE_URL = 'https://gitee.com/logier/emojihub/raw/master/';
-
 async function sendEmoji(e, category) {
-    try {
-        const emojihub = await readAndParseYAML('../config/emojihub.yaml');
-        const blackgouplist = emojihub.blackgouplist;
-        const groupData = blackgouplist.find(item => String(item.group) === String(e.group_id)) || blackgouplist.find(item => item.group === 'default');
-        const exclude = groupData ? groupData.NotEmojiindex : [];        
-        
-
-        const EmojiIndex = await readAndParseJSON('../data/EmojiIndex.json');
-        const EmojiConfig = await readAndParseYAML('../config/config.yaml');
-
-        if (exclude.includes(category)) {
-            logger.info('[logier-plugin]表情包在黑名单');
-        } else {
-            let imageUrl;
-            if (category === '表情包仓库') {
-                if (Math.random() < Number(EmojiConfig.customerrate)) {
-                    imageUrl = await getRandomUrl(EmojiConfig.imageUrls);
-                } else {
-                    let keys = Object.keys(EmojiIndex);
-                    let filteredKeys = keys.filter(key => !exclude.includes(key));
-                    let randomKey = filteredKeys[Math.floor(Math.random() * filteredKeys.length)];
-                    let randomValue = EmojiIndex[randomKey][Math.floor(Math.random() * EmojiIndex[randomKey].length)];
-                    imageUrl = `${BASE_URL}${randomKey}/${randomValue}`;
-                }
-            } else if (category === '自定义') {
-                imageUrl = await getRandomUrl(EmojiConfig.imageUrls);
-            } else if (Object.keys(EmojiIndex).includes(category)) {
-                const items = EmojiIndex[category];
-                const randomItem = items[Math.floor(Math.random() * items.length)];
-                imageUrl = `${BASE_URL}${category}/${randomItem}`;
-            }
-
-            if (imageUrl) {
-                logger.info(`[logier-plugin]发送${category}表情包`);
-                e.reply([segment.image(imageUrl)]);
-            }
-        }
-    } catch (error) {
-        logger.error(`[logier-plugin] Error: ${error.message}`);
+    let imageUrl = await getemoji(e, category);
+    if (imageUrl) {
+        logger.info(`[鸢尾花插件]发送“${category}”表情包`);
+        e.reply([segment.image(imageUrl)]);
     }
 
     return true;

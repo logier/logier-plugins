@@ -6,6 +6,11 @@ import { readAndParseJSON } from './utils/getdate.js'
 const _path = process.cwd() + "/plugins/logier-plugin";
 const EmojiIndexs = await readAndParseJSON('../data/EmojiIndex.json');
 let EmojiIndex = Object.keys(EmojiIndexs).map(k => ({label: k, value: k}));
+EmojiIndex.push({label: '自定义', value: '自定义'});
+
+const EmojiIndexex = [{label: '表情包仓库', value: '表情包仓库'} , ...EmojiIndex];
+
+
 
 export function supportGuoba() {
 
@@ -64,7 +69,6 @@ export function supportGuoba() {
           allowDel: true,
         },
       },
-
     {
         field: 'config.emojipath',
         label: '表情保存地址',
@@ -72,7 +76,18 @@ export function supportGuoba() {
         bottomHelpMessage: '表情包保存地址',
         component: 'Input',
     },
-
+    {
+      field: 'config.chuoyichuocategory',
+      label: '戳一戳表情包',
+      helpMessage: '“表情包仓库”就是全随机',
+      bottomHelpMessage: '戳一戳表情包回复时使用的表情包种类',
+      component: 'Select',
+      componentProps: {
+        allowAdd: true,
+        allowDel: true,
+        options: EmojiIndexex,
+      },
+    },
     {
       field: "emojihub.blackgouplist",
       label: "表情包黑名单",
@@ -129,6 +144,29 @@ export function supportGuoba() {
       componentProps: {
         placeholder: '发送随机表情包的群号',
       }
+    },
+    {
+      field: 'config.thiefrate',
+      label: '表情包仓库几率',
+      bottomHelpMessage: '不使用偷取的表情包，而是表情包仓库发送的概率',
+      component: "Slider",
+        componentProps: {
+          min: 0,
+          max: 1,
+          step: 0.1,
+        },
+    },
+    {
+      field: 'config.thiefcategory',
+      label: '表情包仓库图类',
+      helpMessage: '不影响发送偷取的表情包',
+      bottomHelpMessage: '使用表情包仓库时的表情包种类',
+      component: 'Select',
+      componentProps: {
+        allowAdd: true,
+        allowDel: true,
+        options: EmojiIndexex,
+      },
     },
     {
       field: 'config.minDelay',

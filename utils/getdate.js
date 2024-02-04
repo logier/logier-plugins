@@ -149,3 +149,48 @@ export async function numToChinese(num) {
     return result.replace(/零+$/, '');
 }
 
+
+
+
+
+export async function getemoji(e, category) {
+    const BASE_URL = 'https://gitee.com/logier/emojihub/raw/master/';
+    try {
+        const emojihub = await readAndParseYAML('../config/emojihub.yaml');
+        const blackgouplist = emojihub.blackgouplist;
+        const groupData = blackgouplist.find(item => String(item.group) === String(e.group_id)) || blackgouplist.find(item => item.group === 'default');
+        const exclude = groupData ? groupData.NotEmojiindex : [];        
+
+        const EmojiIndex = await readAndParseJSON('../data/EmojiIndex.json');
+        const EmojiConfig = await readAndParseYAML('../config/config.yaml');
+
+        let imageUrl;
+        if (!exclude.includes(category)) {
+            logger.info(`[鸢尾花插件] 表情包在黑名单: ${category}`)
+            if (category === '表情包仓库') {
+                if (Math.random() < Number(EmojiConfig.customerrate)) {
+                    imageUrl = await getRandomUrl(EmojiConfig.imageUrls);
+                } else {
+                    let keys = Object.keys(EmojiIndex);
+                    let filteredKeys = keys.filter(key => !exclude.includes(key));
+                    let randomKey = filteredKeys[Math.floor(Math.random() * filteredKeys.length)];
+                    let randomValue = EmojiIndex[randomKey][Math.floor(Math.random() * EmojiIndex[randomKey].length)];
+                    imageUrl = `${BASE_URL}${randomKey}/${randomValue}`;
+                }
+            } else if (category === '自定义') {
+                imageUrl = await getRandomUrl(EmojiConfig.imageUrls);
+            } else if (Object.keys(EmojiIndex).includes(category)) {
+                const items = EmojiIndex[category];
+                const randomItem = items[Math.floor(Math.random() * items.length)];
+                imageUrl = `${BASE_URL}${category}/${randomItem}`;
+            }
+        }
+
+        return imageUrl;
+    } catch (error) {
+        logger.error(`[鸢尾花插件] Error: ${error.message}`);
+        return null;
+    }
+}
+
+

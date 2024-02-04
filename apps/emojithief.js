@@ -43,6 +43,13 @@ export class TextMsg extends plugin {
         })  
          
         if (Math.random() < Number(EmojiConfig.emojirate)) {
+            if (Math.random() < Number(EmojiConfig.thiefrate)){
+                let imageUrl = await getemoji(e, EmojiConfig.thiefcategory);
+                if (imageUrl) {
+                    logger.info(`[鸢尾花插件]发送“${EmojiConfig.thiefcategory}”表情包`);
+                    e.reply([segment.image(imageUrl)]);
+                }
+            } else {
             let listStr = await redis.get(key);
             let list = JSON.parse(listStr);
             if (Array.isArray(list) && list.length) {
@@ -52,6 +59,7 @@ export class TextMsg extends plugin {
                 e.reply([segment.image(randomEmojiUrl)])
             }
         }
+    }
         
  
         return false;

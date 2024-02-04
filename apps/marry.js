@@ -41,7 +41,6 @@ export class example extends plugin {
         let content;
         
         if (!marrydata && !cpdata || notMarryToday || notMarryToday && notCPToday) {
-            
             // logger.info("1")
         } else if (isSameDayMarry) {
             replyMessage = `今天已经迎娶【${marrydata.lastmarry.nickname}】了哦~`, 
