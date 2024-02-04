@@ -49,13 +49,10 @@ async function emoji(e) {
     const EmojiConfig = await readAndParseYAML('../config/config.yaml');
     
     //排除不要的表情包
-    const EmojiDoc = await readAndParseYAML('../config/emojihub.yaml');
-    let exclude;
-    if (EmojiDoc[e.group_id]) {
-        exclude = EmojiDoc[e.group_id];
-    } else {
-        exclude = EmojiDoc['default'];
-    }
+    const emojihub = await readAndParseYAML('../config/emojihub.yaml');
+    const blackgouplist = emojihub.blackgouplist;
+    const groupData = blackgouplist.find(item => String(item.group) === String(e.group_id)) || blackgouplist.find(item => item.group === 'default');
+    const exclude = groupData ? groupData.NotEmojiindex : [];  
 
     if (Math.random() < Number(EmojiConfig.customerrate)) {
         e.reply([segment.image(getRandomUrl(EmojiConfig.imageUrls))])
@@ -64,6 +61,7 @@ async function emoji(e) {
     let keys = Object.keys(EmojiIndex);
     // 排除 exclude 数组中包含的键
     let filteredKeys = keys.filter(key => !exclude.includes(key));
+
     // 随机抽取一个键
     let randomKey = filteredKeys[Math.floor(Math.random() * filteredKeys.length)];
     // 随机抽取该键对应的一个值

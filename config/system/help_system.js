@@ -32,7 +32,7 @@ export const helpList = [
       {
         "icon": 4,
         "title": "戳一戳表情包",
-        "desc": "表情包或者ai回复"
+        "desc": "表情包或者ai回复戳一戳"
       }
     ]
   },
@@ -57,7 +57,7 @@ export const helpList = [
       {
         "icon": 8,
         "title": "塔罗牌",
-        "desc": "#塔罗牌 #占卜 两种抽牌方式"
+        "desc": "#塔罗牌 或 #占卜 +内容"
       }
     ]
   },
@@ -72,12 +72,12 @@ export const helpList = [
       {
         "icon": 10,
         "title": "摸鱼日历",
-        "desc": "#摸鱼日历"
+        "desc": "#摸鱼日历，可定时推送"
       },
       {
         "icon": 11,
         "title": "今日新闻",
-        "desc": "#今日新闻"
+        "desc": "#今日新闻，可定时推送"
       },
       {
         "icon": 12,
@@ -92,12 +92,12 @@ export const helpList = [
       {
         "icon": 13,
         "title": "进退群通知",
-        "desc": "进退群通知"
+        "desc": "进群诙谐欢迎"
       },
       {
         "icon": 14,
         "title": "问候回复",
-        "desc": "发送问候，调用GPT回复"
+        "desc": "发送“早上好”试试吧"
       }
     ]
   }

@@ -1,5 +1,5 @@
 import schedule from 'node-schedule'
-import { readAndParseYAML, getImageUrl, getRandomImage } from '../utils/getdate.js'
+import { readAndParseYAML, getRandomImage, getRandomUrl } from '../utils/getdate.js'
 
 
 
@@ -29,7 +29,7 @@ async function sendImage(e, isAuto = 0) {
   const functionData = Config.setimage.find(item => item.功能 === '定时发图') || Config.setimage.find(item => item.功能 === 'default');
   logger.info(functionData);
   
-  let image = functionData.Switch ? await getRandomImage() : await getImageUrl(functionData.imageUrls);  
+  const image = functionData.Switch ? await getRandomImage() : await getRandomUrl(functionData.imageUrls);  
   
   if (isAuto) {
     e.sendMsg([segment.image(image)]);
