@@ -80,14 +80,10 @@ async function push今日运势(e, isRejrys = false) {
   await redis.set(`Yunzai:logier-plugin:${e.user_id}_jrys`, JSON.stringify(data));
 
   const Config = await readAndParseYAML('../config/url.yaml');
+  const functionData = Config.setimage.find(item => item.功能 === '今日运势') || Config.setimage.find(item => item.功能 === 'default');
+  logger.info(functionData);
   
-  let imageUrl;
-  if (Config.jrysSwitch) {
-      imageUrl = await getRandomImage('mb');
-  } else {
-      imageUrl = await getImageUrl(Config.jrysimageUrls);
-  }
-  logger.info(imageUrl)
+  let imageUrl = functionData.Switch ? await getRandomImage('mb') : await getImageUrl(functionData.imageUrls);  
         
 
       let Html = `
@@ -119,7 +115,6 @@ async function push今日运势(e, isRejrys = false) {
 
       let browser;
       try {
-        const imageUrl = await getImageUrl(Config.jrysimageUrls);
         if (!imageUrl) {
           throw new Error('无法获取图片URL');
         }

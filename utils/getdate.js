@@ -15,7 +15,7 @@ export async function readAndParseJSON(filePath) {
         const fileContent = await fs.promises.readFile(path.join(__dirname, filePath), 'utf8');
         return JSON.parse(fileContent);
     } catch (e) {
-        logger.info('[logier-plugin]json读取失败') ;
+        logger.info('[鸢尾花插件]json读取失败') ;
     }
 }
 
@@ -25,7 +25,7 @@ export async function readAndParseYAML(filePath) {
         const fileContent = fs.readFileSync(path.join(__dirname, filePath), 'utf8');
         return YAML.parse(fileContent);
     } catch (e) {
-        logger.info('[logier-plugin]yml读取失败') ;
+        logger.info('[鸢尾花插件]yml读取失败') ;
     }
 }
 

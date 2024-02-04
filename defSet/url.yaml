@@ -1,15 +1,9 @@
-Switch: true
-GalleryimageUrls:
-  - https://t.mwm.moe/pc
-jrysSwitch: true
-jrysimageUrls:
-  - https://t.mwm.moe/mp
-suanguaSwitch: true
-suanguaimageUrls:
-  - https://t.mwm.moe/mp
-weatherSwitch: false
-weatherimageUrls:
-  - https://t.mwm.moe/mp
-signSwitch: true
-signimageUrls:
-  - https://t.mwm.moe/pc
+setimage:
+  - 功能: default
+    Switch: true
+    imageUrls:
+      - https://t.mwm.moe/mp
+  - 功能: 今日签到
+    Switch: false
+    imageUrls:
+      - https://t.mwm.moe/pc

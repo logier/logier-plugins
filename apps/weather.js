@@ -13,32 +13,36 @@ export class example extends plugin {
       rule: [
         {
           reg: '^#?(天气)\\s.*$',   
-          fnc: 'getWeather'
+          fnc: '城市天气'
       },
       ]
     });
   }
 
 
-  async getWeather(e) {
+  async 城市天气(e) {
     pushweather(e)
   
 }
 }
 
 async function autoTask() {
-  const weatherConfig = await readAndParseYAML('../config/push.yaml');
-  if (weatherConfig.WeatherisAutoPush) {
-    schedule.scheduleJob(weatherConfig.Weathertime, () => {
-      logger.info(`[今日天气]：开始自动推送...`);
-      for (let i = 0; i < weatherConfig.WeathergroupList.length; i++) {
+  const Config = await readAndParseYAML('../config/push.yaml');
+
+  const functionData = Config.setpush.find(item => item.功能 === '城市天气');
+
+  if (functionData && functionData.isAutoPush) {
+    schedule.scheduleJob(functionData.time, () => {
+      logger.info(`[城市天气]：开始自动推送...`);
+      for (let i = 0; i < functionData.groupList.length; i++) {
         setTimeout(() => {
-          let group = Bot.pickGroup(weatherConfig.WeathergroupList[i]);
-            pushweather(group, 1);
+          let group = Bot.pickGroup(functionData.groupList[i]);
+          pushweather(group, 1);
         }, i * 1000);  // 延迟 i 秒
       }
     });
   }
+
 }
 
 
@@ -48,16 +52,6 @@ await autoTask();
 async function pushweather(e, isAuto = 0) {
 
   const key = await readAndParseYAML('../config/key.yaml');
-
-  if (!key.qweather) {
-    if (isAuto) {
-      e.sendMsg('天气插件未配置key,请前往和风天气获得。');
-      return false
-    } else {
-      e.reply('天气插件未配置key,请前往和风天气获得。', true);
-      return false
-    }
-  }
 
   const Config = await readAndParseYAML('../config/url.yaml');
 
@@ -74,13 +68,10 @@ async function pushweather(e, isAuto = 0) {
   let datatime =  now.toLocaleDateString('zh-CN'); //日期格式
 
   
-  let imageUrl;
-  if (Config.weatherSwitch) {
-      imageUrl = await getRandomImage('mb');
-  } else {
-      imageUrl = await getImageUrl(Config.weatherimageUrls)
-  }
-  logger.info(imageUrl)
+  const functionData = Config.setimage.find(item => item.功能 === '城市天气') || Config.setimage.find(item => item.功能 === 'default');
+  logger.info(functionData);
+  
+  let imageUrl = functionData.Switch ? await getRandomImage('mb') : await getImageUrl(functionData.imageUrls);  
 
   let browser;
   try {

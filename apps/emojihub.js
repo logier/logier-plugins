@@ -153,8 +153,11 @@ const BASE_URL = 'https://gitee.com/logier/emojihub/raw/master/';
 
 async function sendEmoji(e, category) {
     try {
-        const EmojiDoc = await readAndParseYAML('../config/emojihub.yaml');
-        const exclude = EmojiDoc[e.group_id] || EmojiDoc['default'];
+        const emojihub = await readAndParseYAML('../config/emojihub.yaml');
+        const blackgouplist = emojihub.blackgouplist;
+        const groupData = blackgouplist.find(item => String(item.group) === String(e.group_id)) || blackgouplist.find(item => item.group === 'default');
+        const exclude = groupData ? groupData.NotEmojiindex : [];        
+        
 
         const EmojiIndex = await readAndParseJSON('../data/EmojiIndex.json');
         const EmojiConfig = await readAndParseYAML('../config/config.yaml');

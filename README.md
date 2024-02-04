@@ -27,12 +27,10 @@ github
 ```
 git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logier-plugin/
 ```
+
 ## 功能
 
-发送 **#鸢尾花帮助** 获取插件详细信息（待完善）
-<details> <summary>鸢尾花帮助</summary>
-<img src="./img/help.jpg" >
-</details>
+发送 **#鸢尾花帮助** 获取插件详细信息
 
 <br>
 插件配置很多，但关键配置可通过锅巴配置

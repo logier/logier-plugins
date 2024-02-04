@@ -1,13 +1,22 @@
 import path from "path";
 import setting from "./model/setting.js";
 import lodash from "lodash";
+import { readAndParseJSON } from './utils/getdate.js'
 
 const _path = process.cwd() + "/plugins/logier-plugin";
-
+const EmojiIndexs = await readAndParseJSON('../data/EmojiIndex.json');
+let EmojiIndex = Object.keys(EmojiIndexs).map(k => ({label: k, value: k}));
 
 export function supportGuoba() {
-  let groupList = Array.from(Bot.gl.values())
-  groupList = groupList.map(item => item = { label: `${item.group_name}-${item.group_id}`, value: item.group_id })
+
+  let allGroup = [];
+  Bot.gl.forEach((v, k) => { allGroup.push({label: `${v.group_name}(${k})`, value: k}); });
+  allGroup.push({label: 'default', value: 'default'}); 
+  
+  let setimage = [{label: `定时发图`, value: `定时发图`},{label: `今日运势`, value: `今日运势`},{label: `算一卦`, value: `算一卦`},{label: `今日签到`, value: `今日签到`},{label: `城市天气`, value: `城市天气`},{label: `default`, value: `default`}]
+
+  let setpush = [{label: `定时发图`, value: `定时发图`},{label: `摸鱼日历`, value: `摸鱼日历`},{label: `今日新闻`, value: `今日新闻`},{label: `城市天气`, value: `城市天气`}]
+  
   return {
     pluginInfo: {
       name: "鸢尾花插件",
@@ -26,324 +35,293 @@ export function supportGuoba() {
     configInfo: {
       // 配置项 schemas
       schemas: [
+
+
       {
         component: 'Divider',
-        label: '表情包'
+        label: '表情包仓库设置'
       },
       {
         field: 'config.customerrate',
-        label: '自定义表情包几率',
-        bottomHelpMessage: '触发表情包时使用自定义表情包的概率，0-1之间',
-        component: "InputNumber",
+        label: '自定义表情几率',
+        helpMessage: '表情包仓库随机时使用，不影响单独使用',
+        bottomHelpMessage: '触发表情包时使用自定义表情包的概率',
+        component: "Slider",
           componentProps: {
             min: 0,
             max: 1,
+            step: 0.01,
           },
       },
       {
         field: 'config.imageUrls',
         label: '自定义表情包地址',
-        bottomHelpMessage: '自定义表情包地址，可以本地文件和网络链接',
+        helpMessage: '填写保存表情包地址，可以在表情包仓库随机你存入的表情',
+        bottomHelpMessage: '自定义表情包地址，可以本地文件夹和网络链接',
         component: 'GTags',
         componentProps: {
           allowAdd: true,
           allowDel: true,
         },
       },
-      {
-        field: 'config.emojirate',
-        label: '随机表情包几率',
-        bottomHelpMessage: '群聊中收到消息后随机发送表情包的几率，0-1之间',
-        component: "InputNumber",
-          componentProps: {
-            min: 0,
-            max: 1,
-          },
-      },
-      {
-        field: 'config.groupList',
-        label: '随机表情包群号',
-        bottomHelpMessage: '只有填入的群号才会在接收到消息后随机发送表情包',
-        component: 'Select',
-        componentProps: {
-          allowAdd: true,
-          allowDel: true,
-          mode: 'multiple',
-          options: groupList
-        }
-      },
-      {
-        field: 'config.minDelay',
-        label: '发送表情包延迟',
-        bottomHelpMessage: '随机发送表情包定义延迟的最小值',
-        component: 'InputNumber',
-      },
-      {
-        field: 'config.maxDelay',
-        label: '发送表情包延迟',
-        bottomHelpMessage: '随机发送表情包定义延迟的最大值',
-        component: 'InputNumber',
-      },
-      {
+
+    {
         field: 'config.emojipath',
-        label: '表情包保存地址',
+        label: '表情保存地址',
+        helpMessage: '存入自定义表情包地址，可以在表情包仓库随机你存入的表情',
         bottomHelpMessage: '表情包保存地址',
         component: 'Input',
     },
+
     {
-      field: 'config.chuoyichuorate',
-      label: '戳一戳GPT回复概率',
-      bottomHelpMessage: '戳一戳后GPT回复的几率，0-1之间，默认为0',
-      component: "InputNumber",
+      field: "emojihub.blackgouplist",
+      label: "表情包黑名单",
+      helpMessage: '分群配置，没有配置就使用default的配置',
+      bottomHelpMessage: '屏蔽你不想要的表情包类别',
+      component: "GSubForm",
+      componentProps: {
+        multiple: true,
+        schemas: [
+          {
+            field: "group",
+            label: "群号",
+            component: 'Select',
+            componentProps: {
+              options: allGroup,
+            },
+          },
+          {
+            field: 'NotEmojiindex',
+            label: '表情包黑名单',
+            component: 'Select',
+            componentProps: {
+              allowAdd: true,
+              allowDel: true,
+              mode: 'multiple',
+              options: EmojiIndex,
+            },
+          },
+        ],
+      },
+    },
+
+
+    {
+      component: 'Divider',
+      label: '表情包小偷设置'
+    },
+    {
+      field: 'config.emojirate',
+      label: '随机表情包几率',
+      bottomHelpMessage: '群聊中收到消息后随机发送表情包的几率',
+      component: "Slider",
         componentProps: {
           min: 0,
           max: 1,
+          step: 0.01,
         },
+    },
+    {
+      field: 'config.groupList',
+      label: '随机表情包群号',
+      bottomHelpMessage: '只有填入的群号才会在接收到消息后随机发送表情包',
+      component: 'GSelectGroup',
+      componentProps: {
+        placeholder: '发送随机表情包的群号',
+      }
+    },
+    {
+      field: 'config.minDelay',
+      label: '发送表情包延迟',
+      helpMessage: '延迟发送能让机器人回复不像指令触发，推荐写久点',
+      bottomHelpMessage: '延迟的最小值',
+      component: 'InputNumber',
+      componentProps: {
+        placeholder: "请输入表情最低延迟",
+        addonAfter: "秒",
+      },
+    },
+    {
+      field: 'config.maxDelay',
+      label: '发送表情包延迟',
+      helpMessage: '延迟发送能让机器人回复不像指令触发，推荐写久点',
+      bottomHelpMessage: '延迟的最大值',
+      component: 'InputNumber',
+      componentProps: {
+        placeholder: "请输入表情最高延迟",
+        addonAfter: "秒",
+      },
     },
 
     {
       component: 'Divider',
-      label: 'key'
+      label: 'GPT相关设置'
     },
     {
       field: 'key.gptkey',
-      label: 'gptkey',
+      label: 'GPTkey',
       bottomHelpMessage: '请前往https://github.com/chatanywhere/GPT_API_free获得',
       component: 'InputPassword',
+      componentProps: {
+        placeholder: 'GPTkey',   
+      },
+  },
+  {
+    field: "key.messages",
+    label: "GPT人格",
+    bottomHelpMessage: "填写默认人格，不影响塔罗牌AI",
+    component: "GSubForm",
+    componentProps: {
+      multiple: true,
+      schemas: [
+        {
+          field: 'role',
+          label: 'role',
+          component: 'Select',
+          bottomHelpMessage: '不懂是什么意思就全用system',
+          componentProps: {
+            options: [
+              {label: 'system'},
+              {label: 'assistant'},
+              {label: 'user'},
+            ],
+          }},
+        {
+          field: "content",
+          label: "content",
+          component: "Input",
+          mode: 'tags',
+          required: true,
+        },
+      ],
+    },
+  },
+  {
+    field: 'config.chuoyichuorate',
+    label: '戳戳GPT',
+    helpMessage: '填0就全用表情包回复戳一戳',
+    bottomHelpMessage: '戳一戳机器人后GPT回复的几率',
+    component: "Slider",
+      componentProps: {
+        min: 0,
+        max: 1,
+        step: 0.1,
+      },
   },
   {
     field: 'key.model',
-    label: 'gpt模型',
-    bottomHelpMessage: 'gpt模型，chatanywhere免费最高只支持gpt-3.5-turbo，一般不需要修改',
+    label: 'GPT模型',
+    bottomHelpMessage: 'gpt模型，chatanywhere免费key最高只支持gpt-3.5-turbo',
     component: 'Input',
   },
   {
     field: 'key.gpturl',
-    label: 'gpturl',
+    label: 'GPTurl',
     bottomHelpMessage: 'gpt请求地址，key是chatanywhere的不用修改这里',
     component: 'Input',
   },
+
+  {
+    component: 'Divider',
+    label: '天气相关设置'
+  },
   {
     field: 'key.qweather',
-    label: '和风天气api',
-    bottomHelpMessage: '和风天气api，请前往https://console.qweather.com/#/console获得',
+    label: '和风天气key',
+    bottomHelpMessage: '和风天气key，请前往https://console.qweather.com/#/console获得',
     component: 'InputPassword',
-  },
-
-  {
-    component: 'Divider',
-    label: '定时发图'
-  },
-  {
-    field: 'push.GalleryisAutoPush',
-    label: '定时发图开关',
-    bottomHelpMessage: '定时发图开关',
-    component: 'Switch'
-  },
-  {
-    field: 'push.Gallerytime',
-    label: '定时发图时间',
-    bottomHelpMessage: '定时发图时间，使用cron表达式',
-    component: 'Input',
-    required: false,
-  },
-  {
-    field: 'push.GallerygroupList',
-    label: '定时发图群号',
-    bottomHelpMessage: '定时发图的群号',
-    component: 'Select',
-    componentProps: {
-      allowAdd: true,
-      allowDel: true,
-      mode: 'multiple',
-      options: groupList
-    }
-  },
-
-
-  {
-    component: 'Divider',
-    label: '摸鱼日历'
-  },
-  {
-    field: 'push.moyuisAutoPush',
-    label: '摸鱼日历定时开关',
-    bottomHelpMessage: '摸鱼日历定时开关',
-    component: 'Switch'
-  },
-  {
-    field: 'push.moyutime',
-    label: '摸鱼日历时间',
-    bottomHelpMessage: '摸鱼日历时间，使用cron表达式',
-    component: 'Input',
-    required: false,
-  },
-  {
-    field: 'push.moyugroupList',
-    label: '摸鱼日历群号',
-    bottomHelpMessage: '摸鱼日历的群号',
-    component: 'Select',
-    componentProps: {
-      allowAdd: true,
-      allowDel: true,
-      mode: 'multiple',
-      options: groupList
-    }
-  },
-
-  {
-    component: 'Divider',
-    label: '今日新闻'
-  },
-  {
-    field: 'push.newsisAutoPush',
-    label: '今日新闻定时开关',
-    bottomHelpMessage: '今日新闻定时开关',
-    component: 'Switch'
-  },
-  {
-    field: 'push.newstime',
-    label: '今日新闻时间',
-    bottomHelpMessage: '今日新闻时间，使用cron表达式',
-    component: 'Input',
-  },
-  {
-    field: 'push.newsgroupList',
-    label: '今日新闻群号',
-    bottomHelpMessage: '今日新闻的群号',
-    component: 'Select',
-    componentProps: {
-      allowAdd: true,
-      allowDel: true,
-      mode: 'multiple',
-      options: groupList
-    }
-  },
-
-
-  {
-    component: 'Divider',
-    label: '今日天气'
-  },
-  {
-    field: 'push.WeatherisAutoPush',
-    label: '天气推送开关',
-    bottomHelpMessage: '天气推送开关',
-    component: 'Switch'
-  },
-  {
-    field: 'push.Weathertime',
-    label: '天气时间',
-    bottomHelpMessage: '天气时间，使用cron表达式',
-    component: 'Input',
-  },
-  {
-    field: 'push.WeathergroupList',
-    label: '推送天气群号',
-    bottomHelpMessage: '推送天气的群号',
-    component: 'Select',
-    componentProps: {
-      allowAdd: true,
-      allowDel: true,
-      mode: 'multiple',
-      options: groupList
-    }
   },
   {
     field: 'push.defaultCity',
-    label: '推送天气地点',
-    bottomHelpMessage: '推送天气地点',
+    label: '推送天气城市',
+    bottomHelpMessage: '默认推送天气地点，定时推送没有城市参数，将使用这个默认城市',
     component: 'Input',
-    componentProps: {
-    placeholder: '推送天气地点',   
-  },
   },
 
   {
     component: 'Divider',
-    label: '图片api'
+    label: '推送相关设置'
   },
   {
-    field: 'url.Switch',
-    label: '定时发图自带图床',
-    bottomHelpMessage: '使用p站反代发图，有稳定的图源推荐更换',
-    component: 'Switch'
-  },
-  {
-    field: 'url.GalleryimageUrls',
-    label: '定时发图自定义链接',
-    bottomHelpMessage: '定时发图自定义链接，支持网络和本地',
-    component: 'GTags',
+    field: "push.setpush",
+    label: "推送",
+    bottomHelpMessage: '设定推送功能',
+    component: "GSubForm",
     componentProps: {
-      allowAdd: true,
-      allowDel: true,
-    },
-  },
-  {
-    field: 'url.jrysSwitch',
-    label: '今日运势自带图床',
-    bottomHelpMessage: '使用p站反代发图，有稳定的图源推荐更换',
-    component: 'Switch'
-  },
-  {
-    field: 'url.jrysimageUrls',
-    label: '今日运势自定义链接',
-    bottomHelpMessage: '今日运势自定义链接，支持网络和本地，推荐竖图',
-    component: 'GTags',
-    componentProps: {
-      allowAdd: true,
-      allowDel: true,
-    },
-  },
-  {
-    field: 'url.suanguaSwitch',
-    label: '算卦自带图床',
-    bottomHelpMessage: '使用p站反代发图，有稳定的图源推荐更换',
-    component: 'Switch'
-  },
-  {
-    field: 'url.suanguaimageUrls',
-    label: '算卦自定义链接',
-    bottomHelpMessage: '算卦自定义链接，支持网络和本地，推荐竖图',
-    component: 'GTags',
-    componentProps: {
-      allowAdd: true,
-      allowDel: true,
-    },
-  },
-  {
-    field: 'url.weatherSwitch',
-    label: '天气自带图床',
-    bottomHelpMessage: '使用p站反代发图，有稳定的图源推荐更换',
-    component: 'Switch'
-  },
-  {
-    field: 'url.weatherimageUrls',
-    label: '天气自定义链接',
-    bottomHelpMessage: '天气自定义链接，支持网络和本地，推荐竖图',
-    component: 'GTags',
-    componentProps: {
-      allowAdd: true,
-      allowDel: true,
-    },
-  },
-  {
-    field: 'url.signSwitch',
-    label: '签到自带图床',
-    bottomHelpMessage: '使用p站反代发图，有稳定的图源推荐更换',
-    component: 'Switch'
-  },
-  {
-    field: 'url.signimageUrls',
-    label: '签到自定义链接',
-    bottomHelpMessage: '签到自定义链接，支持网络和本地，推荐横图',
-    component: 'GTags',
-    componentProps: {
-      allowAdd: true,
-      allowDel: true,
+      multiple: true,
+      schemas: [
+        {
+          field: "功能",
+          label: "功能",
+          component: 'Select',
+          componentProps: {
+            options: setpush,
+          },
+        },
+        {
+          field: 'isAutoPush',
+          label: '推送开关',
+          bottomHelpMessage: '推送开关',
+          component: 'Switch'
+        },
+        {
+          field: 'time',
+          label: '推送时间',
+          bottomHelpMessage: '推送时间，使用cron表达式',
+          component: 'Input',
+        },
+        {
+          field: 'groupList',
+          label: '推送群号',
+          bottomHelpMessage: '推送群号',
+          component: 'GSelectGroup',
+          componentProps: {
+            placeholder: '发送的群号',
+          }
+        },
+      ],
     },
   },
 
+  {
+    component: 'Divider',
+    label: '图源相关设置'
+  },
+  {
+    field: "url.setimage",
+    label: "图源",
+    component: "GSubForm",
+    bottomHelpMessage: '设置不同功能使用的图源',
+    componentProps: {
+      multiple: true,
+      schemas: [
+        {
+          field: "功能",
+          label: "功能",
+          component: 'Select',
+          componentProps: {
+            options: setimage,
+          },
+        },
+        {
+          field: 'Switch',
+          label: 'Switch',
+          bottomHelpMessage: '是否使用自带图源',
+          component: 'Switch'
+        },
+        {
+          field: "imageUrls",
+          label: "imageUrls",
+          bottomHelpMessage: '自定义图源地址，支持网络何本地文件夹',
+          component: 'GTags',
+          componentProps: {
+            allowAdd: true,
+            allowDel: true,
+          },
+        },
+      ],
+    },
+  },
 
 
 ],

@@ -38,14 +38,10 @@ export class TextMsg extends plugin {
 
 
       const Config = await readAndParseYAML('../config/url.yaml');
+      const functionData = Config.setimage.find(item => item.功能 === '算一卦') || Config.setimage.find(item => item.功能 === 'default');
+      logger.info(functionData);
       
-      let imageUrl;
-      if (Config.suanguaSwitch) {
-          imageUrl = await getRandomImage('mb');
-      } else {
-          imageUrl = await getImageUrl(Config.suanguaimageUrls);
-      }
-      logger.info(imageUrl)
+      let imageUrl = functionData.Switch ? await getRandomImage('mb') : await getImageUrl(functionData.imageUrls);  
            
     
     var randomIndex = Math.floor(Math.random() * guayao.length);

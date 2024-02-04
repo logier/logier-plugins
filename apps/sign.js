@@ -14,8 +14,8 @@ export class TextMsg extends plugin {
           priority: 6,   // 插件优先度，数字越小优先度越高
           rule: [
               {
-                  reg: '^#?(签到)$',   // 正则表达式,有关正则表达式请自行百度
-                  fnc: '签到'  // 执行方法
+                  reg: '^#?(今日)?(签到)$',   // 正则表达式,有关正则表达式请自行百度
+                  fnc: '今日签到'  // 执行方法
               }
           ]
       })
@@ -23,7 +23,7 @@ export class TextMsg extends plugin {
   }
 
   // 执行方法1
-  async 签到(e) {
+  async 今日签到(e) {
 
   const Config = await readAndParseYAML('../config/url.yaml');
 
@@ -34,12 +34,10 @@ export class TextMsg extends plugin {
   const hitokodata = await response.json();
   const content = hitokodata.hitokoto;
 
-  let imageUrl;
-  if (Config.signSwitch) {
-      imageUrl = await getRandomImage('pc');
-  } else {
-      imageUrl = await getImageUrl(Config.signimageUrls);
-  }
+  const functionData = Config.setimage.find(item => item.功能 === '今日签到') || Config.setimage.find(item => item.功能 === 'default');
+  logger.info(functionData);
+  
+  let imageUrl = functionData.Switch ? await getRandomImage('pc') : await getImageUrl(functionData.imageUrls);  
   logger.info(imageUrl)
 
   let data = JSON.parse(await redis.get(`Yunzai:logier-plugin:${e.user_id}_sign`));
@@ -401,7 +399,6 @@ export class TextMsg extends plugin {
  
     let browser;
     try {
-      const imageUrl = await getImageUrl(Config.signimageUrls);
       if (!imageUrl) {
         throw new Error('无法获取图片URL');
       }

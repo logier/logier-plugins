@@ -1,20 +1,18 @@
-GalleryisAutoPush: false
-Gallerytime: '0 0 */1 * * ?'
-GallerygroupList:
-  - null
-
-moyuisAutoPush: false
-moyutime: '0 30 9 * * ?'
-moyugroupList:
-  - null
-
-newsisAutoPush: false
-newstime: '0 30 7 * * ?'
-newsgroupList:
-  - null
-
-WeatherisAutoPush: false
-Weathertime: '0 30 8 * * ?'
-WeathergroupList:
-  - null
+setpush:
+  - 功能: 定时发图
+    isAutoPush: false
+    time: 0 0 */1 * * ?
+    groupList: []
+  - 功能: 摸鱼日历
+    isAutoPush: false
+    time: 0 30 9 * * ?
+    groupList: []
+  - 功能: 今日新闻
+    isAutoPush: false
+    time: 0 30 7 * * ?
+    groupList: []
+  - 功能: 城市天气
+    isAutoPush: false
+    time: 0 30 8 * * ?
+    groupList: []
 defaultCity: 北京
