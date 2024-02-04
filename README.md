@@ -15,9 +15,10 @@
 
 ***如果发现bug，希望及时Q群告知我或提交issue***
 
+### **24.02.04 大幅优化锅巴配置，更新后需要重新配置**
+
 ## 安装教程
 
-***24.02.04 大幅优化锅巴配置，之前的配置可能不适配，需要重新配置***
 
 Yunzai-Bot目录下执行(二者选其一)
 
@@ -34,7 +35,6 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 发送 **#鸢尾花帮助** 获取插件详细信息
 
-<br>
 插件配置很多，但关键配置可通过锅巴配置
 
 | 名称 | 功能 |
@@ -59,7 +59,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 - 可联动**保存表情包**，将保存地址填入自定义表情包地址。
 - [表情包仓库源地址](https://gitee.com/logier/emojihub])
-- 配置项可配置屏蔽部分表情包，如龙图、小黑子，支持分群配置,请手动在/config/emojihub.yaml里面编辑。
+- 最新版更新锅巴配置屏蔽部分表情包，如龙图、小黑子，支持分群配置。
 - 可配置表情包仓库随机时自定义表情包概率，默认为0
 
 | 指令 | 表情包 | 指令 | 表情包 |
@@ -91,7 +91,8 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - 戳一戳发送表情包，配置和**表情包仓库**共用。
 - 配置概率，默认为0，全部用表情包回复，提高会概率用GPT回复。
 - GPT需要配置key，[如何获取key？](#如何获取key)
-- 若使用GPT回复，请手动在/config/key.yaml修改人格
+- 若使用GPT回复，可以修改人格，[如何填写人格？](#如何填写人格)
+
 <img src="./img/chuoyichuo.jpg" width="40%">
 </details>
 <br>
@@ -175,6 +176,8 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 - 发送早安、中午好、晚上好等词回复。
 - GPT回复，需要key，[如何获取key？](#如何获取key)
+- [如何填写人格？](#如何填写人格)
+
 <img src="./img/问候回复.png" width="40%">
 </details>
 <br>
@@ -257,6 +260,22 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
     │  │  └───────── 时，取值：0 - 23
     │  └──────────── 分，取值：0 - 59
     └─────────────── 秒，取值：0 - 59（可选）
+```
+
+### 如何填写人格
+
+```
+  "人格": [
+      {
+          "role": "system",
+          "content": "content"
+      },
+      {
+          "role": "user",
+          "content": "content"
+      }
+  ],
+大致是这样的，最新版支持锅巴配置人格，本插件目录下data文件夹内personality.json文件有很多人格可以参考。
 ```
 
 ## 作者
