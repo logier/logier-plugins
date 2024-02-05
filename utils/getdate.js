@@ -8,7 +8,15 @@ import YAML from 'yaml'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+export function getFunctionData(YamlName, ArrayName, Function) {
+    const fileContent = fs.readFileSync(path.join(__dirname, `../config/${YamlName}.yaml`), 'utf8');
+    const Config = YAML.parse(fileContent);
+    const functionData = Config[ArrayName].find(item => item.功能 === Function) || Config[ArrayName].find(item => item.功能 === 'default');
+    return functionData;
+}
 
+
+  
 
 export async function readAndParseJSON(filePath) {
     try {

@@ -1,7 +1,4 @@
-import schedule from 'node-schedule'
-import { readAndParseYAML, getRandomImage, getRandomUrl } from '../utils/getdate.js'
-
-
+import { getFunctionData, getRandomImage,  getRandomUrl } from '../utils/getdate.js'
 
 export class example extends plugin {
   constructor() {
@@ -13,53 +10,52 @@ export class example extends plugin {
       rule: [
         {
           reg: '^#?(定时发图|发图)$',
-          fnc: '定时发图'
+          fnc: '发图'
         }
       ]
     })
+    this.task = {
+      cron: this.pushConfig.time,
+      name: '定时发图',
+      fnc: () => this.定时发图()
+    }
+    Object.defineProperty(this.task, 'log', { get: () => false })
   }
 
-  async 定时发图(e) {
-    await sendImage(e)
-  }
-}
+  get pushConfig () { return getFunctionData('push', 'setpush', '定时发图') }
+  get imageConfig () { return getFunctionData('url', 'setimage', '定时发图') }
 
-async function sendImage(e, isAuto = 0) {
-  const Config = await readAndParseYAML('../config/url.yaml');
-  const functionData = Config.setimage.find(item => item.功能 === '定时发图') || Config.setimage.find(item => item.功能 === 'default');
-  logger.info(functionData);
   
-  const image = functionData.Switch ? await getRandomImage() : await getRandomUrl(functionData.imageUrls);  
+  // 定时任务
+  async 定时发图 () {
+
+    if (!this.pushConfig.isAutoPush) {return false}
   
-  if (isAuto) {
-    e.sendMsg([segment.image(image)]);
-  } else {
+    const image = this.imageConfig.Switch ? await getRandomImage() : await getRandomUrl(this.imageConfig.imageUrls); 
+
+    logger.info(`[定时发图]开始推送……`);
+    for (let i = 0; i < this.pushConfig.groupList.length; i++) {
+      setTimeout(() => {
+        Bot.pickGroup(this.pushConfig.groupList[i]).sendMsg([segment.image(image)]);
+      }, 1 * 1000); 
+    }
+
+    return true
+  }
+
+  async 发图 (e) {
+
+    const image = this.imageConfig.Switch ? await getRandomImage() : await getRandomUrl(this.imageConfig.imageUrls); 
+  
     e.reply([segment.image(image)]);
+
+    return true
   }
-  return true;
-}
 
 
-
-
-async function autogallery() {
-  const Config = await readAndParseYAML('../config/push.yaml');
-  const functionData = Config.setpush.find(item => item.功能 === '定时发图');
-
-  if (functionData && functionData.isAutoPush) {
-    schedule.scheduleJob(functionData.time, () => {
-      logger.info(`[定时发图]：开始自动推送...`);
-      for (let i = 0; i < functionData.groupList.length; i++) {
-        setTimeout(() => {
-          let group = Bot.pickGroup(functionData.groupList[i]);
-          sendImage(group, 1)
-        }, i * 1000);  // 延迟 i 秒
-      }
-    });
   }
-}
 
 
-autogallery()
+
 
 
