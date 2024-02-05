@@ -31,6 +31,11 @@ export class example extends plugin {
 }
 
 async function pushContent(e, url, isAuto = 0) {
+  if (url === moyuapiUrl) {
+    let fetchUrl = await fetch(url).catch(err => logger.error(err));
+    let imgUrl = await fetchUrl.json();
+    url = await imgUrl.url;
+  }
 
     // 回复消息
     if (isAuto) {
@@ -70,7 +75,7 @@ async function autoTask(taskName) {
 }
 
 
-const moyuapiUrl = 'https://api.vvhan.com/api/moyu';// 摸鱼日历接口地址
+const moyuapiUrl = 'https://api.vvhan.com/api/moyu?type=json';// 摸鱼日历接口地址
 const newsimageUrl = 'http://bjb.yunwj.top/php/tp/60.jpg';// 60s新闻图片的 URL
 
 autoTask('摸鱼日历');
