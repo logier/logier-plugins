@@ -1,4 +1,4 @@
-import { readAndParseJSON, readAndParseYAML, getRandomUrl, getemoji } from '../utils/getdate.js'
+import { getemoji } from '../utils/getdate.js'
 
 export class TextMsg extends plugin {
     constructor() {
@@ -10,7 +10,7 @@ export class TextMsg extends plugin {
             rule: [
                 {
                     reg: '^#?(emojihub|表情包仓库|表情包)$',   
-                    fnc: 'emojihub'
+                    fnc: 'emojihub',
                 },
                 {
                     reg: '^#?(阿夸|aqua)(表情包)?$',   
@@ -21,11 +21,11 @@ export class TextMsg extends plugin {
                     fnc: '阿尼亚' 
                 },
                 {
-                    reg: '^#?(白圣女)(表情包)?$',   
+                    reg: '^#?(白圣女|白圣)(表情包)?$',   
                     fnc: '白圣女' 
                 },
                 {
-                    reg: '^#?(柴郡|chaiq|Chaiq)(表情包)?$',   
+                    reg: '^#?(柴郡|chaiq|柴郡猫)(表情包)?$',   
                     fnc: '柴郡' 
                 },
                 {
@@ -37,11 +37,11 @@ export class TextMsg extends plugin {
                     fnc: '狗妈' 
                 },
                 {
-                    reg: '^#?(吉伊卡哇|chiikawa|Chiikawa|chikawa|Chikawa)(表情包)?$',   
+                    reg: '^#?(吉伊卡哇|chiikawa|Chiikawa|chikawa|Chikawa|乌萨奇)(表情包)?$',   
                     fnc: '吉伊卡哇' 
                 },
                 {
-                    reg: '^#?(龙图|long|Long)(表情包)?$',   
+                    reg: '^#?(龙图|long|Long|龙)(表情包)?$',   
                     fnc: '龙图' 
                 },
                 {
@@ -57,7 +57,7 @@ export class TextMsg extends plugin {
                     fnc: '亚托莉' 
                 },
                 {
-                    reg: '^#?(真寻酱|绪山真寻|小真寻)(表情包)?$',   
+                    reg: '^#?(真寻酱|绪山真寻|小真寻|真寻)(表情包)?$',   
                     fnc: '真寻酱' 
                 },
                 {
@@ -73,7 +73,7 @@ export class TextMsg extends plugin {
                     fnc: '喵内' 
                 },
                 {
-                    reg: '^#?(波奇|孤独摇滚|bochi)(表情包)?$',   
+                    reg: '^#?(波奇|孤独摇滚|bochi|Bochi|BOCHI)(表情包)?$',   
                     fnc: '孤独摇滚' 
                 },
                 {
@@ -81,7 +81,7 @@ export class TextMsg extends plugin {
                     fnc: '心海' 
                 },
                 {
-                    reg: '^#?(时雨羽衣|羽衣|UI)(表情包)?$',   
+                    reg: '^#?(时雨羽衣|羽衣|UI|羽衣妈妈)(表情包)?$',   
                     fnc: '羽衣' 
                 },
                 {
@@ -159,7 +159,7 @@ export class TextMsg extends plugin {
 async function sendEmoji(e, category) {
     let imageUrl = await getemoji(e, category);
     if (imageUrl) {
-        logger.info(`[鸢尾花插件]发送“${category}”表情包`);
+        logger.info(`[表情包仓库]发送“${category}”表情包`);
         e.reply([segment.image(imageUrl)]);
     }
 

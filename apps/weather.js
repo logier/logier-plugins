@@ -115,7 +115,7 @@ async function pushweather(e, isAuto = 0) {
          }
          p {
            color : rgba(0,0,0, 0.6);
-           font-size:1.8rem;
+           font-size:1.5rem;
            padding: 2px; 
            word-wrap: break-word;
            white-space: pre-wrap;
@@ -255,7 +255,7 @@ async function getCityGeo(e, city, key, isAuto) {
         e.sendMsg('未获取到城市id');
         return false
       } else {
-        e.reply('未获取到城市id', true);
+        e.reply('未获取到城市id');
         return false
       }
   }

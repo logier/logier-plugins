@@ -46,7 +46,7 @@ export class TextMsg extends plugin {
             if (Math.random() < Number(EmojiConfig.thiefrate)){
                 let imageUrl = await getemoji(e, EmojiConfig.thiefcategory);
                 if (imageUrl) {
-                    logger.info(`[鸢尾花插件]发送“${EmojiConfig.thiefcategory}”表情包`);
+                    logger.info(`[表情包小偷]发送“${EmojiConfig.thiefcategory}”表情包`);
                     e.reply([segment.image(imageUrl)]);
                 }
             } else {
@@ -55,7 +55,7 @@ export class TextMsg extends plugin {
             if (Array.isArray(list) && list.length) {
                 let randomIndex = Math.floor(Math.random() * list.length);
                 let randomEmojiUrl = list[randomIndex];
-                logger.info(randomEmojiUrl);
+                logger.info(`[表情包小偷]发送“${randomEmojiUrl}”`);
                 e.reply([segment.image(randomEmojiUrl)])
             }
         }

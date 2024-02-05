@@ -113,7 +113,8 @@ export class TextMsg extends plugin {
     .nei{
       float: left;
       box-shadow: 3px 3px 3px #666666;
-      width: 45%;
+      width: 50%;
+      min-width: 400px;
       height:100%;
       display:flex;
       flex-direction: column;

@@ -10,11 +10,11 @@ export class example extends plugin {
       priority: 5000,
       rule: [
         {
-          reg: '^(#|/)?(摸鱼日历|摸鱼)$',
+          reg: '^#?(摸鱼日历|摸鱼)$',
           fnc: 'getMoyu'
         },
         {
-          reg: '^(#|/)?(60s日报|今日新闻)$',
+          reg: '^#?(60s日报|今日新闻)$',
           fnc: 'getNews'
         }
       ]

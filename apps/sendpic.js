@@ -12,7 +12,7 @@ export class example extends plugin {
       priority: 1000,
       rule: [
         {
-          reg: '^#?定时发图$',
+          reg: '^#?(定时发图|发图)$',
           fnc: '定时发图'
         }
       ]
