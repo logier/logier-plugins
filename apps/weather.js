@@ -1,6 +1,5 @@
-import schedule from 'node-schedule'
 import puppeteer from "puppeteer";
-import { readAndParseYAML, getRandomImage, getImageUrl } from '../utils/getdate.js'
+import { readAndParseYAML, getRandomImage, getImageUrl, getFunctionData } from '../utils/getdate.js'
 
 
 export class example extends plugin {
@@ -17,48 +16,49 @@ export class example extends plugin {
       },
       ]
     });
+    this.task = {
+      cron: this.pushConfig.time,
+      name: '推送城市天气',
+      fnc: () => this.推送城市天气()
+    }
+    Object.defineProperty(this.task, 'log', { get: () => false })
   }
-
-
-  async 城市天气(e) {
-    pushweather(e)
   
+  get pushConfig () { return getFunctionData('push', 'setpush', '城市天气') }
+  
+
+  async 推送城市天气 (e) {
+    logger.info(`[城市天气]开始推送……`);
+    for (let i = 0; i < this.pushConfig.groupList.length; i++) {
+      setTimeout(async () => {  // 注意这里我们添加了 async
+        const image = await pushweather(e);  // 这里我们添加了 await
+        Bot.pickGroup(this.pushConfig.groupList[i]).sendMsg([segment.image(image)]);
+      }, 1 * 1000); 
+    }
+    return true
 }
-}
 
-async function autoTask() {
-  const Config = await readAndParseYAML('../config/push.yaml');
 
-  const functionData = Config.setpush.find(item => item.功能 === '城市天气');
+  async 城市天气 (e) {
 
-  if (functionData && functionData.isAutoPush) {
-    schedule.scheduleJob(functionData.time, () => {
-      logger.info(`[城市天气]：开始自动推送...`);
-      for (let i = 0; i < functionData.groupList.length; i++) {
-        setTimeout(() => {
-          let group = Bot.pickGroup(functionData.groupList[i]);
-          pushweather(group, 1);
-        }, i * 1000);  // 延迟 i 秒
-      }
-    });
+    const image = await pushweather(e);  // 添加了 await
+    e.reply([segment.image(image)]);    
+
+    return true
   }
-
 }
 
 
-await autoTask();
-
-
-async function pushweather(e, isAuto = 0) {
+async function pushweather(e) {
 
   const key = await readAndParseYAML('../config/key.yaml');
 
-  const Config = await readAndParseYAML('../config/url.yaml');
+  const Config = await readAndParseYAML('../config/push.yaml');
 
   const city = (e?.msg ?? '').replace(/#?(天气)/, '').trim();
   const cityToUse = city || Config.defaultCity;
 
-  const {location, name} = await getCityGeo(e, cityToUse, key.qweather, isAuto)
+  const {location, name} = await getCityGeo(cityToUse, key.qweather)
 
   const output = await getIndices(location,  key.qweather);
 
@@ -67,11 +67,9 @@ async function pushweather(e, isAuto = 0) {
   let now = new Date();
   let datatime =  now.toLocaleDateString('zh-CN'); //日期格式
 
+  const urlConfig = await getFunctionData('url', 'setimage', '城市天气') 
   
-  const functionData = Config.setimage.find(item => item.功能 === '城市天气') || Config.setimage.find(item => item.功能 === 'default');
-  logger.info(functionData);
-  
-  let imageUrl = functionData.Switch ? await getRandomImage('mb') : await getImageUrl(functionData.imageUrls);  
+  let imageUrl = urlConfig.Switch ? await getRandomImage('mb') : await getImageUrl(urlConfig.imageUrls);  
 
   let browser;
   try {
@@ -164,11 +162,7 @@ async function pushweather(e, isAuto = 0) {
          // 对图片元素进行截图
          const image = await imgElement.screenshot();
  
-         if (isAuto) {
-          e.sendMsg(segment.image(image));
-        } else {
-          e.reply(segment.image(image));
-        }
+         return image
    
        } catch (error) {
          logger.error(error);
@@ -246,20 +240,14 @@ async function getIndices(location, key) {
   return output;
 }
 
-async function getCityGeo(e, city, key, isAuto) {
+async function getCityGeo(city, key) {
   const cityGeo = `https://geoapi.qweather.com/v2/city/lookup?location=${city}&key=${key}&city=`;
   const cityGeoresponse = await fetch(cityGeo);
   const data = await cityGeoresponse.json();
   if (data.code !== '200') {
-      if (isAuto) {
-        e.sendMsg('未获取到城市id');
-        return false
-      } else {
-        e.reply('未获取到城市id');
-        return false
-      }
+    logger.info('未获取到城市id')
+    return false
   }
-
   const location = data.location[0].id;
   const name = data.location[0].name;
 
