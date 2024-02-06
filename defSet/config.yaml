@@ -6,6 +6,7 @@ groupList: []
 minDelay: 2
 maxDelay: 10
 emojipath: ./resources/logier/emoji
+setupath: ./resources/logier/setu
 chuoyichuorate: 0
 chuoyichuocategory: 表情包仓库
 thiefrate: 0

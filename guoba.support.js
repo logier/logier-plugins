@@ -77,6 +77,13 @@ export function supportGuoba() {
         component: 'Input',
     },
     {
+      field: 'config.setupath',
+      label: '涩图保存地址',
+      helpMessage: '存入涩图，可以将地址填入需要图片的插件',
+      bottomHelpMessage: '涩图保存地址',
+      component: 'Input',
+  },
+    {
       field: 'config.chuoyichuocategory',
       label: '戳一戳表情包',
       helpMessage: '“表情包仓库”就是全随机',
