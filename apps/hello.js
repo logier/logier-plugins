@@ -20,6 +20,12 @@ export class greetings extends plugin {
     // 早安问候
     async dazbaohu(e) {
 
+        
+  if (!key.gptkey){
+    logger.info('未配置gptkey')
+    return false
+  }
+
     let date = new Date();
     let hours = date.getHours();
     

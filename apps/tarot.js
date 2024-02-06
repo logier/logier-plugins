@@ -28,6 +28,13 @@ export class TextMsg extends plugin {
 
 async 塔罗牌(e) {
 
+  const key = await readAndParseYAML('../config/key.yaml');
+
+  if (!key.gptkey){
+    logger.info('未配置gptkey，取消塔罗牌')
+    return false
+  }
+
   let replacedMsg = this.e.msg.replace(/^#?(塔罗牌|抽塔罗牌|占卜)/, '');
 
   if (replacedMsg) {
@@ -59,6 +66,11 @@ async 占卜(e) {
 
 
 const key = await readAndParseYAML('../config/key.yaml');
+
+if (!key.gptkey){
+  logger.info('未配置gptkey，取消占卜')
+  return false
+}
 
   let 占卜内容 = this.e.msg.replace(/^#?(占卜)/, '');
   const tarot = await readAndParseJSON('../data/tarot.json');
