@@ -19,11 +19,11 @@ export class TextMsg extends plugin {
 
     }
 
-    async 表情包小偷(e) {
-
+    async 表情包小偷(e) {   
+        
         const EmojiConfig = await readAndParseYAML('../config/config.yaml');
 
-        if (!EmojiConfig.groupList.map(String).includes(e.group_id.toString())) {
+        if ( !e.group_id|| !EmojiConfig.groupList.map(String).includes(e.group_id.toString())) {
             return false;} 
 
         let key = `Yunzai:emojithief:${e.group_id}_logier`;
@@ -32,7 +32,7 @@ export class TextMsg extends plugin {
                 let listStr = await redis.get(key);
                 let list = listStr ? JSON.parse(listStr) : [];
                 if (!list.includes(item.url)) {
-                    logger.info('[表情包小偷]偷取表情包')
+                    logger.info('偷取表情包')
                     list.push(item.url);
                     if (list.length > 50) {
                         list.shift();
@@ -46,7 +46,7 @@ export class TextMsg extends plugin {
             if (Math.random() < Number(EmojiConfig.thiefrate)){
                 let imageUrl = await getemoji(e, EmojiConfig.thiefcategory);
                 if (imageUrl) {
-                    logger.info(`[表情包小偷]发送“${EmojiConfig.thiefcategory}”表情包`);
+                    logger.info(`发送“${EmojiConfig.thiefcategory}”表情包`);
                     e.reply([segment.image(imageUrl)]);
                 }
             } else {
@@ -55,7 +55,7 @@ export class TextMsg extends plugin {
             if (Array.isArray(list) && list.length) {
                 let randomIndex = Math.floor(Math.random() * list.length);
                 let randomEmojiUrl = list[randomIndex];
-                logger.info(`[表情包小偷]发送“${randomEmojiUrl}”`);
+                logger.info(`发送“${randomEmojiUrl}”`);
                 e.reply([segment.image(randomEmojiUrl)])
             }
         }

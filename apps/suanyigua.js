@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { readAndParseJSON, readAndParseYAML,getRandomImage, getImageUrl } from '../utils/getdate.js'
+import { readAndParseJSON, getFunctionData ,getRandomImage, getImageUrl } from '../utils/getdate.js'
 
 
 export class TextMsg extends plugin {
@@ -22,76 +22,105 @@ export class TextMsg extends plugin {
         })
     }
     async 算一卦(e) {
-        push算一卦(e)
-    }
+
+      let suangua = await readAndParseJSON('../data/suangua.json');
+      let now = new Date().toLocaleDateString('zh-CN');
+      let data = await redis.get(`Yunzai:logier-plugin:${e.user_id}_suangua`);
+      let replymessage = "正在为您算卦……";
+      
+      if (data) {
+          data = JSON.parse(data);
+      } else {
+          logger.info('未读取到卦象，随机抽取');
+          data = {
+              fortune: suangua[Math.floor(Math.random() * suangua.length)],
+              time: now,
+              isRe: false
+          };
+      }
+      
+      if (now === data.time) {
+          logger.info('今日已算过卦，读取保存的数据');
+          replymessage = "今日已算卦，再给你看一眼吧……";
+      } else {
+          logger.info('日期已改变，重新算卦');
+          data = {
+              fortune: suangua[Math.floor(Math.random() * suangua.length)],
+              time: now,
+              isRe: false
+          };
+      }
+      
+    e.reply(replymessage, true, { recallMsg: 10 });
+    await redis.set(`Yunzai:logier-plugin:${e.user_id}_suangua`, JSON.stringify(data));
+  
+    await generateFortune(e)
+
+    return true;
+
+  }
     async 悔卦(e) {
-      push算一卦(e, true)
+
+      let suangua = await readAndParseJSON('../data/suangua.json');
+      let now = new Date().toLocaleDateString('zh-CN');
+      let data = await redis.get(`Yunzai:logier-plugin:${e.user_id}_suangua`);
+      let replymessage = "正在为您算卦……";
+  
+      
+      if (data) {
+          data = JSON.parse(data);
+      } else {
+          logger.info('未读取到卦象数据，悔卦转为重新算卦');
+          data = {
+              fortune: suangua[Math.floor(Math.random() * suangua.length)],
+              time: now,
+              isRe: false
+          };
+      }
+      
+      if (now !== data.time) {
+          logger.info('日期变更，重新抽取卦象');
+          data = {
+              fortune: suangua[Math.floor(Math.random() * suangua.length)],
+              time: now,
+              isRe: false
+          };
+      } else if (data.isRe) {
+          logger.info('今日已悔卦，不重新抽取');
+          replymessage = "今天已经悔过卦了,再给你看一眼吧……";
+      } else {
+          logger.info('悔卦');
+          replymessage = "异象骤生，卦象竟然改变了……";
+          data = {
+              fortune: suangua[Math.floor(Math.random() * suangua.length)],
+              time: now,
+              isRe: true
+          };
+      }
+      
+      e.reply(replymessage, true, { recallMsg: 10 });
+      await redis.set(`Yunzai:logier-plugin:${e.user_id}_suangua`, JSON.stringify(data));
+    
+     await generateFortune(e)
+
+     return true
     }
 
 }
 
-    async function push算一卦(e, isResuangua = false) {
+async function generateFortune(e) {
 
+  const urlConfig = getFunctionData('url', 'setimage', '算一卦');
+  const imageUrl = urlConfig.Switch ? await getRandomImage('mb') : await getImageUrl(urlConfig.imageUrls);  
 
-      const guayao = await readAndParseJSON('../data/guayao.json');
-      const guachi = await readAndParseJSON('../data/guachi.json');
+  let data = await redis.get(`Yunzai:logier-plugin:${e.user_id}_suangua`);
+  const fortune = JSON.parse(data).fortune;
+  logger.info(fortune);
 
+  let replacedMsg = e.msg.replace(/^#?(算一卦|算卦)/, '');
+  let content = [e.nickname + '心中所念' + (replacedMsg ? '“' + replacedMsg + '”' : '') + '卦象如下:'];
 
-      const Config = await readAndParseYAML('../config/url.yaml');
-      const functionData = Config.setimage.find(item => item.功能 === '算一卦') || Config.setimage.find(item => item.功能 === 'default');
-      logger.info(functionData);
-      
-      let imageUrl = functionData.Switch ? await getRandomImage('mb') : await getImageUrl(functionData.imageUrls);  
-           
-    
-    var randomIndex = Math.floor(Math.random() * guayao.length);
-    let replacedMsg = e.msg.replace(/^#?(算一卦|算卦)/, '');
-    let content = [e.nickname + '心中所念' + (replacedMsg ? '“' + replacedMsg + '”' : '') + '卦象如下:'];
-
-    let yunshi = await redis.get(`Yunzai:logier-plugin:${e.user_id}_suanyigua`);
-    let data;
-    
-    if (yunshi) {
-      data = JSON.parse(yunshi);
-      let now = new Date().toLocaleDateString('zh-CN');
-      let lastUpdated = new Date(data.time).toLocaleDateString('zh-CN');
-      if (now !== lastUpdated) {
-          data.isResuangua = false;  // 如果日期改变，重置 isResuangua 参数
-      }
-      if (isResuangua) {
-          if (!data.isResuangua && now === lastUpdated) {
-              logger.info('[算一卦]：悔卦，重新抽取');
-              let possibleIndexes = [...Array(guayao.length).keys()].filter(i => i !== data.item);  // 创建一个过滤后的数组
-              data.item = possibleIndexes[Math.floor(Math.random() * possibleIndexes.length)];  // 从过滤后的数组中随机选择一个新的索引
-              data.time = new Date();
-              data.isResuangua = true;
-          } else if (data.isResuangua) {
-              e.reply(['小小', segment.at(e.user_id), '竟敢不自量力，一天只可以悔卦一次'], true);
-              return;
-          }
-      }
-      randomIndex = data.item;
-  } else {
-      logger.info('[算一卦]：首次测算卦象');
-      randomIndex = Math.floor(Math.random() * guayao.length);
-      data = {
-          item: randomIndex,
-          time: new Date(),
-          isResuangua: false
-      };
-  }
-  await redis.set(`Yunzai:logier-plugin:${e.user_id}_suanyigua`, JSON.stringify(data));
-  
-
-    let message = isResuangua ? ["异变骤生！", segment.at(e.user_id), '的卦象竟然变为了……'] : "正在为您测算……";
-    e.reply(message, true, { recallMsg: 10 });
-
-    let browser;
-    try {
-      browser = await puppeteer.launch({headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-      const page = await browser.newPage();
-
-    let Html = `
+  let Html = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -131,13 +160,14 @@ export class TextMsg extends plugin {
       padding: 2px; 
       word-wrap: break-word;
       white-space: pre-wrap;
-      text-align: left; 
+      text-align: center; 
+      font-weight: bold;
     }
     .centered-content {
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-
+      padding: 1em;
       height: 100%;
     }
     .tu{
@@ -157,35 +187,47 @@ export class TextMsg extends plugin {
     <div class="nei">
       <div class="centered-content">
       <br>
-        <p>${content}</p>
-        <p style="text-shadow:3px 3px 2px rgba(-20,-10,4,.3); ">${guayao[randomIndex]}</p>
-        <p>${guachi[randomIndex]}</p>
+      <br>
+      <br>
+        <b style="font-size: 1.5em">${content}</b>
+        <br>
+        <br>
+        <br>
+        <p style="text-shadow:3px 3px 2px rgba(-20,-10,4,.3)">${fortune.guayao}</p>
+        <br>
+        <br>
+        <br>
+        <p>${fortune.guachi}</p>
+        <p>${fortune.name}\n${fortune.Poetry}</p>
+        <br>
+        <br>
+        <br>
+        <p>${fortune.description}</p>
       </div>
       <br>
       <p style="font-weight: bold; margin-bottom: 20px;">Create By 鸢尾花插件 </p>
     </div>
     </body>
     </html>
-    `
+  `
 
-    await page.setContent(Html);
-    // 获取图片元素
+  let browser;
+  try {
+    browser = await puppeteer.launch({headless: 'new', args: ['--no-sandbox','--disable-setuid-sandbox'] });
+    const page = await browser.newPage();
+    await page.setContent(Html)
     const imgElement = await page.$('.tu img');
     // 对图片元素进行截图
     const image = await imgElement.screenshot();
-
     e.reply(segment.image(image))
-
-
   } catch (error) {
-    logger.error(error);
+    logger.info('图片渲染失败，使用文本发送');
+    e.reply([segment.at(e.user_id), `的${await numToChinese(new Date().getDate())}号卦象`]);
   } finally {
     if (browser) {
       await browser.close();
     }
   }
-  
-  return true;
 }
      
      
