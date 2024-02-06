@@ -1,7 +1,5 @@
 import { readAndParseYAML, gpt, getemoji } from '../utils/getdate.js'
 
-
-
 export class TextMsg extends plugin {
     constructor() {
         super({
@@ -32,7 +30,7 @@ export class TextMsg extends plugin {
                 if (content) {
                     e.reply(content)
                 } else {
-                    logger.info(`[戳一戳表情包]GPT调用失败，发送“${config.chuoyichuocategory}”表情包`);
+                    logger.info(`GPT调用失败，发送“${config.chuoyichuocategory}”表情包`);
                     sendEmoji(e, config.chuoyichuocategory);
                 }
             }
@@ -45,7 +43,7 @@ export class TextMsg extends plugin {
 async function sendEmoji(e, category) {
     let imageUrl = await getemoji(e, category);
     if (imageUrl) {
-        logger.info(`[戳一戳表情包]发送“${category}”表情包`);
+        logger.info(`发送“${category}”表情包`);
         e.reply([segment.image(imageUrl)]);
     }
 }
