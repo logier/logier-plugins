@@ -228,7 +228,6 @@ export async function getRandomUrl(imageUrls) {
 
         // 过滤出图片文件
         let imageFiles = files.filter(file => ['.jpg', '.png', '.gif', '.jpeg', '.webp'].includes(path.extname(file)));
-y
         // 如果文件夹中有图片文件，随机选择一个
         if (imageFiles.length > 0) {
             let imageFile = imageFiles[Math.floor(Math.random() * imageFiles.length)];
