@@ -52,7 +52,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 表情包仓库 | #表情包 |
 | 表情包小偷 | 发送消息随机触发|
 | 戳一戳表情 | 戳一戳触发 |
-| 保存表情包 | #存表情 #查看表情包 #删除表情包 | 
+| 保存表情包 | #存(表情\|涩图) <br> #查看(表情包\|涩图)+序号？<br> #删除(表情包\|涩图)+序号  | 
 | 定时发图 | 定时推送 |
 | 摸鱼日历 | 定时推送 | 
 | 今日新闻 | 定时推送 | 
@@ -62,7 +62,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 塔罗牌 | #塔罗牌 #占卜 |
 | 签到 | #签到 |
 | 进退群通知 | 进退群触发 | 
-| 问候回复 |  打招呼触发，早安晚安 |
+| 问候回复 |  打招呼触发 <br> 例如早安、晚安 |
 <br>
 
 <details> <summary>表情包仓库</summary>

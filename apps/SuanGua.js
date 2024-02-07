@@ -187,19 +187,14 @@ async function generateFortune(e) {
     <div class="nei">
       <div class="centered-content">
       <br>
-      <br>
-      <br>
         <b style="font-size: 1.5em">${content}</b>
-        <br>
         <br>
         <br>
         <p style="text-shadow:3px 3px 2px rgba(-20,-10,4,.3)">${fortune.guayao}</p>
         <br>
         <br>
-        <br>
         <p>${fortune.guachi}</p>
         <p>${fortune.name}\n${fortune.Poetry}</p>
-        <br>
         <br>
         <br>
         <p>${fortune.description}</p>
@@ -221,8 +216,7 @@ async function generateFortune(e) {
     const image = await imgElement.screenshot();
     e.reply(segment.image(image))
   } catch (error) {
-    logger.info('图片渲染失败，使用文本发送');
-    e.reply([segment.at(e.user_id), `的${await numToChinese(new Date().getDate())}号卦象`]);
+    logger.info('图片渲染失败');
   } finally {
     if (browser) {
       await browser.close();

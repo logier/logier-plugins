@@ -23,8 +23,10 @@ export class TextMsg extends plugin {
         
         const EmojiConfig = await readAndParseYAML('../config/config.yaml');
 
-        if ( !e.group_id|| !EmojiConfig.groupList.map(String).includes(e.group_id.toString())) {
-            return false;} 
+        if (e.group_id && EmojiConfig.groupList && EmojiConfig.groupList.length > 0 && !EmojiConfig.groupList.map(String).includes(e.group_id.toString())) {
+            return false;
+        }
+        
 
         let key = `Yunzai:emojithief:${e.group_id}_logier`;
         e.message.forEach(async item => {

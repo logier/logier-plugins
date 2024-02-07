@@ -37,7 +37,7 @@ export class TextMsg extends plugin {
   const functionData = Config.setimage.find(item => item.功能 === '今日签到') || Config.setimage.find(item => item.功能 === 'default');
   logger.info(functionData);
   
-  let imageUrl = functionData.Switch ? await getRandomImage('pc') : await getImageUrl(functionData.imageUrls);  
+  let imageUrl = functionData.Switch ? await getRandomImage('pc') : await getImageUrl(functionData.imageUrls, './plugins/logier-plugin/resources/gallery/114388636.webp');  
   logger.info(imageUrl)
 
   let data = JSON.parse(await redis.get(`Yunzai:logier-plugin:${e.user_id}_sign`));
