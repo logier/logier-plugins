@@ -226,9 +226,9 @@ export function supportGuoba() {
           bottomHelpMessage: '不懂是什么意思就全用system',
           componentProps: {
             options: [
-              {label: 'system'},
-              {label: 'assistant'},
-              {label: 'user'},
+              {label: 'system' ,value : 'system'},
+              {label: 'assistant',value : 'assistant'},
+              {label: 'user',value : 'user'},
             ],
           }},
         {
