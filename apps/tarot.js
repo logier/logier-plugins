@@ -31,6 +31,7 @@ async 塔罗牌(e) {
   const key = await readAndParseYAML('../config/key.yaml');
 
   if (!key.gptkey){
+    logger.info(gptkey)
     logger.info('未配置gptkey，取消塔罗牌')
     return false
   }

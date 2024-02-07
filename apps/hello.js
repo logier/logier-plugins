@@ -20,11 +20,12 @@ export class greetings extends plugin {
     // 早安问候
     async dazbaohu(e) {
 
+    const key = await readAndParseYAML('../config/key.yaml');    
         
-  if (!key.gptkey){
-    logger.info('未配置gptkey')
-    return false
-  }
+    if (!key.gptkey){
+        logger.info('未配置gptkey')
+        return false
+    }
 
     let date = new Date();
     let hours = date.getHours();
@@ -40,7 +41,7 @@ export class greetings extends plugin {
         timeOfDay = '晚上';
     }
         
-    const key = await readAndParseYAML('../config/key.yaml');
+    
     let arr2 = [        
         {"role": "system", "content": `现在的时间是${timeOfDay}，请你结合现在的时间和我的话来回复。`},
         {"role": "user", "content": `${e.msg}`}];
