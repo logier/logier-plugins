@@ -49,6 +49,11 @@ export class greetings extends plugin {
     logger.info(key.messages)
     const content = await gpt(key.gptkey, key.gpturl, key.model, key.messages);
 
+    if (!content) {
+        logger.info('gptkey错误，结束进程')
+        return false
+    }
+
     e.reply(content, true)
 
         

@@ -30,11 +30,6 @@ async 塔罗牌(e) {
 
   const key = await readAndParseYAML('../config/key.yaml');
 
-  if (!key.gptkey){
-    logger.info(gptkey)
-    logger.info('未配置gptkey，取消塔罗牌')
-    return false
-  }
 
   let replacedMsg = this.e.msg.replace(/^#?(塔罗牌|抽塔罗牌|占卜)/, '');
 
@@ -42,7 +37,13 @@ async 塔罗牌(e) {
     const 占卜内容 = replacedMsg;
     // 回复用户
     e.reply(`正在为您占卜${replacedMsg}`, true);
-    await 抽塔罗牌(e, 占卜内容);
+
+
+    if (!key.gptkey){
+      await 抽塔罗牌nogpt(e);
+    }else {
+      await 抽塔罗牌(e, 占卜内容);
+    }
 
     // 停止循环
     return true
@@ -59,12 +60,17 @@ async 占卜内容(e) {
     // 回复用户
     e.reply(`正在为您占卜${this.e.msg}`, true);
 
-    await 抽塔罗牌(e, this.e.msg);
+    const key = await readAndParseYAML('../config/key.yaml');
+
+    if (!key.gptkey){
+      await 抽塔罗牌nogpt(e);
+    }else {
+      await 抽塔罗牌(e, this.e.msg);
+    }
 
 }
 
 async 占卜(e) {
-
 
 const key = await readAndParseYAML('../config/key.yaml');
 
@@ -139,6 +145,11 @@ if (!key.gptkey){
   
     const content = await gpt(key.gptkey, key.gpturl, key.model, message);
 
+    if (!content) {
+      logger.info('gptkey错误，结束进程')
+      return false
+  }
+
     forward.push(content)
 
     const msg = await common.makeForwardMsg(e, forward, `${e.nickname}的${占卜内容}占卜`)
@@ -174,6 +185,11 @@ async function 抽塔罗牌(e, 占卜内容) {
   const 内容 = [ {"role": "system", "content": `我请求你担任塔罗占卜师的角色。 我想占卜的内容是${占卜内容}，我抽到的牌是${randomCard.name_cn}，并且是${selection}，请您结合我想占卜的内容来解释含义,话语尽可能简洁。`},]
 
   const content = await gpt(key.gptkey, key.gpturl, key.model, 内容);
+
+  if (!content) {
+    logger.info('gptkey错误，结束进程')
+    return false
+}
 
   let browser;
   try {
@@ -226,5 +242,76 @@ async function 抽塔罗牌(e, 占卜内容) {
 
 
 
+async function 抽塔罗牌nogpt(e) {
 
+  const key = await readAndParseYAML('../config/key.yaml');
+  const tarot = await readAndParseJSON('../data/tarot.json');
+  
+  let keys = Object.keys(tarot.cards);
+  let randomIndex = Math.floor(Math.random() * keys.length);
+  let randomKey = keys[randomIndex];
+  let randomCard = tarot.cards[randomKey];
+  logger.info(randomCard);
+  
+  let imageurl = `https://gitee.com/logier/logier-plugin/raw/master/resources/%E5%A1%94%E7%BD%97%E7%89%8C/${randomCard.type}/${randomCard.pic}.webp`;
+  var options = [`正位: ${randomCard.meaning.up}`, `逆位: ${randomCard.meaning.down}`];
+  var selection = options[Math.floor(Math.random() * options.length)];
+  var selectedOption = selection.split(': ');
+  var position = selectedOption[0]; // 正位 或 逆位
+  var meaning = selectedOption[1]; // 对应的含义
+
+
+
+  var content;
+  if (position === '正位') {
+    content = randomCard.info.description;
+  } else if (position === '逆位') {
+    content = randomCard.info.reverseDescription;
+  }
+
+
+let browser;
+try {
+  browser = await puppeteer.launch({headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+  const page = await browser.newPage();
+
+  let Html = `
+  <html style="background: rgba(255, 255, 255, 0.6)">
+  <head>
+    <style>
+    html, body {
+        margin: 0;
+        padding: 0;
+    }        
+    </style>
+  </head>
+  <div class="fortune" style="width: 35%; height: 65rem; float: left; text-align: center; background: rgba(255, 255, 255, 0.6);">
+    <h2>${randomCard.name_cn}(${randomCard.name_en})</h2>
+    <p>${position}</p>
+    <div class="content" style="margin: 0 auto; padding: 12px 12px; height: 49rem; max-width: 980px; max-height: 1024px; background: rgba(255, 255, 255, 0.6); border-radius: 15px; backdrop-filter: blur(3px); box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3); writing-mode: vertical-rl; text-orientation: mixed;">
+    <p style="font-size: 20px;">${content}</p>
+    </div>
+    <p>${meaning}</p>
+    <p>Create By 鸢尾花插件</p>
+  </div>
+  <div class="image" style="height:65rem; width: 65%; float: right; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3); text-align: center;">
+    <img src=${imageurl} style="height: 100%; filter: brightness(100%); overflow: hidden; display: inline-block; vertical-align: middle; margin: 0; padding: 0;"/>
+  </div>
+</html>
+  `
+
+  await page.setContent(Html)
+  const tarotimage = await page.screenshot({fullPage: true })
+  e.reply([segment.image(tarotimage)], true)
+
+} catch (error) {
+    logger.error(error);
+  } finally {
+    if (browser) {
+      await browser.close();
+    }
+  }
+return true;
+
+}
 
