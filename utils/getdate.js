@@ -40,7 +40,15 @@ export async function readAndParseYAML(filePath) {
 }
 
 
-
+export async function getPersonality() {
+    const key = await readAndParseYAML('../config/key.yaml');
+    if (key.defaultswitch) {
+        const personalitys = await readAndParseJSON('../data/personality.json');
+        return personalitys[key.defaultpersonality];
+    } else {
+        return key.messages;
+    }
+}
 
 
 export async function gpt(gptkey, gpturl, model, messages) {

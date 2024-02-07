@@ -1,4 +1,4 @@
-import { readAndParseYAML, gpt, getemoji } from '../utils/getdate.js'
+import { readAndParseYAML, gpt, getemoji, getPersonality } from '../utils/getdate.js'
 
 export class TextMsg extends plugin {
     constructor() {
@@ -24,9 +24,9 @@ export class TextMsg extends plugin {
                 sendEmoji(e, config.chuoyichuocategory);
             } else {
                 let userMessage = {"role": "user", "content": `戳一戳你`};
-                key.messages.push(userMessage);
-                logger.info(key.messages)
-                const content = await gpt(key.gptkey, key.gpturl, key.model, key.messages);
+                let gptmsg = await getPersonality()
+                gptmsg.push(userMessage);
+                const content = await gpt(key.gptkey, key.gpturl, key.model, gptmsg);
                 if (content) {
                     e.reply(content)
                 } else {

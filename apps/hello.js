@@ -1,4 +1,4 @@
-import { readAndParseYAML, gpt } from '../utils/getdate.js'
+import { readAndParseYAML, gpt, getPersonality } from '../utils/getdate.js'
 
 // 导出一个问候插件
 export class greetings extends plugin {
@@ -40,14 +40,14 @@ export class greetings extends plugin {
     } else {
         timeOfDay = '晚上';
     }
-        
     
     let arr2 = [        
         {"role": "system", "content": `现在的时间是${timeOfDay}，请你结合现在的时间和我的话来回复。`},
         {"role": "user", "content": `${e.msg}`}];
-    key.messages.push(...arr2);
-    logger.info(key.messages)
-    const content = await gpt(key.gptkey, key.gpturl, key.model, key.messages);
+    let gptmsg = await getPersonality()
+    gptmsg.push(...arr2);
+    logger.info(gptmsg)
+    const content = await gpt(key.gptkey, key.gpturl, key.model, gptmsg);
 
     if (!content) {
         logger.info('gptkey错误，结束进程')

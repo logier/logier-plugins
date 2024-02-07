@@ -10,7 +10,8 @@ EmojiIndex.push({label: '自定义', value: '自定义'});
 
 const EmojiIndexex = [{label: '表情包仓库', value: '表情包仓库'} , ...EmojiIndex];
 
-
+const personalitys = await readAndParseJSON('../data/personality.json');
+let personality = Object.keys(personalitys).map(k => ({label: k, value: k}));
 
 export function supportGuoba() {
 
@@ -21,6 +22,8 @@ export function supportGuoba() {
   let setimage = [{label: `定时发图`, value: `定时发图`},{label: `今日运势`, value: `今日运势`},{label: `算一卦`, value: `算一卦`},{label: `今日签到`, value: `今日签到`},{label: `城市天气`, value: `城市天气`},{label: `default`, value: `default`}]
 
   let setpush = [{label: `定时发图`, value: `定时发图`},{label: `摸鱼日历`, value: `摸鱼日历`},{label: `今日新闻`, value: `今日新闻`},{label: `城市天气`, value: `城市天气`}]
+
+
   
   return {
     pluginInfo: {
@@ -212,9 +215,24 @@ export function supportGuoba() {
       },
   },
   {
+    field: 'key.defaultswitch',
+    label: '是否使用默认人格',
+    bottomHelpMessage: '关闭则使用自定义人格',
+    component: 'Switch',
+  },
+  {
+    field: 'key.defaultpersonality',
+    label: '默认人格',
+    bottomHelpMessage: '默认人格',
+    component: 'Select',
+    componentProps: {
+      options: personality,
+    },
+  },
+  {
     field: "key.messages",
-    label: "GPT人格",
-    bottomHelpMessage: "填写默认人格，不影响塔罗牌AI",
+    label: "自定义GPT人格",
+    bottomHelpMessage: "自定义GPT人格",
     component: "GSubForm",
     componentProps: {
       multiple: true,
