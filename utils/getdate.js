@@ -189,6 +189,7 @@ export async function getImageUrl(imageUrls, defaultImageUrl = './plugins/logier
         const getAndResolveImage = (url) => {
             https.get(url, (res) => {
                 const { statusCode } = res;
+                logger.info(statusCode)
                 if (statusCode === 301 || statusCode === 302) {
                     // 如果状态码是301或302，那么从'location'头部获取重定向的URL
                     getAndResolveImage(res.headers.location);

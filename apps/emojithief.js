@@ -19,7 +19,7 @@ export class TextMsg extends plugin {
 
     }
 
-    async 表情包小偷(e) {   
+    async 表情包小偷(e) { 
         
         const EmojiConfig = await readAndParseYAML('../config/config.yaml');
 

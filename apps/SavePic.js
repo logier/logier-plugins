@@ -1,8 +1,9 @@
-import { readAndParseJSON, readAndParseYAML, getRandomUrl } from '../utils/getdate.js'
+import { readAndParseYAML } from '../utils/getdate.js'
 
 import fs from 'fs';
 import path from 'path';
 import https from 'https';
+
 
 
 
@@ -219,6 +220,7 @@ async function saveFiles(e, savepath) {
             }
         }
     } else if (e.source) {
+
         const reply = (await e.group.getChatHistory(e.source.seq, 1)).pop()?.message;
         if (reply) {
             for (let item of reply) {

@@ -66,6 +66,8 @@ async function pushweather(e) {
 
   let now = new Date();
   let datatime =  now.toLocaleDateString('zh-CN'); //日期格式
+  let days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+  let dayOfWeek = days[now.getDay()]; //日期转换为星期几
 
   const urlConfig = await getFunctionData('url', 'setimage', '城市天气') 
   
@@ -82,17 +84,10 @@ async function pushweather(e) {
          <head>
          <link rel="stylesheet" href="https://jsd.cdn.zzko.cn/npm/qweather-icons@1.3.0/font/qweather-icons.css"> 
          <style>
-         @font-face {
-          font-family: AlibabaPuHuiTi-2-55-Regular;
-          src:url(https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-2/AlibabaPuHuiTi-2-55-Regular/AlibabaPuHuiTi-2-55-Regular.woff2) format('woff2');
-        }
          * {
             padding: 0;
             margin: 0;
          }
-         html {
-          font-family: 'AlibabaPuHuiTi-2-55-Regular', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
-        }
          body{
            position:absolute;
          }
@@ -143,9 +138,10 @@ async function pushweather(e) {
          <div class="nei">
            <div class="centered-content">
             <br>
-            <p style="font-weight:bolder; font-size: 2.5em;">${datatime} ${name}</p>
-            <i style="font-size: 2.5em;" class="qi-${iconDays[0]}"> / <i class="qi-${iconNights[0]}"></i></i>
-             <p>${forecastresult[0]}</p>
+            <h2 style="font-weight:bolder; font-size: 2.2em;">${datatime} ${dayOfWeek} ${name}</h2>
+            <br>
+            <i style="font-size: 3em;" class="qi-${iconDays[0]}"> / <i class="qi-${iconNights[0]}"></i></i>
+             <p style="font-weight:bolder; font-size: 2em; line-height:"150%">${forecastresult[0]}</p>
              <br>
              <p>${output}</p>
            </div>
@@ -194,14 +190,23 @@ async function getForecast(location, key) {
     const tempMin = item.tempMin; // 获取 tempMin 属性
     const windScaleDay = item.windScaleDay; // 获取 windScaleDay 属性
     const windScaleNight = item.windScaleNight; // 获取 windScaleNight 属性
-    const precip = item.precip; // 获取 precip 属性
-    const uvIndex = item.uvIndex; // 获取 uvIndex 属性
-    const humidity = item.humidity; // 获取 humidity 属性
+    // 定义一个函数来计算中位数
+  function getMedian(scale) {
+    let numbers = scale.split('-').map(Number); // 分割字符串并转换为数字
+    return Math.round((numbers[0] + numbers[1]) / 2); // 计算平均值并四舍五入
+  }
+
+  let medianWindScaleDay = getMedian(windScaleDay);
+  let medianWindScaleNight = getMedian(windScaleNight);
+    //const precip = item.precip; // 获取 precip 属性
+    //const uvIndex = item.uvIndex; // 获取 uvIndex 属性
+    //const humidity = item.humidity; // 获取 humidity 属性
     const iconDay = item.iconDay; // 获取 humidity 属性
     const iconNight = item.iconNight; // 获取 humidity 属性
 
+    const output = `气温：${tempMin}°C/${tempMax}°C\n风力：${ medianWindScaleDay}级/${medianWindScaleNight}级\n`;
     // 创建模板字符串
-    const output = `气温：${tempMin}°C/${tempMax}°C\n风力：${windScaleDay}/${windScaleNight}\n降水量：${precip}\n紫外线指数：${uvIndex} \n湿度：${humidity}%\n`;
+    //const output = `气温：${tempMin}°C/${tempMax}°C\n风力：${windScaleDay}/${windScaleNight}\n降水量：${precip}\n紫外线指数：${uvIndex} \n湿度：${humidity}%\n`;
 
     // 将模板字符串添加到 forecastresult 数组
     forecastresult.push(output);
@@ -232,7 +237,7 @@ async function getIndices(location, key) {
     // 检查 level 是否大于或等于3
     if (level >= 3) {
       // 如果 level 大于或等于3，将 name 和 text 添加到 result 数组
-      result.push(`<span style="font-weight:bold">${name}(${romanLevel})</span>：${text}`);
+      result.push(`<span style="font-size: 1.2em; font-weight: bolder">${name}(${romanLevel})</span>：${text}`);
     }
   }
   // 使用换行符连接 result 数组的所有元素

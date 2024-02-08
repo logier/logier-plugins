@@ -8,7 +8,7 @@ export class TextMsg extends plugin {
             name: '[鸢尾花插件]算一卦', // 插件名称
             dsc: '算一卦',  // 插件描述            
             event: 'message',  // 更多监听事件请参考下方的 Events
-            priority: 6,   // 插件优先度，数字越小优先度越高
+            priority: 5000,   // 插件优先度，数字越小优先度越高
             rule: [
                 {
                     reg: '^#?(算一卦|算卦).*$',   // 正则表达式,有关正则表达式请自行百度
