@@ -15,4 +15,8 @@ setpush:
     isAutoPush: false
     time: 0 30 8 * * ?
     groupList: []
+  - 功能: 今日番剧
+    isAutoPush: false
+    time: 0 30 18 * * ?
+    groupList: []
 defaultCity: 北京
