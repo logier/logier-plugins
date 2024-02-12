@@ -1,6 +1,6 @@
 setimage:
   - 功能: default
-    Switch: false
+    Switch: true
     imageUrls:
       - https://api.r10086.com/%E6%A8%B1%E9%81%93%E9%9A%8F%E6%9C%BA%E5%9B%BE%E7%89%87api%E6%8E%A5%E5%8F%A3.php?%E8%87%AA%E9%80%82%E5%BA%94%E5%9B%BE%E7%89%87%E7%B3%BB%E5%88%97=%E5%8E%9F%E7%A5%9E
   - 功能: 今日签到

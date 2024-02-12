@@ -8,7 +8,7 @@ let Theme = {
     let names = []
     let dirs = fs.readdirSync(dirPath)
     lodash.forEach(dirs, (dir) => {
-      if (fs.existsSync(`${dirPath}${dir}/main.png`)) {
+      if (fs.existsSync(`${dirPath}${dir}/main.webp`)) {
         names.push(dir)
       }
     })
@@ -26,7 +26,7 @@ let Theme = {
     let name = lodash.sample(ret)
     let resPath = '{{_res_path}}/help/theme/'
     return {
-      main: `${resPath}${name}/main.png`,
+      main: `${resPath}${name}/main.webp`,
       bg: fs.existsSync(`${dirPath}${name}/bg.jpg`) ? `${resPath}${name}/bg.jpg` : `${resPath}default/bg.jpg`,
       style: (await Data.importModule(`resources/help/theme/${name}/config.js`)).style || {}
     }

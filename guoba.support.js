@@ -1,7 +1,7 @@
 import path from "path";
 import setting from "./model/setting.js";
 import lodash from "lodash";
-import { readAndParseJSON } from './utils/getdate.js'
+import { readAndParseJSON ,readAndParseYAML} from './utils/getdate.js'
 
 const _path = process.cwd() + "/plugins/logier-plugin";
 const EmojiIndexs = await readAndParseJSON('../data/EmojiIndex.json');
@@ -13,6 +13,10 @@ const EmojiIndexex = [{label: '表情包仓库', value: '表情包仓库'} , ...
 const personalitys = await readAndParseJSON('../data/personality.json');
 let personality = Object.keys(personalitys).map(k => ({label: k, value: k}));
 
+const pushs = await readAndParseYAML('../config/push.yaml');
+let push = pushs.setpush.map(item => ({label: item.功能, value: item.功能}));
+
+
 export function supportGuoba() {
 
   let allGroup = [];
@@ -21,10 +25,6 @@ export function supportGuoba() {
   
   let setimage = [{label: `定时发图`, value: `定时发图`},{label: `今日运势`, value: `今日运势`},{label: `算一卦`, value: `算一卦`},{label: `今日签到`, value: `今日签到`},{label: `城市天气`, value: `城市天气`},{label: `default`, value: `default`}]
 
-  let setpush = [{label: `定时发图`, value: `定时发图`},{label: `摸鱼日历`, value: `摸鱼日历`},{label: `今日新闻`, value: `今日新闻`},{label: `城市天气`, value: `城市天气`},{label: `今日番剧`, value: `今日番剧`}]
-
-
-  
   return {
     pluginInfo: {
       name: "鸢尾花插件",
@@ -318,7 +318,7 @@ export function supportGuoba() {
           label: "功能",
           component: 'Select',
           componentProps: {
-            options: setpush,
+            options: push,
           },
         },
         {
@@ -338,9 +338,6 @@ export function supportGuoba() {
           label: '推送群号',
           bottomHelpMessage: '推送群号',
           component: 'GSelectGroup',
-          componentProps: {
-            placeholder: '发送的群号',
-          }
         },
       ],
     },

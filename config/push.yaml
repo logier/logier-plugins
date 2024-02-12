@@ -1,12 +1,15 @@
 setpush:
   - 功能: 定时发图
-    isAutoPush: false
+    isAutoPush: true
     time: 0 0 */1 * * ?
-    groupList: []
+    groupList:
+      - 877538147
+      - 877538147
   - 功能: 摸鱼日历
     isAutoPush: false
     time: 0 30 9 * * ?
-    groupList: []
+    groupList:
+      - 877538147
   - 功能: 今日新闻
     isAutoPush: false
     time: 0 30 7 * * ?
