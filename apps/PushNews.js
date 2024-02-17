@@ -26,18 +26,31 @@ export class example extends plugin {
 
 
   async 推送今日新闻 () {
+    try {
+        // 检查是否启用自动推送
+        if (!this.newsConfig.isAutoPush) {
+            logger.info(`[今日新闻]自动推送未启用。`);
+            return false;
+        }
 
-    if (!this.newsConfig.isAutoPush) {return false}
+        logger.info(`[今日新闻]开始推送……`);
+        for (let i = 0; i < this.newsConfig.groupList.length; i++) {
+            // 添加延迟以防止消息发送过快
+            setTimeout(async () => {
+                const group = Bot.pickGroup(this.newsConfig.groupList[i]);
+                logger.info(`[今日新闻]正在向群组 ${group} 推送新闻。`);
+                await group.sendMsg([segment.image(newsimageUrl)]);
+                logger.info(`[今日新闻]新闻已成功推送到群组 ${group}。`);
+            }, i * 1000); 
+        }
 
-    logger.info(`[今日新闻]开始推送……`);
-    for (let i = 0; i < this.newsConfig.groupList.length; i++) {
-      setTimeout(() => {
-        Bot.pickGroup(this.newsConfig.groupList[i]).sendMsg([segment.image(newsimageUrl)]);
-      }, 1 * 1000); 
+        logger.info(`[今日新闻]推送完成。`);
+        return true;
+    } catch (error) {
+        logger.error(`[今日新闻]推送过程中出现错误: ${error}`);
     }
+}
 
-    return true
-  }
 
   async 今日新闻 (e) {
 
