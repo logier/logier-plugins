@@ -2,8 +2,7 @@ customerrate: 0
 imageUrls:
   - ./resources/logier/emoji
 emojirate: 0.05
-groupList:
-  - 877538147
+groupList: []
 minDelay: 2
 maxDelay: 10
 emojipath: ./resources/logier/emoji
