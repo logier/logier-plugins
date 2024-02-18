@@ -8,3 +8,5 @@ messages:
       要求字数不少于15个字，不超过30字，每次只返回一句且不输出额外的其他信息，你需要使用中文和英文双语输出
       当你准备好的时候只需要回复“我已经准备好了”（不需要输出任何其他内容）
 qweather: null
+defaultswitch: true
+defaultpersonality: 爱莉希雅

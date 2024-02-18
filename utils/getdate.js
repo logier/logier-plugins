@@ -3,6 +3,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import YAML from 'yaml'
+import https from 'https';
+
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -38,42 +40,15 @@ export async function readAndParseYAML(filePath) {
 }
 
 
-export async function getRandomUrl(imageUrls) {
-    let imageUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
-
-    // 检查imageUrl是否是一个本地文件夹
-    if (fs.existsSync(imageUrl) && fs.lstatSync(imageUrl).isDirectory()) {
-        // 获取文件夹中的所有文件
-        let files = fs.readdirSync(imageUrl);
-
-        // 过滤出图片文件
-        let imageFiles = files.filter(file => ['.jpg', '.png', '.gif', '.jpeg', '.webp'].includes(path.extname(file)));
-
-        // 如果文件夹中有图片文件，随机选择一个
-        if (imageFiles.length > 0) {
-            let imageFile = imageFiles[Math.floor(Math.random() * imageFiles.length)];
-            imageUrl = path.join(imageUrl, imageFile);
-        } else {
-            // 如果文件夹中没有图片文件，随机选择一个子文件夹
-            let subdirectories = files.filter(file => fs.lstatSync(path.join(imageUrl, file)).isDirectory());
-            if (subdirectories.length > 0) {
-                let subdirectory = subdirectories[Math.floor(Math.random() * subdirectories.length)];
-                imageUrl = await getRandomUrl([path.join(imageUrl, subdirectory)]);
-            }
-        }
+export async function getPersonality() {
+    const key = await readAndParseYAML('../config/key.yaml');
+    if (key.defaultswitch) {
+        const personalitys = await readAndParseJSON('../data/personality.json');
+        return personalitys[key.defaultpersonality];
+    } else {
+        return key.messages;
     }
-    return imageUrl;
-} 
-
-export async function getImageUrl(imageUrls) {
-    let imageUrl = await getRandomUrl(imageUrls);
-    if (path.isAbsolute(imageUrl)) {
-      let imageBuffer = await fs.readFileSync(imageUrl);
-      let base64Image = imageBuffer.toString('base64');
-      imageUrl = 'data:image/png;base64,' + base64Image;
-    }
-    return imageUrl;
-  }
+}
 
 
 export async function gpt(gptkey, gpturl, model, messages) {
@@ -204,4 +179,77 @@ export async function getemoji(e, category) {
     }
 }
 
+
+
+export async function getImageUrl(imageUrls, defaultImageUrl = './plugins/logier-plugin/resources/gallery/92095127.webp') {
+    let imageUrl = await getRandomUrl(imageUrls);
+    logger.info(imageUrl)
+
+    return new Promise((resolve, reject) => {
+        const getAndResolveImage = (url) => {
+            https.get(url, (res) => {
+                const { statusCode } = res;
+                logger.info(statusCode)
+                if (statusCode === 301 || statusCode === 302) {
+                    // 如果状态码是301或302，那么从'location'头部获取重定向的URL
+                    getAndResolveImage(res.headers.location);
+                } else if (statusCode !== 200) {
+                    resolve(getImageData(defaultImageUrl));
+                } else {
+                    resolve(url);
+                }
+            }).on('error', () => {
+                resolve(getImageData(defaultImageUrl));
+            });
+        };
+
+        const getImageData = (imageUrl) => {
+            if (fs.existsSync(imageUrl)) {
+                let imageBuffer = fs.readFileSync(imageUrl);
+                let ext = path.extname(imageUrl).slice(1);
+                let mimeType = 'image/' + ext;
+                let base64Image = imageBuffer.toString('base64');
+                imageUrl = 'data:' + mimeType + ';base64,' + base64Image;
+            }
+            return imageUrl;
+        };
+
+        if (imageUrl.startsWith('http')) {
+            getAndResolveImage(imageUrl);
+        } else {
+            resolve(getImageData(imageUrl));
+        }
+    });
+}
+
+
+
+
+
+
+export async function getRandomUrl(imageUrls) {
+    let imageUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+
+    // 检查imageUrl是否是一个本地文件夹
+    if (fs.existsSync(imageUrl) && fs.lstatSync(imageUrl).isDirectory()) {
+        // 获取文件夹中的所有文件
+        let files = fs.readdirSync(imageUrl);
+
+        // 过滤出图片文件
+        let imageFiles = files.filter(file => ['.jpg', '.png', '.gif', '.jpeg', '.webp'].includes(path.extname(file)));
+        // 如果文件夹中有图片文件，随机选择一个
+        if (imageFiles.length > 0) {
+            let imageFile = imageFiles[Math.floor(Math.random() * imageFiles.length)];
+            imageUrl = path.join(imageUrl, imageFile);
+        } else {
+            // 如果文件夹中没有图片文件，随机选择一个子文件夹
+            let subdirectories = files.filter(file => fs.lstatSync(path.join(imageUrl, file)).isDirectory());
+            if (subdirectories.length > 0) {
+                let subdirectory = subdirectories[Math.floor(Math.random() * subdirectories.length)];
+                imageUrl = await getRandomUrl([path.join(imageUrl, subdirectory)]);
+            }
+        }
+    }
+    return imageUrl;
+} 
 

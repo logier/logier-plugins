@@ -1,7 +1,7 @@
 setpush:
   - 功能: 定时发图
     isAutoPush: false
-    time: 0 0 */1 * * ?
+    time: 0 0/30 * * * ?
     groupList: []
   - 功能: 摸鱼日历
     isAutoPush: false
@@ -14,5 +14,9 @@ setpush:
   - 功能: 城市天气
     isAutoPush: false
     time: 0 30 8 * * ?
+    groupList: []
+  - 功能: 今日番剧
+    isAutoPush: false
+    time: 0 30 18 * * ?
     groupList: []
 defaultCity: 北京

@@ -11,7 +11,7 @@ export class TextMsg extends plugin {
           name: '[鸢尾花插件]今日签到', // 插件名称
           dsc: '今日签到',  // 插件描述            
           event: 'message',  // 更多监听事件请参考下方的 Events
-          priority: 6,   // 插件优先度，数字越小优先度越高
+          priority: 5000,   // 插件优先度，数字越小优先度越高
           rule: [
               {
                   reg: '^#?(今日)?(签到)$',   // 正则表达式,有关正则表达式请自行百度
@@ -37,7 +37,7 @@ export class TextMsg extends plugin {
   const functionData = Config.setimage.find(item => item.功能 === '今日签到') || Config.setimage.find(item => item.功能 === 'default');
   logger.info(functionData);
   
-  let imageUrl = functionData.Switch ? await getRandomImage('pc') : await getImageUrl(functionData.imageUrls);  
+  let imageUrl = functionData.Switch ? await getRandomImage('pc') : await getImageUrl(functionData.imageUrls, './plugins/logier-plugin/resources/gallery/114388636.webp');  
   logger.info(imageUrl)
 
   let data = JSON.parse(await redis.get(`Yunzai:logier-plugin:${e.user_id}_sign`));
