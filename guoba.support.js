@@ -349,10 +349,10 @@ export function supportGuoba() {
           },
         },
         {
-          field: 'Switch',
-          label: 'Switch',
-          bottomHelpMessage: '是否使用自带图源',
-          component: 'Switch'
+          field: 'time',
+          label: '推送时间',
+          bottomHelpMessage: '推送时间，使用cron表达式',
+          component: 'Input',
         },
         {
           field: "imageUrls",
@@ -368,6 +368,38 @@ export function supportGuoba() {
     },
   },
 
+
+  {
+    component: 'Divider',
+    label: '自定义指令api相关设置'
+  },
+  {
+    field: "api.setapi",
+    label: "图源",
+    component: "GSubForm",
+    bottomHelpMessage: '设置不同功能使用的图源',
+    componentProps: {
+      multiple: true,
+      schemas: [
+        {
+          field: "指令",
+          label: "指令",
+          bottomHelpMessage: '自支持正则',
+          component: 'Input',
+        },
+        {
+          field: "imageUrls",
+          label: "api地址",
+          bottomHelpMessage: '自定义图源地址，支持网络何本地文件夹',
+          component: 'GTags',
+          componentProps: {
+            allowAdd: true,
+            allowDel: true,
+          },
+        },
+      ],
+    },
+  },
 
 ],
 
