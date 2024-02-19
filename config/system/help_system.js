@@ -67,7 +67,7 @@ export const helpList = [
       {
         "icon": 9,
         "title": "定时发图",
-        "desc": "#定时发图"
+        "desc": "#发图,可定时推送"
       },
       {
         "icon": 10,
@@ -82,7 +82,12 @@ export const helpList = [
       {
         "icon": 12,
         "title": "城市天气",
-        "desc": "#天气 + 城市"
+        "desc": "#天气 + 城市, 可定时推送"
+      },
+      {
+        "icon": 13,
+        "title": "今日番剧",
+        "desc": "#今日番剧，可定时推送"
       }
     ]
   },
@@ -90,14 +95,19 @@ export const helpList = [
     "group": "小修系列",
     "list": [
       {
-        "icon": 13,
+        "icon": 14,
         "title": "进退群通知",
         "desc": "进群诙谐欢迎"
       },
       {
-        "icon": 14,
+        "icon": 15,
         "title": "问候回复",
         "desc": "发送“早上好”试试吧"
+      },
+      {
+        "icon": 16,
+        "title": "自定义图片api",
+        "desc": "自定义指令"
       }
     ]
   }

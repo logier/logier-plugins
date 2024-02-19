@@ -37,7 +37,7 @@ export function supportGuoba() {
       description: "表情包仓库、定时系列和运势系列",
       icon: "mdi:stove",
       iconColor: "#d19f56",
-      iconPath: path.join(_path, "img/fox.jpg"),
+      iconPath: path.join(_path, "img/-zue37Q5-e39pZlT3cSiw-il.jpeg"),
     },
       // 配置项信息
     configInfo: {

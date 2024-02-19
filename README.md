@@ -62,6 +62,8 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 算一卦 | #算卦 #悔卦| 
 | 塔罗牌 | #塔罗牌 #占卜 |
 | 签到 | #签到 |
+| 番剧 | #今日新番 |
+| 自定义图片api | 自定义指令 |
 | 进退群通知 | 进退群触发 | 
 | 问候回复 |  打招呼触发 <br> 例如早安、晚安 |
 <br>
@@ -216,7 +218,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 │   │   ├── capoo100.gif
 │   ├── greyscale-emoji
 │   │   ├── greyscale100.gif
-支持webp、jpeg、webp、webp、gif
+支持jpg、jpeg、png、webp、gif
 ```
 寻图逻辑是当前目录下没有图片就随机选择一个文件夹继续搜寻
 

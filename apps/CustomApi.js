@@ -3,8 +3,6 @@ import {  getImageUrl, readAndParseYAML } from '../utils/getdate.js';
 // 假设apiList现在是一个对象
 const apiList = await readAndParseYAML('../config/api.yaml');
 
-console.log(apiList);  // 打印apiList以查看其内容
-
 // 将apiList转换为apiMap，键是指令，值是imageUrls
 const apiMap = {};
 for (let item of apiList.setapi) {
