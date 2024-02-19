@@ -364,14 +364,8 @@ export function supportGuoba() {
           },
         },
         {
-          field: 'time',
-          label: '推送时间',
-          bottomHelpMessage: '推送时间，使用cron表达式',
-          component: 'Input',
-        },
-        {
           field: "imageUrls",
-          label: "imageUrls",
+          label: "图片链接",
           bottomHelpMessage: '自定义图源地址，支持网络何本地文件夹',
           component: 'GTags',
           componentProps: {
@@ -390,16 +384,16 @@ export function supportGuoba() {
   },
   {
     field: "api.setapi",
-    label: "图源",
+    label: "自定义指令api",
     component: "GSubForm",
-    bottomHelpMessage: '设置不同功能使用的图源',
+    bottomHelpMessage: '自定义指令发送不同的图片api',
     componentProps: {
       multiple: true,
       schemas: [
         {
           field: "指令",
           label: "指令",
-          bottomHelpMessage: '自支持正则',
+          bottomHelpMessage: '自定义指令，支持正则',
           component: 'Input',
         },
         {

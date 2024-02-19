@@ -224,32 +224,34 @@ export async function getImageUrl(imageUrls, defaultImageUrl = './plugins/logier
 
 
 
+async function getAllImageFiles(dirPath, imageFiles = []) {
+    let files = fs.readdirSync(dirPath);
 
+    for (let i = 0; i < files.length; i++) {
+        let filePath = path.join(dirPath, files[i]);
 
+        if (fs.statSync(filePath).isDirectory()) {
+            imageFiles = await getAllImageFiles(filePath, imageFiles);
+        } else if (['.jpg', '.png', '.gif', '.jpeg', '.webp'].includes(path.extname(filePath))) {
+            imageFiles.push(filePath);
+        }
+    }
+
+    return imageFiles;
+}
 
 export async function getRandomUrl(imageUrls) {
     let imageUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
 
-    // 检查imageUrl是否是一个本地文件夹
     if (fs.existsSync(imageUrl) && fs.lstatSync(imageUrl).isDirectory()) {
-        // 获取文件夹中的所有文件
-        let files = fs.readdirSync(imageUrl);
+        let imageFiles = await getAllImageFiles(imageUrl);
 
-        // 过滤出图片文件
-        let imageFiles = files.filter(file => ['.jpg', '.png', '.gif', '.jpeg', '.webp'].includes(path.extname(file)));
-        // 如果文件夹中有图片文件，随机选择一个
         if (imageFiles.length > 0) {
-            let imageFile = imageFiles[Math.floor(Math.random() * imageFiles.length)];
-            imageUrl = path.join(imageUrl, imageFile);
-        } else {
-            // 如果文件夹中没有图片文件，随机选择一个子文件夹
-            let subdirectories = files.filter(file => fs.lstatSync(path.join(imageUrl, file)).isDirectory());
-            if (subdirectories.length > 0) {
-                let subdirectory = subdirectories[Math.floor(Math.random() * subdirectories.length)];
-                imageUrl = await getRandomUrl([path.join(imageUrl, subdirectory)]);
-            }
+            imageUrl = imageFiles[Math.floor(Math.random() * imageFiles.length)];
         }
     }
+
     return imageUrl;
-} 
+}
+
 

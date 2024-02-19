@@ -1,15 +1,8 @@
 setimage:
   - 功能: default
-    Switch: false
     imageUrls:
-      - https://t.mwm.moe/mp
-      - https://sex.nyan.xyz/api/v2/img
-      - https://t.mwm.moe/ysmp
-      - https://api.vvhan.com/api/girl
-      - https://www.loliapi.com/acg/pe/
-      - https://api.likepoems.com/img/pe/
+      - C:/Users/logie/Pictures
   - 功能: 今日签到
-    Switch: false
     imageUrls:
       - https://t.mwm.moe/pc
       - https://www.dmoe.cc/random.php
