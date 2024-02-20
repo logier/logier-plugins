@@ -33,8 +33,6 @@ export class TextMsg extends plugin {
 
        const html = await test();
 
-        logger.info(html);
-
         let browser;
         try {
           browser = await puppeteer.launch({headless: 'new', args: ['--no-sandbox','--disable-setuid-sandbox'] });
@@ -57,8 +55,6 @@ export class TextMsg extends plugin {
         if (!this.pushConfig.isAutoPush) {return false}
 
         const html = await test();
- 
-         logger.info(html);
  
          let browser;
          try {
