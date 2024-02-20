@@ -1,4 +1,4 @@
-import {  getImageUrl, readAndParseYAML } from '../utils/getdate.js';
+import {  getRandomUrl, readAndParseYAML } from '../utils/getdate.js';
 
 // 假设apiList现在是一个对象
 const apiList = await readAndParseYAML('../config/api.yaml');
@@ -35,7 +35,7 @@ export class TextMsg extends plugin {
         for (let keyword in apiMap) {
             let regex = new RegExp(`^${keyword}$`);
             if (regex.test(e.msg)) {
-                e.reply([segment.image(await getImageUrl(apiMap[keyword]))]);  
+                e.reply([segment.image(await getRandomUrl(apiMap[keyword]))]);  
                 return true;
             }
         }
