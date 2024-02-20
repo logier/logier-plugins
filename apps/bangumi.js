@@ -1,5 +1,6 @@
 import puppeteer from "puppeteer";
 import { getFunctionData, getImageUrl } from '../utils/getdate.js'
+import fetch from 'node-fetch';
 
 // TextMsg可自行更改，其他照旧即可。
 export class TextMsg extends plugin {

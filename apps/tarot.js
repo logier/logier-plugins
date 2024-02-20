@@ -2,7 +2,6 @@ import puppeteer from "puppeteer";
 import common from '../../../lib/common/common.js' 
 import { readAndParseJSON, readAndParseYAML, gpt } from '../utils/getdate.js'
 
-
 export class TextMsg extends plugin {
     constructor() {
         super({

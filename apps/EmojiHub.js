@@ -1,5 +1,4 @@
 import { getemoji, readAndParseJSON} from '../utils/getdate.js';
-
 const emojiMap = await readAndParseJSON('../data/EmojiReg.json');
 
 

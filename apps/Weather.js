@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 import { readAndParseYAML, getRandomImage, getImageUrl, getFunctionData } from '../utils/getdate.js'
-
+import fetch from 'node-fetch';
 
 export class example extends plugin {
   constructor() {

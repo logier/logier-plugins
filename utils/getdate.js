@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import YAML from 'yaml'
 import https from 'https';
-
+import fetch from 'node-fetch';
 
 
 const __filename = fileURLToPath(import.meta.url);

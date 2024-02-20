@@ -1,4 +1,5 @@
 import { getFunctionData } from '../utils/getdate.js'
+import fetch from 'node-fetch';
 
 export class example extends plugin {
   constructor() {
