@@ -192,7 +192,6 @@ export async function getemoji(e, category) {
 
 export async function getImageUrl(imageUrls, defaultImageUrl = './plugins/logier-plugin/resources/gallery/92095127.webp') {
     let imageUrl = await getRandomUrl(imageUrls);
-    logger.info(imageUrl)
 
     return new Promise((resolve, reject) => {
         const getAndResolveImage = (url) => {
@@ -251,6 +250,7 @@ async function getAllImageFiles(dirPath, imageFiles = []) {
 
 export async function getRandomUrl(imageUrls) {
     let imageUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+    
 
     if (fs.existsSync(imageUrl) && fs.lstatSync(imageUrl).isDirectory()) {
         let imageFiles = await getAllImageFiles(imageUrl);
@@ -260,6 +260,7 @@ export async function getRandomUrl(imageUrls) {
         }
     }
 
+    logger.info(imageUrl)
     return imageUrl;
 }
 
