@@ -59,6 +59,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 今日新闻 | 定时推送 | 
 | 城市天气 | 定时推送 | 
 | 今日运势 | #今日运势 #悔签 | 
+| cp生成器 | #今日cp | 
 | 算一卦 | #算卦 #悔卦| 
 | 塔罗牌 | #塔罗牌 #占卜 |
 | 签到 | #签到 |
