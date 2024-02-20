@@ -6,6 +6,3 @@ setapi:
   - 指令: (东方|touhou)
     imageUrls:
       - https://img.paulzzh.com/touhou/random
-  - 指令: anosu
-    imageUrls:
-      - "https://image.anosu.top/pixiv/direct/ "
