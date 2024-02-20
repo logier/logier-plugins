@@ -48,31 +48,23 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 插件配置很多，但关键配置可通过锅巴配置
 
-| 名称 | 指令 |
-|-------|------ |
-| 表情包仓库 | #表情包 |
-| 表情包小偷 | 发送消息随机触发|
-| 戳一戳表情 | 戳一戳触发 |
-| 保存表情包 | #存(表情\|涩图) <br> #查看(表情包\|涩图)+序号？<br> #删除(表情包\|涩图)+序号  | 
-| 定时发图 | 定时推送 |
-| 摸鱼日历 | 定时推送 | 
-| 今日新闻 | 定时推送 | 
-| 城市天气 | 定时推送 | 
-| 今日运势 | #今日运势 #悔签 | 
-| cp生成器 | #今日cp | 
-| 算一卦 | #算卦 #悔卦| 
-| 塔罗牌 | #塔罗牌 #占卜 |
-| 签到 | #签到 |
-| 番剧 | #今日新番 |
-| 自定义图片api | 自定义指令 |
-| 进退群通知 | 进退群触发 | 
-| 问候回复 |  打招呼触发 <br> 例如早安、晚安 |
+| 名称 | 指令 | 名称 | 指令 |
+|-------|------ |-------|------ |
+| 表情包仓库 | #表情包 | 表情包小偷 | 发送消息随机触发|
+| 戳一戳表情 | 戳一戳触发 | 保存表情包 | #存(表情\|涩图) <br> #查看(表情包\|涩图)+序号？<br> #删除(表情包\|涩图)+序号  | 
+| 定时发图 | 定时推送 | 摸鱼日历 | 定时推送 | 
+| 今日新闻 | 定时推送 | 城市天气 | 定时推送 |  
+| 今日运势 | #今日运势 #悔签 | cp生成器 | #今日cp | 
+| 算一卦 | #算卦 #悔卦 | 塔罗牌 | #塔罗牌 #占卜 | 
+| 签到 | #签到 | 番剧 | #今日新番 |
+| 自定义图片api | 自定义指令 | 进退群通知 | 进退群触发 | 
+| 问候回复 |  打招呼触发 <br> 例如早安、晚安 |  |  |
 <br>
 
 <details> <summary>表情包仓库</summary>
 
 - 可联动**保存表情包**，将保存地址填入自定义表情包地址。
-- [表情包仓库源地址](https://gitee.com/logier/emojihub])
+- [表情包仓库源地址](https://gitee.com/logier/emojihub)
 - 最新版更新锅巴配置屏蔽部分表情包，如龙图、小黑子，支持分群配置。
 - 可配置表情包仓库随机时自定义表情包概率，默认为0
 
@@ -122,7 +114,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 </details>
 <br>
 
-<details> <summary>定时发图、摸鱼日历、今日新闻</summary>
+<details> <summary>定时发图、摸鱼日历、今日新闻、今日番剧</summary>
 
 - [定时发图如何获取图片api？](#如何获取图片api)
 - 配置发送时间，采用cron表达式。[如何写Cron表达式？](#cron表达式)
@@ -142,6 +134,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 <details> <summary>今日运势</summary>
 
 - [今日运势图片api](#如何获取图片api)
+
 <img src="./img/jrys.jpg" width="40%">
 </details>
 <br>
@@ -149,6 +142,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 <details> <summary>算一卦</summary>
 
 - [算一卦图片api](#如何获取图片api)
+
 <img src="./img/算一卦.jpg" width="40%">
 </details>
 <br>
@@ -157,12 +151,12 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 - 由AI解析占卜，需要gptkey [如何获取key？](#如何获取key)
 - 发送塔罗牌+想占卜的东西即可
+
 <img src="./img/塔罗牌.webp" width="40%">
-</details>
-<details> <summary>占卜</summary>
 
 - 支持抽三张占卜，发送 占卜+想占卜的东西 即可。
 - 注意！三牌占卜会用合并转发形式发送，部分适配器可能不支持。
+
 <img src="./img/占卜.png" width="40%">
 </details>
 <br>
@@ -172,6 +166,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 - 请使用横图图源 [如何获取图片api？](#如何获取图片api)
 - 竖图适配也许做，也许不做。
+
 <img src="./img/签到.jpg" width="40%">
 </details>
 <br>
@@ -181,6 +176,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - 修改自官方插件。
 - 进群时会发送其头像和一句 俏皮话欢迎。
 - 退群时有必要说俏皮话吗？
+
 <img src="./img/进退群.png" width="40%">
 </details>
 <br>
@@ -201,9 +197,17 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - 使用图片形式发送，带有一句结婚祝词。
 - 可以离婚（
 - 离婚一天只能一次。
-- 想用相合伞渲染，让两个人的名字在伞下两边，但找不到好的相合伞素材（
 
 <img src="./img/marry.webp" width="40%">
+</details>
+<br>
+
+<details> <summary>今日新番</summary>
+
+- 随机抽一个倒霉蛋群友组成cp
+- 这个功能测试的时候快被群友昵称的特殊字符整疯了
+
+<img src="./img/今日cp.png" width="40%">
 </details>
 <br>
 
