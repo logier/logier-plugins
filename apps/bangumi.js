@@ -6,7 +6,7 @@ import fetch from 'node-fetch';
 export class TextMsg extends plugin {
     constructor() {
         super({
-            name: '今日番剧', // 插件名称
+            name: '[鸢尾花插件]今日番剧', // 插件名称
             dsc: '今日番剧',  // 插件描述            
             event: 'message',  // 更多监听事件请参考下方的 Events
             priority: 5000,   // 插件优先度，数字越小优先度越高

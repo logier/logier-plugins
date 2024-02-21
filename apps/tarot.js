@@ -70,7 +70,7 @@ async 占卜(e) {
     const selection = options[Math.floor(Math.random() * options.length)];
     let [position, meaning] = selection.split(': ');
 
-    e.reply([`你抽到的牌是……\n${randomCard.name_cn}（${randomCard.name_en}）\n${position}：\n${meaning}`,segment.image(`./plugins/logier-plugin/resources/nijitarot/${randomKey}.webp`)])
+    e.reply([`你抽到的牌是……\n第${randomKey}位\n${randomCard.name_cn}（${randomCard.name_en}）\n${position}：\n${meaning}`,segment.image(`./plugins/logier-plugin/resources/nijitarot/${randomKey}.webp`)])
 
     return true;
   }
