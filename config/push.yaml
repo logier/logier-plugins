@@ -1,9 +1,8 @@
 setpush:
   - 功能: 定时发图
-    isAutoPush: true
-    time: 0 0/1 * * * ?
-    groupList:
-      - 877538147
+    isAutoPush: false
+    time: 0 0 */1 * * ?
+    groupList: []
   - 功能: 摸鱼日历
     isAutoPush: false
     time: 0 30 9 * * ?
@@ -16,6 +15,8 @@ setpush:
     isAutoPush: false
     time: 0 30 18 * * ?
     groupList: []
+
 isWeatherAutoPush: false
 Weathertime: 0 30 8 * * ?
 PushWeather: []
+    
