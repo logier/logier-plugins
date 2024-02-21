@@ -14,7 +14,9 @@ const personalitys = await readAndParseJSON('../data/personality.json');
 let personality = Object.keys(personalitys).map(k => ({label: k, value: k}));
 
 const pushs = await readAndParseYAML('../config/push.yaml');
-let push = pushs.setpush.map(item => ({label: item.功能, value: item.功能}));
+let push = pushs.setpush
+  .filter(item => item.功能 !== '城市天气')
+  .map(item => ({label: item.功能, value: item.功能}));
 
 
 export function supportGuoba() {
@@ -295,10 +297,39 @@ export function supportGuoba() {
     component: 'InputPassword',
   },
   {
-    field: 'push.defaultCity',
-    label: '推送天气城市',
-    bottomHelpMessage: '默认推送天气地点，定时推送没有城市参数，将使用这个默认城市',
+    field: 'push.isWeatherAutoPush',
+    label: '推送天气开关',
+    bottomHelpMessage: '推送天气开关',
+    component: 'Switch'
+  },
+  {
+    field: 'push.Weathertime',
+    label: '推送天气时间',
+    bottomHelpMessage: '推送天气时间，使用cron表达式',
     component: 'Input',
+  },
+  {
+    field: "push.PushWeather",
+    label: "天气推送",
+    bottomHelpMessage: '设定天气推送功能',
+    component: "GSubForm",
+    componentProps: {
+      multiple: true,
+      schemas: [
+        {
+          field: 'group',
+          label: '推送群号',
+          bottomHelpMessage: '推送群号',
+          component: 'GSelectGroup',
+        },
+        {
+          field: 'city',
+          label: '推送城市',
+          bottomHelpMessage: '推送城市',
+          component: 'Input',
+        },
+      ],
+    },
   },
 
   {

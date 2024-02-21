@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { readAndParseYAML, getRandomImage, getImageUrl, getFunctionData } from '../utils/getdate.js'
+import { readAndParseYAML, getRandomImage, getImageUrl, getFunctionData, readAndParseYAMLNotasync } from '../utils/getdate.js'
 import fetch from 'node-fetch';
 
 export class example extends plugin {
@@ -17,26 +17,26 @@ export class example extends plugin {
       ]
     });
     this.task = {
-      cron: this.pushConfig.time,
+      cron: this.pushConfig.Weathertime,
       name: '推送城市天气',
       fnc: () => this.推送城市天气()
     }
     Object.defineProperty(this.task, 'log', { get: () => false })
   }
   
-  get pushConfig () { return getFunctionData('push', 'setpush', '城市天气') }
+  get pushConfig () { return  readAndParseYAMLNotasync('../config/push.yaml') }
   
 
   async 推送城市天气 (e) {
     logger.info(`[城市天气]开始推送……`);
-    for (let i = 0; i < this.pushConfig.groupList.length; i++) {
+    for (let i = 0; i < this.pushConfig.PushWeather.length; i++) {
       setTimeout(async () => {  // 注意这里我们添加了 async
-        const image = await pushweather(e);  // 这里我们添加了 await
-        Bot.pickGroup(this.pushConfig.groupList[i]).sendMsg([segment.image(image)]);
+        Bot.pickGroup(this.pushConfig.PushWeather[i].group).sendMsg([segment.image(await pushweather(e, this.pushConfig.PushWeather[i].city))]);
       }, 1 * 1000); 
     }
     return true
 }
+
 
 
   async 城市天气 (e) {
@@ -49,14 +49,13 @@ export class example extends plugin {
 }
 
 
-async function pushweather(e) {
+async function pushweather(e, pushcity) {
 
   const key = await readAndParseYAML('../config/key.yaml');
 
-  const Config = await readAndParseYAML('../config/push.yaml');
-
   const city = (e?.msg ?? '').replace(/#?(天气)/, '').trim();
-  const cityToUse = city || Config.defaultCity;
+  const cityToUse = city || pushcity;
+
 
   const {location, name} = await getCityGeo(cityToUse, key.qweather)
 

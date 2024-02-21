@@ -18,6 +18,10 @@ export class TextMsg extends plugin {
                   reg: '^#?(占卜)(.*)$',   // 正则表达式,有关正则表达式请自行百度
                   fnc: '占卜'  // 执行方法
                 },
+                {
+                  reg: '^#?(彩虹塔罗牌)(.*)$',   // 正则表达式,有关正则表达式请自行百度
+                  fnc: '彩虹塔罗牌'  // 执行方法
+                },
             ]
         })
 
@@ -29,7 +33,7 @@ async 塔罗牌(e) {
   const key = await readAndParseYAML('../config/key.yaml');
 
   if (replacedMsg && key.gptkey) {
-    e.reply(`大占卜家正在为您抽三张占卜“${replacedMsg}”`, true, { recallMsg: 10 });
+    e.reply(`大占卜家正在为您占卜“${replacedMsg}”`, true, { recallMsg: 10 });
     await 抽塔罗牌(e, replacedMsg, key, true);
   } else {
     e.reply('正在为您抽塔罗牌（配置gpt后发送 塔罗牌+占卜内容 可以使用AI占卜）', true, { recallMsg: 10 });
@@ -51,8 +55,26 @@ async 占卜(e) {
     await 占卜塔罗牌(e);
   }
   return true;
- 
   }
+
+  async 彩虹塔罗牌(e) {
+
+    const keys = Object.keys(tarot.cards).filter(key => key >= 0 && key <= 21);
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+    const randomCard = tarot.cards[randomKey];
+
+    logger.info(randomCard);
+
+    // 创建塔罗牌的正位和逆位选项并随机选择一个选项
+    const options = [`正位: ${randomCard.meaning.up}`, `逆位: ${randomCard.meaning.down}`];
+    const selection = options[Math.floor(Math.random() * options.length)];
+    let [position, meaning] = selection.split(': ');
+
+    e.reply([`你抽到的牌是……\n第${randomKey}位\n${randomCard.name_cn}（${randomCard.name_en}）\n${position}：\n${meaning}`,segment.image(`./plugins/logier-plugin/resources/nijitarot/${randomKey}.webp`)])
+
+    return true;
+  }
+
 }
 
 const tarot = await readAndParseJSON('../data/tarot.json');

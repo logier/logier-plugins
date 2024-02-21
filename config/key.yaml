@@ -9,5 +9,6 @@ messages:
       当你准备好的时候只需要回复“我已经准备好了”（不需要输出任何其他内容）
 qweather: null
 defaultswitch: true
-defaultpersonality: 脏话杠精
+defaultpersonality: 爱莉希雅
 qianfu: 0.03
+

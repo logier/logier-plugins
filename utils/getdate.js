@@ -39,6 +39,15 @@ export async function readAndParseYAML(filePath) {
     }
 }
 
+export function readAndParseYAMLNotasync(filePath) {
+    try {
+        const fileContent = fs.readFileSync(path.join(__dirname, filePath), 'utf8');
+        return YAML.parse(fileContent);
+    } catch (e) {
+        logger.info('[鸢尾花插件]yml读取失败') ;
+    }
+}
+
 
 export async function getPersonality() {
     const key = await readAndParseYAML('../config/key.yaml');
@@ -183,7 +192,6 @@ export async function getemoji(e, category) {
 
 export async function getImageUrl(imageUrls, defaultImageUrl = './plugins/logier-plugin/resources/gallery/92095127.webp') {
     let imageUrl = await getRandomUrl(imageUrls);
-    logger.info(imageUrl)
 
     return new Promise((resolve, reject) => {
         const getAndResolveImage = (url) => {
@@ -242,6 +250,7 @@ async function getAllImageFiles(dirPath, imageFiles = []) {
 
 export async function getRandomUrl(imageUrls) {
     let imageUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+    
 
     if (fs.existsSync(imageUrl) && fs.lstatSync(imageUrl).isDirectory()) {
         let imageFiles = await getAllImageFiles(imageUrl);
@@ -251,6 +260,7 @@ export async function getRandomUrl(imageUrls) {
         }
     }
 
+    logger.info(imageUrl)
     return imageUrl;
 }
 
