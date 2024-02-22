@@ -130,7 +130,7 @@ dist
 .pnp.*
 
 
-./config/*.yaml
+/config/*.yaml
 
 
 
