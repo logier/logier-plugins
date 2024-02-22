@@ -37,7 +37,7 @@ github
 git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logier-plugin/
 ```
 
-## 功能 👓
+## 插件功能 👓
 
 发送 **#鸢尾花帮助** 获取插件详细信息
 <details> <summary>鸢尾花帮助</summary>
@@ -212,7 +212,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 <br>
 
 
-## 注意 📢
+## 配置事项 📢
 
 ### 如何填入本地图库？
 使用图片时，均可以使用本地或者网络图片
@@ -256,7 +256,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 本插件自带一个logier严选的pid索引，使用p站反代获取图片，推荐自行更换更稳定的图源，最好本地图源。
 
-👉[我的个人博客](https://logier.gitee.io/gallery/)有很多我收集的图片api
+[我的个人博客](https://logier.gitee.io/gallery/)有很多我收集的图片api
 <details> <summary>图片api预览</summary>
 <img src="./img/gallery.webp" >
 </details>
@@ -301,7 +301,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - [QQ群](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY)
 - [个人博客网站](https://logier.gitee.io/)
 
-## 鸣谢 🎁
+## 鸣谢列表 🎁
 <details> <summary>参考仓库列表</summary>
 
 - [今日运势源仓库](https://github.com/twiyin0/koishi-plugin-jryspro)
