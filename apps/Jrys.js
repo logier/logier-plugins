@@ -131,7 +131,11 @@ async function generateFortune(e) {
         margin: 0;
         padding: 0;
         font-family: 'AlibabaPuHuiTi-2-55-Regular', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+<<<<<<< HEAD
     }         
+=======
+    }          
+>>>>>>> master
     </style>
     </head>
     <div class="fortune" style="width: 30%; height: 65rem; float: left; text-align: center; background: rgba(255, 255, 255, 0.6);">

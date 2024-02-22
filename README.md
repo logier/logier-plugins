@@ -295,13 +295,27 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 大致是这样的，最新版支持锅巴配置人格，本插件目录下data文件夹内personality.json文件有很多人格可以参考。
 ```
 
+
+
 ## 作者
 logier
-- qq群：[315239849](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY)
-- 个人网站：[logier.icu](https://logier.gitee.io/)
+- [QQ群](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY)
+- [个人博客网站](https://logier.gitee.io/)
 
 ## 鸣谢
-- [jryspro](https://github.com/twiyin0/koishi-plugin-jryspro)
-- [一些基础插件示例~](https://gitee.com/Zyy955/Miao-Yunzai-plugin)
-- [Yunzai-Bot 相关内容索引](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-indexn)
-- [Xrk-plugin](https://gitee.com/xrk114514/xrk-plugin)
+<details> <summary>参考仓库列表</summary>
+
+- [今日运势源仓库](https://github.com/twiyin0/koishi-plugin-jryspro)
+- [云崽插件基础示例](https://gitee.com/Zyy955/Miao-Yunzai-plugin)
+- [云崽市场](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-indexn)
+- [向日葵插件](https://gitee.com/xrk114514/xrk-plugin)
+
+</details>
+
+<details> <summary>赞助人列表</summary>
+
+| 昵称 | 金额 |
+| :----:| :----: |
+| 悠修 | 10元 |
+
+</details>
