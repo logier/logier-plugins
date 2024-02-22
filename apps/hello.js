@@ -46,7 +46,6 @@ export class greetings extends plugin {
         {"role": "user", "content": `${e.msg}`}];
     let gptmsg = await getPersonality()
     gptmsg.push(...arr2);
-    logger.info(gptmsg)
     const content = await gpt(key.gptkey, key.gpturl, key.model, gptmsg);
 
     if (!content) {
