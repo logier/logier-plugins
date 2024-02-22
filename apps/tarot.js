@@ -125,10 +125,15 @@ try {
   <html style="background: rgba(255, 255, 255, 0.6)">
   <head>
     <style>
+    @font-face {
+      font-family: AlibabaPuHuiTi-2-55-Regular;
+      src:url(https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-2/AlibabaPuHuiTi-2-55-Regular/AlibabaPuHuiTi-2-55-Regular.woff2) format('woff2');
+    }  
     html, body {
         margin: 0;
         padding: 0;
-    }        
+        font-family: 'AlibabaPuHuiTi-2-55-Regular', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+    }         
     </style>
   </head>
   <div class="fortune" style="width: 35%; height: 65rem; float: left; text-align: center; background: rgba(255, 255, 255, 0.6);">
