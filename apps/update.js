@@ -7,8 +7,8 @@ import render from '../components/render/render.js'
 export class ql_update extends plugin {
 	constructor() {
 		super({
-			name: '清凉插件_更新',
-			dsc: 'qlpudate',
+			name: '[鸢尾花插件]更新',
+			dsc: '更新',
 			event: 'message',
 			priority: 2000,
 			rule: [
