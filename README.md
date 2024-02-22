@@ -309,8 +309,9 @@ logier
 - [Xrk-plugin](https://gitee.com/xrk114514/xrk-plugin)
 
 <details> <summary>赞助人列表</summary>
-| 昵称 | 金额 | 昵称 | 金额 |
-| :----:| :----: | :----:| :----: |
-| 悠修 | 10元 |  |  |
+
+| 昵称 | 金额 |
+| :----:| :----: |
+| 悠修 | 10元 |
 
 </details>
