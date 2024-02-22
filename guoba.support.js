@@ -138,38 +138,18 @@ export function supportGuoba() {
       label: '表情包小偷设置'
     },
     {
-      field: 'config.emojirate',
-      label: '随机表情包几率',
-      bottomHelpMessage: '群聊中收到消息后随机发送表情包的几率',
+      field: 'emojithief.thiefrate',
+      label: '表情包仓库概率',
+      bottomHelpMessage: '不使用偷的图，而是使用表情包仓库的概率',
       component: "Slider",
-        componentProps: {
-          min: 0,
-          max: 1,
-          step: 0.01,
-        },
-    },
-    {
-      field: 'config.groupList',
-      label: '随机表情包群号',
-      bottomHelpMessage: '只有填入的群号才会在接收到消息后随机发送表情包',
-      component: 'GSelectGroup',
       componentProps: {
-        placeholder: '发送随机表情包的群号',
-      }
-    },
+        min: 0,
+        max: 1,
+        step: 0.1,
+      },
+  },
     {
-      field: 'config.thiefrate',
-      label: '表情包仓库几率',
-      bottomHelpMessage: '不使用偷取的表情包，而是表情包仓库发送的概率',
-      component: "Slider",
-        componentProps: {
-          min: 0,
-          max: 1,
-          step: 0.1,
-        },
-    },
-    {
-      field: 'config.thiefcategory',
+      field: 'emojithief.thiefcategory',
       label: '表情包仓库图类',
       helpMessage: '不影响发送偷取的表情包',
       bottomHelpMessage: '使用表情包仓库时的表情包种类',
@@ -181,27 +161,35 @@ export function supportGuoba() {
       },
     },
     {
-      field: 'config.minDelay',
-      label: '发送表情包延迟',
-      helpMessage: '延迟发送能让机器人回复不像指令触发，推荐写久点',
-      bottomHelpMessage: '延迟的最小值',
-      component: 'InputNumber',
+      field: "emojithief.emojithief",
+      label: "表情包小偷群配置",
+      bottomHelpMessage: '表情包小偷群配置',
+      component: "GSubForm",
       componentProps: {
-        placeholder: "请输入表情最低延迟",
-        addonAfter: "秒",
+        multiple: true,
+        schemas: [
+          {
+            field: 'groupList',
+            label: '随机表情包群号',
+            bottomHelpMessage: '只有填入的群号才会在接收到消息后随机发送表情包',
+            component: 'GSelectGroup',
+          },
+          {
+            field: 'rate',
+            label: '随机发图概率',
+            bottomHelpMessage: '随机发图概率',
+            component: "Slider",
+              componentProps: {
+                min: 0,
+                max: 1,
+                step: 0.01,
+              },
+          },
+        ],
       },
     },
-    {
-      field: 'config.maxDelay',
-      label: '发送表情包延迟',
-      helpMessage: '延迟发送能让机器人回复不像指令触发，推荐写久点',
-      bottomHelpMessage: '延迟的最大值',
-      component: 'InputNumber',
-      componentProps: {
-        placeholder: "请输入表情最高延迟",
-        addonAfter: "秒",
-      },
-    },
+
+
 
     {
       component: 'Divider',

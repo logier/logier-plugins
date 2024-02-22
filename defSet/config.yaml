@@ -1,7 +1,6 @@
 customerrate: 0
 imageUrls:
   - ./resources/logier/emoji
-emojirate: 0.05
 groupList: []
 minDelay: 2
 maxDelay: 10
@@ -9,6 +8,4 @@ emojipath: ./resources/logier/emoji
 setupath: ./resources/logier/setu
 chuoyichuorate: 0
 chuoyichuocategory: 表情包仓库
-thiefrate: 0
-thiefcategory: 表情包仓库
 sendpicrandom: true

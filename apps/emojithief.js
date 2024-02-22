@@ -22,11 +22,22 @@ export class TextMsg extends plugin {
 
     async 表情包小偷(e) { 
         
-        const EmojiConfig = await readAndParseYAML('../config/config.yaml');
+    const EmojiConfig = await readAndParseYAML('../config/emojithief.yaml');
 
-        if (e.group_id && EmojiConfig.groupList && EmojiConfig.groupList.length > 0 && !EmojiConfig.groupList.map(String).includes(e.group_id.toString())) {
-            return false;
+    let rate = EmojiConfig.emojirate; // 默认概率
+    let groupMatched = false;
+
+    if (EmojiConfig.emojithief && EmojiConfig.emojithief.length > 0) {
+        for (let config of EmojiConfig.emojithief) {
+            if (config.groupList.includes(e.group_id)) {
+                rate = config.rate;
+                groupMatched = true;
+                break;
+            }
         }
+    }
+
+    if (!groupMatched) return false;
         
 
         let key = `Yunzai:emojithief:${e.group_id}_logier`;
@@ -45,7 +56,7 @@ export class TextMsg extends plugin {
             }
         })  
          
-        if (Math.random() < Number(EmojiConfig.emojirate)) {
+        if (Math.random() < rate) {
             if (Math.random() < Number(EmojiConfig.thiefrate)){
                 let imageUrl = await getemoji(e, EmojiConfig.thiefcategory);
                 if (imageUrl) {

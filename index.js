@@ -37,7 +37,7 @@ async function checkAndCopy() {
   }
 }
 
-checkAndCopy().catch(console.error);
+await checkAndCopy().catch(console.error);
 
 
 
