@@ -128,14 +128,14 @@ async function generateFortune(e) {
     @font-face {
     font-family: AlibabaPuHuiTi-2-55-Regular;
     src:url(https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-2/AlibabaPuHuiTi-2-55-Regular/AlibabaPuHuiTi-2-55-Regular.woff2) format('woff2');
-  }
+    }
     * {
       padding: 0;
       margin: 0;
     }
     html {
     font-family: 'AlibabaPuHuiTi-2-55-Regular', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
-  }
+    }
     body{
       position:absolute;
     }

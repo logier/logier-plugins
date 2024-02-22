@@ -18,17 +18,16 @@ export class greetings extends plugin {
     }
 
     async 潜伏(e) {
-        const key = await readAndParseYAML('../config/key.yaml');    
+        const key = await readAndParseYAML('../config/key.yaml');   
+        const qianfuConfig = await readAndParseYAML('../config/qianfu.yaml'); 
             
         if (!key.gptkey){
           logger.info('未配置gptkey')
           return false
         }
       
-        if (Math.random() > Number(key.qianfu)) {return false}
+        if (Math.random() > Number(qianfuConfig.qianfu)) {return false}
         
-      
-        logger.info(e.nickname)
         let arr2 = [        
           {"role": "user", "content": `${e.nickname}说：${e.msg}`}];
         let gptmsg = await getPersonality()
@@ -56,11 +55,11 @@ export class greetings extends plugin {
             }
         }
         
-        const EmojiConfig = await readAndParseYAML('../config/config.yaml');
-        let imageUrl = await getemoji(e, EmojiConfig.qianfucategory);
+        
+        let imageUrl = await getemoji(e, qianfuConfig.qianfucategory);
         if (imageUrl) {
             await new Promise(resolve => setTimeout(resolve, sentences.length * 3000)); // 在所有句子都回复完之后再发送图片
-            logger.info(`发送“${EmojiConfig.qianfucategory}”表情包`);
+            logger.info(`发送“${qianfuConfig.qianfucategory}”表情包`);
             e.reply([segment.image(imageUrl)]);
         }
   

@@ -15,8 +15,6 @@ setpush:
     isAutoPush: false
     time: 0 30 18 * * ?
     groupList: []
-
 isWeatherAutoPush: false
 Weathertime: 0 30 8 * * ?
 PushWeather: []
-    

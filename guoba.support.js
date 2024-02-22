@@ -274,6 +274,28 @@ export function supportGuoba() {
       },
   },
   {
+    field: 'qianfu.qianfu',
+    label: '潜伏概率',
+    bottomHelpMessage: '偷听群友对话，并回复的概率',
+    component: "Slider",
+      componentProps: {
+        min: 0,
+        max: 1,
+        step: 0.01,
+      },
+  },
+  {
+    field: 'qianfu.qianfucategory',
+    label: '潜伏发送表情包类别',
+    bottomHelpMessage: '潜伏发送表情包类别',
+    component: 'Select',
+    componentProps: {
+      allowAdd: true,
+      allowDel: true,
+      options: EmojiIndexex,
+    },
+  },
+  {
     field: 'key.model',
     label: 'GPT模型',
     bottomHelpMessage: 'gpt模型，chatanywhere免费key最高只支持gpt-3.5-turbo',
