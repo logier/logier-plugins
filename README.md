@@ -299,11 +299,11 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 ## 作者
 logier
-- ：[QQ群](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY)
+- [QQ群](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY)
 - [个人博客网站](https://logier.gitee.io/)
 
 ## 鸣谢
-<details> <summary>赞助人列表</summary>
+<details> <summary>参考仓库列表</summary>
 
 - [今日运势源仓库](https://github.com/twiyin0/koishi-plugin-jryspro)
 - [云崽插件基础示例](https://gitee.com/Zyy955/Miao-Yunzai-plugin)
