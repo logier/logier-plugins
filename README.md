@@ -295,6 +295,8 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 大致是这样的，最新版支持锅巴配置人格，本插件目录下data文件夹内personality.json文件有很多人格可以参考。
 ```
 
+
+
 ## 作者
 logier
 - qq群：[315239849](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY)
@@ -305,3 +307,10 @@ logier
 - [一些基础插件示例~](https://gitee.com/Zyy955/Miao-Yunzai-plugin)
 - [Yunzai-Bot 相关内容索引](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-indexn)
 - [Xrk-plugin](https://gitee.com/xrk114514/xrk-plugin)
+
+<details> <summary>赞助人列表</summary>
+| 昵称 | 金额 | 昵称 | 金额 |
+| :----:| :----: | :----:| :----: |
+| 悠修 | 10元 |  |  |
+
+</details>
