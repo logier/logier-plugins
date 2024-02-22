@@ -313,6 +313,8 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 <details> <summary>赞助人列表</summary>
 
+[爱发电](https://afdian.net/a/logier)
+
 | 昵称 | 金额 |
 | :----:| :----: |
 | 悠修 | 10元 |
