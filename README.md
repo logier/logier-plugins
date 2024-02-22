@@ -16,14 +16,14 @@
 ***如果发现bug，希望及时Q群告知我或提交issue***
 ***如果喜欢本插件，就点点star吧***
 
-## 更新日志
+## 更新日志 💡
 
 
 ### **24.02.05 优化定时配置，现在可以在云崽运行时修改定时发送相关配置，而不用重启刷新**
 ### **24.02.04 大幅优化锅巴配置，更新后需要重新配置**
 
 
-## 安装教程
+## 安装教程 ✨
 
 
 Yunzai-Bot目录下执行(二者选其一)
@@ -37,7 +37,7 @@ github
 git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logier-plugin/
 ```
 
-## 功能
+## 功能 👓
 
 发送 **#鸢尾花帮助** 获取插件详细信息
 <details> <summary>鸢尾花帮助</summary>
@@ -212,7 +212,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 <br>
 
 
-## 注意
+## 注意 📢
 
 ### 如何填入本地图库？
 使用图片时，均可以使用本地或者网络图片
@@ -256,7 +256,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 本插件自带一个logier严选的pid索引，使用p站反代获取图片，推荐自行更换更稳定的图源，最好本地图源。
 
-[我的个人博客](https://logier.gitee.io/gallery/)有很多我收集的图片api
+👉[我的个人博客](https://logier.gitee.io/gallery/)有很多我收集的图片api
 <details> <summary>图片api预览</summary>
 <img src="./img/gallery.webp" >
 </details>
@@ -265,7 +265,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 ### Cron表达式
 
-[在线Cron表达式生成器](https://cron.qqe2.com/)
+👉[Cron表达式在线生成器](https://cron.qqe2.com/)
 ```
 各位代表的意思 *-代表任意值 ？-不指定值，仅日期和星期域支持该字符。 （想了解更多，请自行搜索Cron表达式学习）
     *  *  *  *  *  *
@@ -297,12 +297,11 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 
 
-## 作者
-logier
+## 作者相关 🎲
 - [QQ群](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY)
 - [个人博客网站](https://logier.gitee.io/)
 
-## 鸣谢
+## 鸣谢 🎁
 <details> <summary>参考仓库列表</summary>
 
 - [今日运势源仓库](https://github.com/twiyin0/koishi-plugin-jryspro)
