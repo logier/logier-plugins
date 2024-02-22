@@ -1,4 +1,25 @@
 import fs from 'node:fs'
+import path from 'path';
+import { promisify } from 'util';
+
+const copyFile = promisify(fs.copyFile);
+
+async function checkAndCopy() {
+  const configDir = './plugins/logier-plugin/config';
+  const defSetDir = './plugins/logier-plugin/defSet';
+
+  const configFiles = new Set(fs.readdirSync(configDir));
+  const defSetFiles = fs.readdirSync(defSetDir);
+
+  for (const file of defSetFiles) {
+    if (file.endsWith('.yaml') && !configFiles.has(file)) {
+      await copyFile(path.join(defSetDir, file), path.join(configDir, file));
+    }
+  }
+}
+
+checkAndCopy().catch(console.error);
+
 
 if (!global.segment) {
   global.segment = (await import("oicq")).segment

@@ -12,7 +12,8 @@ export class TextMsg extends plugin {
             rule: [
                 {
                     reg: '',   // 正则表达式,有关正则表达式请自行百度
-                    fnc: '表情包小偷'  // 执行方法
+                    fnc: '表情包小偷',  // 执行方法
+                    log: false
                 },
             ]
         })
