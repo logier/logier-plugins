@@ -58,7 +58,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 算一卦 | #算卦 #悔卦 | 塔罗牌 | #塔罗牌 #占卜 #彩虹塔罗牌 | 
 | 签到 | #签到 | 番剧 | #今日新番 |
 | 自定义图片api | 自定义指令 | 进退群通知 | 进退群触发 | 
-| 问候回复 |  打招呼触发 <br> 例如早安、晚安 |  |  |
+| 问候回复 |  打招呼触发 <br> 例如早安、晚安 | 订阅小说 | #搜小说+轻小说书名 <br> #订阅小说+轻小说书名 <br> #查看订阅小说 |
 <br>
 
 <details> <summary>表情包仓库</summary>

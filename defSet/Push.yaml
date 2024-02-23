@@ -15,5 +15,9 @@ Push:
     isAutoPush: false
     PushTime: 0 30 18 * * ?
     PushGroupList: []
+  - FunctionName: 订阅小说
+    isAutoPush: false
+    PushTime: 0 0/10 * * * ?
+    PushGroupList: []
 
     
