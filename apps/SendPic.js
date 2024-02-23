@@ -32,7 +32,7 @@ export class example extends plugin {
   }
 
 // 定时任务
-async 定时发图 () {
+async 定时发图 (e) {
   if (!this.PushConfig.isAutoPush) {return false}
 
   logger.info(`[定时发图]开始推送……`);
@@ -50,9 +50,14 @@ async 定时发图 () {
     const imageUrls = this.UrlsConfig.imageUrls;
     for (let i = 0; i < this.PushConfig.PushGroupList.length; i++) {
       for (let j = 0; j < imageUrls.length; j++) {
-        setTimeout(() => {
-          Bot.pickGroup(this.PushConfig.PushGroupList[i]).sendMsg([segment.image(imageUrls[j])]);
-        }, j * 3000); 
+        const imageUrls = this.UrlsConfig.imageUrls;
+        const forward = []
+          for (let j = 0; j < imageUrls.length; j++) {
+              forward.push(segment.image(imageUrls[j]))
+          }
+        const msg = await common.makeForwardMsg(Bot.pickGroup(this.PushConfig.PushGroupList[i]), forward, '定时发图')
+        await Bot.pickGroup(this.PushConfig.PushGroupList[i]).sendMsg(msg);
+
       }
     }
   }
