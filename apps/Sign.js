@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { getTimeOfDay, getImageUrl } from '../utils/getdate.js'
+import { getTimeOfDay, getImageUrl, getFunctionData } from '../utils/getdate.js'
 
 
 
