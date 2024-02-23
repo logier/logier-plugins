@@ -54,6 +54,7 @@ async 定时发图 (e) {
         forward.push(segment.image(imageUrls[j]));
       }
       const msg = await common.makeForwardMsg(Bot.pickGroup(this.PushConfig.PushGroupList[i]), forward, '定时发图');
+
       await Bot.pickGroup(this.PushConfig.PushGroupList[i]).sendMsg(msg);
     }
 

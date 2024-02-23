@@ -163,7 +163,7 @@ export async function getemoji(e, category) {
         const exclude = groupData ? groupData.Emojiindexs : [];        
 
         const EmojiIndex = await readAndParseJSON('../data/EmojiIndex.json');
-        const EmojiConfig = setting.getConfig("config");
+        const EmojiConfig = setting.getConfig("Config");
 
         let imageUrl;
         if (exclude.includes(category)) {

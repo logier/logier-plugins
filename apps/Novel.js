@@ -47,6 +47,10 @@ export class example extends plugin {
   }
 
   async 订阅小说(e) {
+    if (!e.isMaster) {
+      logger.info('非主人，取消指令')
+      return false
+    }
     const replacedMsg = e.msg.replace(/^#?(订阅小说)/, '').trim();
     if (!replacedMsg) { return false }
     e.reply(`正在为您订阅《${replacedMsg}》……`, true, { recallMsg: 10 });
@@ -56,6 +60,10 @@ export class example extends plugin {
   }
 
   async 查看订阅小说(e) {
+    if (!e.isMaster) {
+      logger.info('非主人，取消指令')
+      return false
+    }
     let noveldata = await redis.get(`Yunzai:logier-plugin:lightnovel`);
   
     noveldata = JSON.parse(noveldata);
@@ -78,6 +86,10 @@ export class example extends plugin {
   
 
   async 删除订阅小说(e) {
+    if (!e.isMaster) {
+      logger.info('非主人，取消指令')
+      return false
+  }
     let noveldata = await redis.get(`Yunzai:logier-plugin:lightnovel`);
 
     const replacedMsg = e.msg.replace(/^#?(删除订阅小说)/, '');
