@@ -43,23 +43,20 @@ async 定时发图 (e) {
     for (let i = 0; i < this.PushConfig.PushGroupList.length; i++) {
       setTimeout(() => {
         Bot.pickGroup(this.PushConfig.PushGroupList[i]).sendMsg([segment.image(image)]);
-      }, 1 * 3000); 
+      }, i * 3000); 
     }
   } else {
     // 如果Switch为false，遍历imageUrls数组并发送每一张图片
     const imageUrls = this.UrlsConfig.imageUrls;
     for (let i = 0; i < this.PushConfig.PushGroupList.length; i++) {
+      const forward = []
       for (let j = 0; j < imageUrls.length; j++) {
-        const imageUrls = this.UrlsConfig.imageUrls;
-        const forward = []
-          for (let j = 0; j < imageUrls.length; j++) {
-              forward.push(segment.image(imageUrls[j]))
-          }
-        const msg = await common.makeForwardMsg(Bot.pickGroup(this.PushConfig.PushGroupList[i]), forward, '定时发图')
-        await Bot.pickGroup(this.PushConfig.PushGroupList[i]).sendMsg(msg);
-
+        forward.push(segment.image(imageUrls[j]));
       }
+      const msg = await common.makeForwardMsg(Bot.pickGroup(this.PushConfig.PushGroupList[i]), forward, '定时发图');
+      await Bot.pickGroup(this.PushConfig.PushGroupList[i]).sendMsg(msg);
     }
+
   }
 
   return true
