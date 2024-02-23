@@ -1,18 +1,19 @@
-import {  getRandomUrl, readAndParseYAML } from '../utils/getdate.js';
+import {  getRandomUrl } from '../utils/getdate.js';
+import setting from "../model/setting.js";
 
-// 假设apiList现在是一个对象
-const apiList = await readAndParseYAML('../config/api.yaml');
-
-// 将apiList转换为apiMap，键是指令，值是imageUrls
-const apiMap = {};
-for (let item of apiList.setapi) {
-    apiMap[item.指令] = item.imageUrls;
-}
 
 function createRules() {
+    const config = setting.getConfig("CustomApi");
+    const apiMap = {};
+
+    for (let item of config.CustomApi) {
+        apiMap[item.指令] = item.imageUrls;
+    }
     const regexes = Object.keys(apiMap);
-    return regexes.join('|');
+    // 如果 regexes 为空，返回一个不可能匹配的正则表达式
+    return regexes.length > 0 ? regexes.join('|') : '(?!)';
 }
+
 
 export class TextMsg extends plugin {
     constructor() {
@@ -24,14 +25,21 @@ export class TextMsg extends plugin {
             rule: [
                 {
                     reg: `(${createRules()})`,   
-                    fnc: 'picapi',
+                    fnc: 'CustomApi',
                 },
             ]
         });
     }
 
-    async picapi(e) {
-        logger.info(e.msg)
+    get appconfig () {
+        return setting.getConfig("CustomApi");
+    }
+
+    async CustomApi(e) {
+        const apiMap = {};
+        for (let item of this.appconfig.CustomApi) {
+            apiMap[item.指令] = item.imageUrls;
+        }
         for (let keyword in apiMap) {
             let regex = new RegExp(`^${keyword}$`);
             if (regex.test(e.msg)) {
@@ -39,24 +47,8 @@ export class TextMsg extends plugin {
                 return true;
             }
         }
-        return false;
+        return true;
     }
 }
-
-
-
-
-
-
-  
-    
-
-    
-
-
-
-    
-    
-
 
 

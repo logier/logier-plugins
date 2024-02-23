@@ -1,45 +1,4 @@
 import fs from 'node:fs'
-import path from 'path';
-import { promisify } from 'util';
-import YAML from 'yaml';
-
-const readFile = promisify(fs.readFile);
-const writeFile = promisify(fs.writeFile);
-const copyFile = promisify(fs.copyFile);
-
-async function checkAndCopy() {
-  const configDir = './plugins/logier-plugin/config';
-  const defSetDir = './plugins/logier-plugin/defSet';
-
-  const configFiles = new Set(fs.readdirSync(configDir));
-  const defSetFiles = fs.readdirSync(defSetDir);
-
-  for (const file of defSetFiles) {
-    if (file.endsWith('.yaml')) {
-      const configPath = path.join(configDir, file);
-      const defSetPath = path.join(defSetDir, file);
-
-      if (!configFiles.has(file)) {
-        // 如果 config 文件夹中没有这个文件，直接复制
-        await copyFile(defSetPath, configPath);
-      } else {
-        // 如果 config 文件夹中有这个文件，合并内容
-        const [configContent, defSetContent] = await Promise.all([
-          readFile(configPath, 'utf8').then(content => YAML.parse(content)),
-          readFile(defSetPath, 'utf8').then(content => YAML.parse(content)),
-        ]);
-
-        const mergedContent = { ...defSetContent, ...configContent };
-
-        await writeFile(configPath, YAML.stringify(mergedContent), 'utf8');
-      }
-    }
-  }
-}
-
-await checkAndCopy().catch(console.error);
-
-
 
 if (!global.segment) {
   global.segment = (await import("oicq")).segment

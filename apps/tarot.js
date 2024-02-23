@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer";
 import common from '../../../lib/common/common.js' 
-import { readAndParseJSON, readAndParseYAML, gpt } from '../utils/getdate.js'
+import { readAndParseJSON, gpt } from '../utils/getdate.js'
+import setting from "../model/setting.js";
 
 export class TextMsg extends plugin {
     constructor() {
@@ -24,17 +25,18 @@ export class TextMsg extends plugin {
                 },
             ]
         })
+}
 
-
+get GPTconfig () {
+  return setting.getConfig("GPTconfig");
 }
 
 async 塔罗牌(e) {
   const replacedMsg = e.msg.replace(/^#?(塔罗牌|塔罗)/, '');
-  const key = await readAndParseYAML('../config/key.yaml');
 
-  if (replacedMsg && key.gptkey) {
+  if (replacedMsg && this.GPTconfig.GPTKey) {
     e.reply(`大占卜家正在为您占卜“${replacedMsg}”`, true, { recallMsg: 10 });
-    await 抽塔罗牌(e, replacedMsg, key, true);
+    await 抽塔罗牌(e, replacedMsg, true);
   } else {
     e.reply('正在为您抽塔罗牌（配置gpt后发送 塔罗牌+占卜内容 可以使用AI占卜）', true, { recallMsg: 10 });
     await 抽塔罗牌(e);
@@ -45,11 +47,10 @@ async 塔罗牌(e) {
 async 占卜(e) {
 
   const replacedMsg = e.msg.replace(/^#?(占卜)/, '');
-  const key = await readAndParseYAML('../config/key.yaml');
 
-  if (replacedMsg && key.gptkey) {
+  if (replacedMsg && this.GPTconfig.GPTKey) {
     e.reply(`大占卜家正在为您占卜“${replacedMsg}”`, true, { recallMsg: 10 });
-    await 占卜塔罗牌(e, replacedMsg, key, true);
+    await 占卜塔罗牌(e, replacedMsg, true);
   } else {
     e.reply('正在为您抽三张塔罗牌（配置gpt后发送 占卜+占卜内容 可以抽三张AI占卜）', true, { recallMsg: 10 });
     await 占卜塔罗牌(e);
@@ -79,14 +80,11 @@ async 占卜(e) {
 
 const tarot = await readAndParseJSON('../data/tarot.json');
 
-async function 抽塔罗牌(e, replacedMsg = '', key = {}, isGPT = false) {
+async function 抽塔罗牌(e, replacedMsg = '', isGPT = false) {
   // 获取所有塔罗牌的键并随机选择一张塔罗牌
   const keys = Object.keys(tarot.cards);
   const randomKey = keys[Math.floor(Math.random() * keys.length)];
   const randomCard = tarot.cards[randomKey];
-
-  // 记录选择的塔罗牌
-  logger.info(randomCard);
 
   // 获取塔罗牌的图片URL
   const imageUrl = `https://gitee.com/logier/logier-plugin/raw/master/resources/%E5%A1%94%E7%BD%97%E7%89%8C/${randomCard.type}/${randomCard.pic}.webp`;
@@ -106,7 +104,7 @@ async function 抽塔罗牌(e, replacedMsg = '', key = {}, isGPT = false) {
     ];
 
     // 使用GPT生成内容
-    meaning = await gpt(key.gptkey, key.gpturl, key.model, gptInput);
+    meaning = await gpt(gptInput);
 
     // 如果没有生成内容，记录错误并结束进程
     if (!meaning) {
@@ -168,7 +166,7 @@ return true;
 }
 
 
-async function 占卜塔罗牌(e, replacedMsg = '', key = {}, isGPT = false) {
+async function 占卜塔罗牌(e, replacedMsg = '', isGPT = false) {
   const forward = ["正在为您抽牌……"];
   const keys = Object.keys(tarot.cards);
   const randomCards = [];
@@ -188,7 +186,6 @@ async function 占卜塔罗牌(e, replacedMsg = '', key = {}, isGPT = false) {
     cardPositions.push(position);
 
     const imageUrl = `https://gitee.com/logier/logier-plugin/raw/master/resources/%E5%A1%94%E7%BD%97%E7%89%8C/${randomCard.type}/${randomCard.pic}.webp`;
-    logger.info(randomCard);
 
     const forwardMsg = [
       `你抽到的第${i+1}张牌是 ${randomCard.name_cn} (${randomCard.name_en})\n\n${position === 'up' ? '正位' : '逆位'}:  ${randomCard.meaning[position]}\n\n卡牌描述： ${position === 'up' ? randomCard.info.description : randomCard.info.reverseDescription}`,
@@ -207,7 +204,7 @@ async function 占卜塔罗牌(e, replacedMsg = '', key = {}, isGPT = false) {
       }))
     ];
 
-    const content = await gpt(key.gptkey, key.gpturl, key.model, message);
+    const content = await gpt(message);
 
     if (!content) {
       logger.info('gpt出错，没有返回内容');

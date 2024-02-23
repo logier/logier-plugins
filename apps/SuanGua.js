@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { readAndParseJSON, getFunctionData ,getRandomImage, getImageUrl } from '../utils/getdate.js'
+import { readAndParseJSON, getFunctionData, getImageUrl } from '../utils/getdate.js'
 
 
 export class TextMsg extends plugin {
@@ -31,7 +31,7 @@ export class TextMsg extends plugin {
       if (data) {
           data = JSON.parse(data);
       } else {
-          logger.info('未读取到卦象，随机抽取');
+          logger.info('[算一卦]未读取到卦象，随机抽取');
           data = {
               fortune: suangua[Math.floor(Math.random() * suangua.length)],
               time: now,
@@ -40,10 +40,10 @@ export class TextMsg extends plugin {
       }
       
       if (now === data.time) {
-          logger.info('今日已算过卦，读取保存的数据');
+          logger.info('[算一卦]今日已算过卦，读取保存的数据');
           replymessage = "今日已算卦，再给你看一眼吧……";
       } else {
-          logger.info('日期已改变，重新算卦');
+          logger.info('[算一卦]日期已改变，重新算卦');
           data = {
               fortune: suangua[Math.floor(Math.random() * suangua.length)],
               time: now,
@@ -70,7 +70,7 @@ export class TextMsg extends plugin {
       if (data) {
           data = JSON.parse(data);
       } else {
-          logger.info('未读取到卦象数据，悔卦转为重新算卦');
+          logger.info('[算一卦]未读取到卦象数据，悔卦转为重新算卦');
           data = {
               fortune: suangua[Math.floor(Math.random() * suangua.length)],
               time: now,
@@ -79,17 +79,17 @@ export class TextMsg extends plugin {
       }
       
       if (now !== data.time) {
-          logger.info('日期变更，重新抽取卦象');
+          logger.info('[算一卦]日期变更，重新抽取卦象');
           data = {
               fortune: suangua[Math.floor(Math.random() * suangua.length)],
               time: now,
               isRe: false
           };
       } else if (data.isRe) {
-          logger.info('今日已悔卦，不重新抽取');
+          logger.info('[算一卦]今日已悔卦，不重新抽取');
           replymessage = "今天已经悔过卦了,再给你看一眼吧……";
       } else {
-          logger.info('悔卦');
+          logger.info('[算一卦]悔卦');
           replymessage = "异象骤生，卦象竟然改变了……";
           data = {
               fortune: suangua[Math.floor(Math.random() * suangua.length)],
@@ -110,8 +110,8 @@ export class TextMsg extends plugin {
 
 async function generateFortune(e) {
 
-  const urlConfig = getFunctionData('url', 'setimage', '算一卦');
-  const imageUrl = urlConfig.Switch ? await getRandomImage('mb') : await getImageUrl(urlConfig.imageUrls);  
+  const UrlsConfig = getFunctionData('Urls', 'Urls', '算一卦');
+  const imageUrl = await getImageUrl(UrlsConfig.imageUrls);  
 
   let data = await redis.get(`Yunzai:logier-plugin:${e.user_id}_suangua`);
   const fortune = JSON.parse(data).fortune;

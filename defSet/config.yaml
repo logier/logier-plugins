@@ -1,11 +1,11 @@
-customerrate: 0
-imageUrls:
+CustomerRate: 0
+CustomeEmoji:
   - ./resources/logier/emoji
-groupList: []
-minDelay: 2
-maxDelay: 10
-emojipath: ./resources/logier/emoji
-setupath: ./resources/logier/setu
-chuoyichuorate: 0
-chuoyichuocategory: 表情包仓库
-sendpicrandom: true
+
+EmojiPath: ./resources/logier/emoji
+SetuPath: ./resources/logier/setu
+
+PokeEmojiRate: 0.5
+PokeEmojiCategory: 表情包仓库
+
+SendPicRandom: true

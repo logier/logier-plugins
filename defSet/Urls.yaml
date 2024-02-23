@@ -1,5 +1,5 @@
-setimage:
-  - 功能: default
+Urls:
+  - FunctionName: default
     imageUrls:
       - https://t.mwm.moe/mp
       - https://sex.nyan.xyz/api/v2/img
@@ -7,7 +7,7 @@ setimage:
       - https://api.vvhan.com/api/girl
       - https://www.loliapi.com/acg/pe/
       - https://api.likepoems.com/img/pe/
-  - 功能: 今日签到
+  - FunctionName: 今日签到
     imageUrls:
       - https://t.mwm.moe/pc
       - https://www.dmoe.cc/random.php

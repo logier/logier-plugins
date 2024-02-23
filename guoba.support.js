@@ -1,7 +1,7 @@
 import path from "path";
 import setting from "./model/setting.js";
 import lodash from "lodash";
-import { readAndParseJSON ,readAndParseYAML} from './utils/getdate.js'
+import { readAndParseJSON } from './utils/getdate.js'
 
 const _path = process.cwd() + "/plugins/logier-plugin";
 const EmojiIndexs = await readAndParseJSON('../data/EmojiIndex.json');
@@ -13,8 +13,7 @@ const EmojiIndexex = [{label: '表情包仓库', value: '表情包仓库'} , ...
 const personalitys = await readAndParseJSON('../data/personality.json');
 let personality = Object.keys(personalitys).map(k => ({label: k, value: k}));
 
-const pushs = await readAndParseYAML('../config/push.yaml');
-let push = pushs.setpush
+let Push = setting.getConfig("Push").Push
   .filter(item => item.功能 !== '城市天气')
   .map(item => ({label: item.功能, value: item.功能}));
 
@@ -46,64 +45,13 @@ export function supportGuoba() {
       // 配置项 schemas
       schemas: [
 
-
-      {
-        component: 'Divider',
-        label: '表情包仓库设置'
-      },
-      {
-        field: 'config.customerrate',
-        label: '自定义表情几率',
-        helpMessage: '表情包仓库随机时使用，不影响单独使用',
-        bottomHelpMessage: '触发表情包时使用自定义表情包的概率',
-        component: "Slider",
-          componentProps: {
-            min: 0,
-            max: 1,
-            step: 0.01,
-          },
-      },
-      {
-        field: 'config.imageUrls',
-        label: '自定义表情地址',
-        helpMessage: '填写保存表情包地址，可以在表情包仓库随机你存入的表情',
-        bottomHelpMessage: '自定义表情包地址，可以本地文件夹和网络链接',
-        component: 'GTags',
-        componentProps: {
-          allowAdd: true,
-          allowDel: true,
-        },
-      },
     {
-        field: 'config.emojipath',
-        label: '表情保存地址',
-        helpMessage: '存入自定义表情包地址，可以在表情包仓库随机你存入的表情',
-        bottomHelpMessage: '表情包保存地址',
-        component: 'Input',
+      component: 'Divider',
+      label: '表情包黑名单'
     },
     {
-      field: 'config.setupath',
-      label: '涩图保存地址',
-      helpMessage: '存入涩图，可以将地址填入需要图片的插件',
-      bottomHelpMessage: '涩图保存地址',
-      component: 'Input',
-  },
-    {
-      field: 'config.chuoyichuocategory',
-      label: '戳一戳表情包',
-      helpMessage: '“表情包仓库”就是全随机',
-      bottomHelpMessage: '戳一戳表情包回复时使用的表情包种类',
-      component: 'Select',
-      componentProps: {
-        allowAdd: true,
-        allowDel: true,
-        options: EmojiIndexex,
-      },
-    },
-    {
-      field: "emojihub.blackgouplist",
-      label: "表情包黑名单",
-      helpMessage: '分群配置，没有配置就使用default的配置',
+      field: "EmojiHub.BlackList",
+      label: "黑名单配置",
       bottomHelpMessage: '屏蔽你不想要的表情包类别',
       component: "GSubForm",
       componentProps: {
@@ -112,14 +60,16 @@ export function supportGuoba() {
           {
             field: "group",
             label: "群号",
+            bottomHelpMessage: '未配置的群使用default设置',
             component: 'Select',
             componentProps: {
               options: allGroup,
             },
           },
           {
-            field: 'NotEmojiindex',
-            label: '表情包黑名单',
+            field: 'Emojiindexs',
+            label: '黑名单',
+            bottomHelpMessage: '指令触发和仓库内随机都会屏蔽',
             component: 'Select',
             componentProps: {
               allowAdd: true,
@@ -132,38 +82,14 @@ export function supportGuoba() {
       },
     },
 
-
     {
       component: 'Divider',
       label: '表情包小偷设置'
     },
     {
-      field: 'emojithief.thiefrate',
-      label: '表情包仓库概率',
-      bottomHelpMessage: '不使用偷的图，而是使用表情包仓库的概率',
-      component: "Slider",
-      componentProps: {
-        min: 0,
-        max: 1,
-        step: 0.1,
-      },
-  },
-    {
-      field: 'emojithief.thiefcategory',
-      label: '表情包仓库图类',
-      helpMessage: '不影响发送偷取的表情包',
-      bottomHelpMessage: '使用表情包仓库时的表情包种类',
-      component: 'Select',
-      componentProps: {
-        allowAdd: true,
-        allowDel: true,
-        options: EmojiIndexex,
-      },
-    },
-    {
-      field: "emojithief.emojithief",
-      label: "表情包小偷群配置",
-      bottomHelpMessage: '表情包小偷群配置',
+      field: "EmojiThief.ETGroupRate",
+      label: "群配置",
+      bottomHelpMessage: '表情包小偷分群配置发图概率',
       component: "GSubForm",
       componentProps: {
         multiple: true,
@@ -171,13 +97,13 @@ export function supportGuoba() {
           {
             field: 'groupList',
             label: '随机表情包群号',
-            bottomHelpMessage: '只有填入的群号才会在接收到消息后随机发送表情包',
+            bottomHelpMessage: '不配置所有群都会发，配置了就只会在配置的群发送',
             component: 'GSelectGroup',
           },
           {
             field: 'rate',
             label: '随机发图概率',
-            bottomHelpMessage: '随机发图概率',
+            bottomHelpMessage: '随机发图概率，推荐0.05',
             component: "Slider",
               componentProps: {
                 min: 0,
@@ -188,16 +114,36 @@ export function supportGuoba() {
         ],
       },
     },
-
-
+    {
+      field: 'EmojiThief.ThiefEmojiRate',
+      label: '仓库概率',
+      bottomHelpMessage: '使用表情包仓库发图的概率，如果偷的图比较少推荐拉高点，减少发图重复',
+      component: "Slider",
+      componentProps: {
+        min: 0,
+        max: 1,
+        step: 0.1,
+      },
+  },
+    {
+      field: 'EmojiThief.ETEmojihubCategory',
+      label: '图类',
+      bottomHelpMessage: '使用表情包仓库时的表情包种类',
+      component: 'Select',
+      componentProps: {
+        allowAdd: true,
+        allowDel: true,
+        options: EmojiIndexex,
+      },
+    },
 
     {
       component: 'Divider',
       label: 'GPT相关设置'
     },
     {
-      field: 'key.gptkey',
-      label: 'GPTkey',
+      field: 'GPTconfig.GPTKey',
+      label: 'key',
       bottomHelpMessage: '请前往https://github.com/chatanywhere/GPT_API_free获得',
       component: 'InputPassword',
       componentProps: {
@@ -205,24 +151,24 @@ export function supportGuoba() {
       },
   },
   {
-    field: 'key.defaultswitch',
-    label: '是否使用默认人格',
-    bottomHelpMessage: '关闭则使用自定义人格',
+    field: 'GPTconfig.DefaultPersonalitySwitch',
+    label: '预设开关',
+    bottomHelpMessage: '开启则使用预设人格',
     component: 'Switch',
   },
   {
-    field: 'key.defaultpersonality',
-    label: '默认人格',
-    bottomHelpMessage: '默认人格',
+    field: 'GPTconfig.DefaultPersonality',
+    label: '预设人格',
+    bottomHelpMessage: '挑一个你喜欢的',
     component: 'Select',
     componentProps: {
       options: personality,
     },
   },
   {
-    field: "key.messages",
-    label: "自定义GPT人格",
-    bottomHelpMessage: "自定义GPT人格",
+    field: "GPTconfig.CustomPersonality",
+    label: "自定义人格",
+    bottomHelpMessage: "关闭预设人格后将使用自定义人格，",
     component: "GSubForm",
     componentProps: {
       multiple: true,
@@ -242,6 +188,7 @@ export function supportGuoba() {
         {
           field: "content",
           label: "content",
+          bottomHelpMessage: '对话内容',
           component: "Input",
           mode: 'tags',
           required: true,
@@ -250,82 +197,26 @@ export function supportGuoba() {
     },
   },
   {
-    field: 'config.chuoyichuorate',
-    label: '戳戳GPT',
-    helpMessage: '填0就全用表情包回复戳一戳',
-    bottomHelpMessage: '戳一戳机器人后GPT回复的几率',
-    component: "Slider",
-      componentProps: {
-        min: 0,
-        max: 1,
-        step: 0.1,
-      },
-  },
-  {
-    field: 'key.model',
-    label: 'GPT模型',
+    field: 'GPTconfig.GPTModel',
+    label: '模型',
     bottomHelpMessage: 'gpt模型，chatanywhere免费key最高只支持gpt-3.5-turbo',
     component: 'Input',
   },
   {
-    field: 'key.gpturl',
-    label: 'GPTurl',
+    field: 'GPTconfig.GPTUrl',
+    label: '地址',
     bottomHelpMessage: 'gpt请求地址，key是chatanywhere的不用修改这里',
     component: 'Input',
   },
 
-  {
-    component: 'Divider',
-    label: '天气相关设置'
-  },
-  {
-    field: 'key.qweather',
-    label: '和风天气key',
-    bottomHelpMessage: '和风天气key，请前往https://console.qweather.com/#/console获得',
-    component: 'InputPassword',
-  },
-  {
-    field: 'push.isWeatherAutoPush',
-    label: '推送天气开关',
-    bottomHelpMessage: '推送天气开关',
-    component: 'Switch'
-  },
-  {
-    field: 'push.Weathertime',
-    label: '推送天气时间',
-    bottomHelpMessage: '推送天气时间，使用cron表达式',
-    component: 'Input',
-  },
-  {
-    field: "push.PushWeather",
-    label: "天气推送",
-    bottomHelpMessage: '设定天气推送功能',
-    component: "GSubForm",
-    componentProps: {
-      multiple: true,
-      schemas: [
-        {
-          field: 'group',
-          label: '推送群号',
-          bottomHelpMessage: '推送群号',
-          component: 'GSelectGroup',
-        },
-        {
-          field: 'city',
-          label: '推送城市',
-          bottomHelpMessage: '推送城市',
-          component: 'Input',
-        },
-      ],
-    },
-  },
+ 
 
   {
     component: 'Divider',
     label: '推送相关设置'
   },
   {
-    field: "push.setpush",
+    field: "Push.Push",
     label: "推送",
     bottomHelpMessage: '设定推送功能',
     component: "GSubForm",
@@ -333,30 +224,73 @@ export function supportGuoba() {
       multiple: true,
       schemas: [
         {
-          field: "功能",
+          field: "FunctionName",
           label: "功能",
           component: 'Select',
           componentProps: {
-            options: push,
+            options: Push,
           },
         },
         {
           field: 'isAutoPush',
           label: '推送开关',
-          bottomHelpMessage: '推送开关',
           component: 'Switch'
         },
         {
-          field: 'time',
+          field: 'PushTime',
           label: '推送时间',
           bottomHelpMessage: '推送时间，使用cron表达式',
           component: 'Input',
         },
         {
-          field: 'groupList',
+          field: 'PushGroupList',
           label: '推送群号',
           bottomHelpMessage: '推送群号',
           component: 'GSelectGroup',
+        },
+      ],
+    },
+  },
+
+  {
+    component: 'Divider',
+    label: '天气相关设置'
+  },
+  {
+    field: 'Weather.WeatherKey',
+    label: 'key',
+    bottomHelpMessage: '和风天气key，请前往https://console.qweather.com/#/console获得',
+    component: 'InputPassword',
+  },
+  {
+    field: 'Weather.WeatherPushSwitch',
+    label: '推送开关',
+    bottomHelpMessage: '是否推送天气',
+    component: 'Switch'
+  },
+  {
+    field: 'Weather.WeatherPushTime',
+    label: '推送时间',
+    bottomHelpMessage: '推送天气时间，使用cron表达式',
+    component: 'Input',
+  },
+  {
+    field: "Weather.WeatherPushgroup",
+    label: "群配置",
+    bottomHelpMessage: '分群配置天气推送城市',
+    component: "GSubForm",
+    componentProps: {
+      multiple: true,
+      schemas: [
+        {
+          field: 'group',
+          label: '推送群号',
+          component: 'GSelectGroup',
+        },
+        {
+          field: 'city',
+          label: '推送城市',
+          component: 'Input',
         },
       ],
     },
@@ -367,7 +301,7 @@ export function supportGuoba() {
     label: '图源相关设置'
   },
   {
-    field: "url.setimage",
+    field: "Urls.Urls",
     label: "图源",
     component: "GSubForm",
     bottomHelpMessage: '设置不同功能使用的图源',
@@ -375,9 +309,10 @@ export function supportGuoba() {
       multiple: true,
       schemas: [
         {
-          field: "功能",
+          field: "FunctionName",
           label: "功能",
           component: 'Select',
+          bottomHelpMessage: '如果没有配置就使用default图源',
           componentProps: {
             options: setimage,
           },
@@ -385,7 +320,7 @@ export function supportGuoba() {
         {
           field: "imageUrls",
           label: "图片链接",
-          bottomHelpMessage: '自定义图源地址，支持网络何本地文件夹',
+          bottomHelpMessage: '自定义图源地址，支持本地文件夹和网络',
           component: 'GTags',
           componentProps: {
             allowAdd: true,
@@ -399,18 +334,18 @@ export function supportGuoba() {
 
   {
     component: 'Divider',
-    label: '自定义指令api相关设置'
+    label: '自定义指令图片api相关设置'
   },
   {
-    field: "api.setapi",
-    label: "自定义指令api",
+    field: "CustomApi.CustomApi",
+    label: "自定义api",
     component: "GSubForm",
     bottomHelpMessage: '自定义指令发送不同的图片api',
     componentProps: {
       multiple: true,
       schemas: [
         {
-          field: "指令",
+          field: "FunctionName",
           label: "指令",
           bottomHelpMessage: '自定义指令，支持正则',
           component: 'Input',
@@ -428,6 +363,78 @@ export function supportGuoba() {
       ],
     },
   },
+
+  {
+    component: 'Divider',
+    label: '表情包仓库设置'
+  },
+  {
+    field: 'Config.CustomerRate',
+    label: '自定义表情几率',
+    bottomHelpMessage: '发送表情包时使用自定义表情包的概率，当表情包仓库类别为“表情包仓库”时有效',
+    component: "Slider",
+      componentProps: {
+        min: 0,
+        max: 1,
+        step: 0.01,
+      },
+  },
+  {
+    field: 'Config.CustomeEmoji',
+    label: '自定义表情地址',
+    bottomHelpMessage: '自定义表情包地址，支持本地文件夹和网络',
+    component: 'GTags',
+    componentProps: {
+      allowAdd: true,
+      allowDel: true,
+    },
+  },
+
+{
+  component: 'Divider',
+  label: '保存图片设置'
+},
+{
+    field: 'Config.EmojiPath',
+    label: '表情保存地址',
+    bottomHelpMessage: '表情包保存地址',
+    component: 'Input',
+},
+{
+  field: 'Config.SetuPath',
+  label: '涩图保存地址',
+  bottomHelpMessage: '涩图保存地址',
+  component: 'Input',
+},
+
+{
+  component: 'Divider',
+  label: '戳一戳表情包设置'
+},
+{
+  field: 'Config.PokeEmojiRate',
+  label: '戳戳GPT',
+  helpMessage: '如果gpt请求失败，会转为回复表情包',
+  bottomHelpMessage: '戳一戳时，使用gpt回复的概率',
+  component: "Slider",
+    componentProps: {
+      min: 0,
+      max: 1,
+      step: 0.1,
+    },
+},
+{
+  field: 'Config.PokeEmojiCategory',
+  label: '戳一戳表情包',
+  helpMessage: '“表情包仓库”就是全随机',
+  bottomHelpMessage: '戳一戳表情包回复时使用的表情包种类',
+  component: 'Select',
+  componentProps: {
+    allowAdd: true,
+    allowDel: true,
+    options: EmojiIndexex,
+  },
+},
 
 ],
 

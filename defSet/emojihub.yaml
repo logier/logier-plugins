@@ -1,5 +1,6 @@
-blackgouplist:
+BlackList:
   - group: default
-    NotEmojiindex:
+    Emojiindexs:
       - 龙图
       - 小黑子
+      - 吉伊卡哇

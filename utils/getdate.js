@@ -2,23 +2,18 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import YAML from 'yaml'
 import https from 'https';
 import fetch from 'node-fetch';
-
+import setting from "../model/setting.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export function getFunctionData(YamlName, ArrayName, Function) {
-    const fileContent = fs.readFileSync(path.join(__dirname, `../config/${YamlName}.yaml`), 'utf8');
-    const Config = YAML.parse(fileContent);
-    const functionData = Config[ArrayName].find(item => item.功能 === Function) || Config[ArrayName].find(item => item.功能 === 'default');
+    const Config = setting.getConfig(YamlName);
+    const functionData = Config[ArrayName].find(item => item.FunctionName === Function) || Config[ArrayName].find(item => item.FunctionName === 'default');
     return functionData;
 }
-
-
-  
 
 export async function readAndParseJSON(filePath) {
     try {
@@ -29,46 +24,32 @@ export async function readAndParseJSON(filePath) {
     }
 }
 
-// 读取和解析YAML文件的函数
-export async function readAndParseYAML(filePath) {
-    try {
-        const fileContent = fs.readFileSync(path.join(__dirname, filePath), 'utf8');
-        return YAML.parse(fileContent);
-    } catch (e) {
-        logger.info('[鸢尾花插件]yml读取失败') ;
-    }
-}
-
-export function readAndParseYAMLNotasync(filePath) {
-    try {
-        const fileContent = fs.readFileSync(path.join(__dirname, filePath), 'utf8');
-        return YAML.parse(fileContent);
-    } catch (e) {
-        logger.info('[鸢尾花插件]yml读取失败') ;
-    }
-}
-
-
 export async function getPersonality() {
-    const key = await readAndParseYAML('../config/key.yaml');
-    if (key.defaultswitch) {
+    const Config = setting.getConfig("GPTconfig");
+    if (Config.DefaultPersonalitySwitch) {
         const personalitys = await readAndParseJSON('../data/personality.json');
-        return personalitys[key.defaultpersonality];
+        return personalitys[Config.DefaultPersonality];
     } else {
-        return key.messages;
+        return Config.CustomPersonality;
     }
 }
 
 
-export async function gpt(gptkey, gpturl, model, messages) {
+export async function gpt(messages, GPTKey = null, GPTUrl = null, GPTModel = null) {
+    const Config = setting.getConfig("GPTconfig");
+
+    // 如果没有输入，就自动获取配置
+    GPTKey = GPTKey || Config.GPTKey;
+    GPTUrl = GPTUrl || Config.GPTUrl;
+    GPTModel = GPTModel || Config.GPTModel;
 
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + gptkey );
+    myHeaders.append("Authorization", "Bearer " + GPTKey );
     myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-        "model": model,
+        "model": GPTModel,
         "messages": messages
     });
 
@@ -80,7 +61,7 @@ export async function gpt(gptkey, gpturl, model, messages) {
     };
 
     try {
-        let response = await fetch(gpturl, requestOptions);
+        let response = await fetch(GPTUrl, requestOptions);
         let result = await response.json();
         let content = result.choices[0].message.content;
         return content;
@@ -117,8 +98,26 @@ function getRandomFile(category) {
 let allFiles = [].concat(...Object.values(category));
 return allFiles[Math.floor(Math.random() * allFiles.length)];
 }
-  
 
+
+export function getTimeOfDay() {
+    let date = new Date();
+    let hours = date.getHours();
+    
+    let timeOfDay;
+    if (hours >= 0 && hours < 6) {
+        timeOfDay = '凌晨';
+    } else if (hours >= 6 && hours < 12) {
+        timeOfDay = '上午';
+    } else if (hours >= 12 && hours < 18) {
+        timeOfDay = '下午';
+    } else {
+        timeOfDay = '晚上';
+    }
+    
+    return timeOfDay;
+  }
+  
 
 
 export async function numToChinese(num) {
@@ -141,30 +140,40 @@ export async function numToChinese(num) {
     return result.replace(/零+$/, '');
 }
 
-
+export function NumToRoman(num) {
+    const roman = { M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1 };
+    let str = '';
+  
+    for (let i of Object.keys(roman)) {
+      let q = Math.floor(num / roman[i]);
+      num -= q * roman[i];
+      str += i.repeat(q);
+    }
+    return str;
+  }
 
 
 
 export async function getemoji(e, category) {
     const BASE_URL = 'https://gitee.com/logier/emojihub/raw/dev/';
     try {
-        const emojihub = await readAndParseYAML('../config/emojihub.yaml');
-        const blackgouplist = emojihub.blackgouplist;
-        const groupData = blackgouplist.find(item => String(item.group) === String(e.group_id)) || blackgouplist.find(item => item.group === 'default');
-        const exclude = groupData ? groupData.NotEmojiindex : [];        
+        const EmojiHub = setting.getConfig("EmojiHub");
+        const BlackList = EmojiHub.BlackList;
+        const groupData = BlackList.find(item => String(item.group) === String(e.group_id)) || BlackList.find(item => item.group === 'default');
+        const exclude = groupData ? groupData.Emojiindexs : [];        
 
         const EmojiIndex = await readAndParseJSON('../data/EmojiIndex.json');
-        const EmojiConfig = await readAndParseYAML('../config/config.yaml');
+        const EmojiConfig = setting.getConfig("config");
 
         let imageUrl;
         if (exclude.includes(category)) {
             logger.info(`[鸢尾花插件] 表情包在黑名单: ${category}`)
         }
         if (!exclude.includes(category)) {
-            
+ 
             if (category === '表情包仓库') {
-                if (Math.random() < Number(EmojiConfig.customerrate)) {
-                    imageUrl = await getRandomUrl(EmojiConfig.imageUrls);
+                if (Math.random() < Number(EmojiConfig.CustomerRate)) {
+                    imageUrl = await getRandomUrl(EmojiConfig.CustomeEmoji);
                 } else {
                     let keys = Object.keys(EmojiIndex);
                     let filteredKeys = keys.filter(key => !exclude.includes(key));
@@ -173,7 +182,7 @@ export async function getemoji(e, category) {
                     imageUrl = `${BASE_URL}${randomKey}/${randomValue}`;
                 }
             } else if (category === '自定义') {
-                imageUrl = await getRandomUrl(EmojiConfig.imageUrls);
+                imageUrl = await getRandomUrl(EmojiConfig.CustomeEmoji);
             } else if (Object.keys(EmojiIndex).includes(category)) {
                 const items = EmojiIndex[category];
                 const randomItem = items[Math.floor(Math.random() * items.length)];
@@ -197,7 +206,6 @@ export async function getImageUrl(imageUrls, defaultImageUrl = './plugins/logier
         const getAndResolveImage = (url) => {
             https.get(url, (res) => {
                 const { statusCode } = res;
-                logger.info(statusCode)
                 if (statusCode === 301 || statusCode === 302) {
                     // 如果状态码是301或302，那么从'location'头部获取重定向的URL
                     getAndResolveImage(res.headers.location);
@@ -250,7 +258,6 @@ async function getAllImageFiles(dirPath, imageFiles = []) {
 
 export async function getRandomUrl(imageUrls) {
     let imageUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
-    
 
     if (fs.existsSync(imageUrl) && fs.lstatSync(imageUrl).isDirectory()) {
         let imageFiles = await getAllImageFiles(imageUrl);
@@ -260,7 +267,7 @@ export async function getRandomUrl(imageUrls) {
         }
     }
 
-    logger.info(imageUrl)
+    logger.info('[鸢尾花插件]图片url：'+imageUrl)
     return imageUrl;
 }
 

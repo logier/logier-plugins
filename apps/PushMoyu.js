@@ -16,14 +16,14 @@ export class example extends plugin {
       ]
     });
     this.task = {
-        cron: this.moyuConfig.time,
+        cron: this.moyuConfig.PushTime,
         name: '推送摸鱼日历',
         fnc: () => this.推送摸鱼日历(),
         log: false},
       Object.defineProperty(this.task, 'log', { get: () => false })
   }
 
-  get moyuConfig () { return getFunctionData('push', 'setpush', '摸鱼日历') }
+  get moyuConfig () { return getFunctionData('Push', 'Push', '摸鱼日历') }
 
 
   // 定时任务
@@ -37,9 +37,9 @@ export class example extends plugin {
     imgUrl = await imgUrl.url;
 
     logger.info(`[摸鱼日历]开始推送……`);
-    for (let i = 0; i < this.moyuConfig.groupList.length; i++) {
+    for (let i = 0; i < this.moyuConfig.PushGroupList.length; i++) {
       setTimeout(() => {
-        Bot.pickGroup(this.moyuConfig.groupList[i]).sendMsg([segment.image(imgUrl)]);
+        Bot.pickGroup(this.moyuConfig.PushGroupList[i]).sendMsg([segment.image(imgUrl)]);
       }, 1 * 1000); 
     }
 
@@ -59,3 +59,5 @@ export class example extends plugin {
 }
 
 const moyuapiUrl = 'https://api.vvhan.com/api/moyu?type=json';// 摸鱼日历接口地址
+
+

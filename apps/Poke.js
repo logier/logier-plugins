@@ -1,4 +1,5 @@
-import { readAndParseYAML, gpt, getemoji, getPersonality } from '../utils/getdate.js'
+import { gpt, getemoji, getPersonality } from '../utils/getdate.js'
+import setting from "../model/setting.js";
 
 export class TextMsg extends plugin {
     constructor() {
@@ -15,23 +16,28 @@ export class TextMsg extends plugin {
         });
     }
 
+    get GPTconfig () {
+        return setting.getConfig("GPTconfig");
+    }
+
+    get appconfig () {
+        return setting.getConfig("Config");
+    }
+
     async 戳一戳表情包(e) {
-        
-        const key = await readAndParseYAML('../config/key.yaml');
-        const config = await readAndParseYAML('../config/config.yaml');
         if (e.target_id == e.self_id) {
-            if (Math.random() > config.chuoyichuorate || !key.gptkey) {
-                sendEmoji(e, config.chuoyichuocategory);
+            if (Math.random() > this.appconfig.PokeEmojiRate || !this.GPTconfig.GPTKey) {
+                sendEmoji(e, this.appconfig.PokeEmojiCategory);
             } else {
                 let userMessage = {"role": "user", "content": `戳一戳你`};
                 let gptmsg = await getPersonality()
                 gptmsg.push(userMessage);
-                const content = await gpt(key.gptkey, key.gpturl, key.model, gptmsg);
+                const content = await gpt(gptmsg);
                 if (content) {
                     e.reply(content)
                 } else {
-                    logger.info(`GPT调用失败，发送“${config.chuoyichuocategory}”表情包`);
-                    sendEmoji(e, config.chuoyichuocategory);
+                    logger.info(`GPT调用失败，改为发送“${this.appconfig.PokeEmojiCategory}”表情包`);
+                    sendEmoji(e, this.appconfig.PokeEmojiCategory);
                 }
             }
         }
@@ -41,11 +47,7 @@ export class TextMsg extends plugin {
 
 
 async function sendEmoji(e, category) {
-    let imageUrl = await getemoji(e, category);
-    if (imageUrl) {
-        logger.info(`发送“${category}”表情包`);
-        e.reply([segment.image(imageUrl)]);
-    }
+    e.reply([segment.image(await getemoji(e, category))]);
 }
 
 

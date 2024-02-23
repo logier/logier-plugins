@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { readAndParseJSON, getFunctionData, numToChinese, getRandomImage, getImageUrl } from '../utils/getdate.js'
+import { readAndParseJSON, getFunctionData, numToChinese, getImageUrl } from '../utils/getdate.js'
 
 export class TextMsg extends plugin {
   constructor() {
@@ -40,10 +40,10 @@ export class TextMsg extends plugin {
     }
     
     if (now === data.time) {
-        logger.info('今日已抽取运势，读取保存的数据');
+        logger.info('[今日运势]今日已抽取运势，读取保存的数据');
         replymessage = "今日已抽取运势，让我帮你找找签……";
     } else {
-        logger.info('日期已改变，重新抽取运势');
+        logger.info('[今日运势]日期已改变，重新抽取运势');
         data = {
             fortune: jrys[Math.floor(Math.random() * jrys.length)],
             time: now,
@@ -71,7 +71,7 @@ export class TextMsg extends plugin {
     if (data) {
         data = JSON.parse(data);
     } else {
-        logger.info('未读取到运势数据，悔签转为重新抽取运势');
+        logger.info('[今日运势]未读取到运势数据，悔签转为重新抽取运势');
         data = {
             fortune: jrys[Math.floor(Math.random() * jrys.length)],
             time: now,
@@ -80,17 +80,17 @@ export class TextMsg extends plugin {
     }
     
     if (now !== data.time) {
-        logger.info('日期变更，重新抽取运势');
+        logger.info('[今日运势]日期变更，重新抽取运势');
         data = {
             fortune: jrys[Math.floor(Math.random() * jrys.length)],
             time: now,
             isRe: false
         };
     } else if (data.isRe) {
-        logger.info('今日已悔签，不重新抽取');
+        logger.info('[今日运势]今日已悔签，不重新抽取');
         replymessage = "今天已经悔过签了,再给你看一眼吧……";
     } else {
-        logger.info('悔签');
+        logger.info('[今日运势]悔签');
         replymessage = "异象骤生，运势竟然改变了……";
         data = {
             fortune: jrys[Math.floor(Math.random() * jrys.length)],
@@ -111,13 +111,11 @@ export class TextMsg extends plugin {
 
 
 async function generateFortune(e) {
-  const urlConfig = getFunctionData('url', 'setimage', '今日运势');
-  const imageUrl = urlConfig.Switch ? await getRandomImage('mb') : await getImageUrl(urlConfig.imageUrls);  
+  const UrlsConfig = getFunctionData('Urls', 'Urls', '今日运势');
+  const imageUrl = await getImageUrl(UrlsConfig.imageUrls);  
 
   let data = await redis.get(`Yunzai:logier-plugin:${e.user_id}_jrys`);
   const fortune = JSON.parse(data).fortune;
-
-  logger.info(fortune);
 
   let Html = `
   <html style="background: rgba(255, 255, 255, 0.6)">

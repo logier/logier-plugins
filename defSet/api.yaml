@@ -1,8 +1,0 @@
-setapi:
-- 指令: 三次元
-  imageUrls:
-    - https://api.vvhan.com/api/mobil.girl
-    - https://api.vvhan.com/api/girl
-- 指令: (东方|touhou)
-  imageUrls:
-    - https://img.paulzzh.com/touhou/random

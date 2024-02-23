@@ -19,14 +19,14 @@ export class TextMsg extends plugin {
             
         })
         this.task = {
-            cron: this.pushConfig.time,
+            cron: this.BangumiConfig.PushTime,
             name: '今日番剧',
             fnc: () => this.今日番剧()
           }
           Object.defineProperty(this.task, 'log', { get: () => false })
     }
 
-    get pushConfig () { return getFunctionData('push', 'setpush', '今日番剧') }
+    get BangumiConfig () { return getFunctionData('Push', 'Push', '今日番剧') }
 
     // 执行方法1
     async 今日番剧(e) {
@@ -52,7 +52,7 @@ export class TextMsg extends plugin {
 
     async 推送(e) {
 
-        if (!this.pushConfig.isAutoPush) {return false}
+        if (!this.BangumiConfig.isAutoPush) {return false}
 
         const html = await test();
  
@@ -62,9 +62,9 @@ export class TextMsg extends plugin {
            const page = await browser.newPage();
            await page.setContent(html)
            const image = await page.screenshot({fullPage: true })
-           for (let i = 0; i < this.pushConfig.groupList.length; i++) {
+           for (let i = 0; i < this.BangumiConfig.PushGroupList.length; i++) {
             setTimeout(() => {
-              Bot.pickGroup(this.pushConfig.groupList[i]).sendMsg([segment.image(image)]);
+              Bot.pickGroup(this.BangumiConfig.PushGroupList[i]).sendMsg([segment.image(image)]);
             }, 1 * 1000); 
           }
          } catch (error) {

@@ -1,5 +1,4 @@
 
-
 export class example extends plugin {
     constructor (){
         super({

@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { readAndParseYAML, getRandomImage, getImageUrl } from '../utils/getdate.js'
+import { getTimeOfDay, getImageUrl } from '../utils/getdate.js'
 
 
 
@@ -22,10 +22,9 @@ export class TextMsg extends plugin {
 
   }
 
-  // 执行方法1
-  async 今日签到(e) {
+  get UrlsConfig () { return getFunctionData('Urls', 'Urls', '今日签到') }
 
-  const Config = await readAndParseYAML('../config/url.yaml');
+  async 今日签到(e) {
 
   let now = new Date();
   let datatime =  now.toLocaleDateString('zh-CN'); //日期格式
@@ -33,12 +32,8 @@ export class TextMsg extends plugin {
   const response = await fetch('https://v1.hitokoto.cn');
   const hitokodata = await response.json();
   const content = hitokodata.hitokoto;
-
-  const functionData = Config.setimage.find(item => item.功能 === '今日签到') || Config.setimage.find(item => item.功能 === 'default');
-  logger.info(functionData);
   
-  let imageUrl = functionData.Switch ? await getRandomImage('pc') : await getImageUrl(functionData.imageUrls, './plugins/logier-plugin/resources/gallery/114388636.webp');  
-  logger.info(imageUrl)
+  let imageUrl = await getImageUrl(this.UrlsConfig.imageUrls, './plugins/logier-plugin/resources/gallery/114388636.webp');  
 
   let data = JSON.parse(await redis.get(`Yunzai:logier-plugin:${e.user_id}_sign`));
   const addfavor = Math.floor(Math.random() * 10) + 1;
@@ -65,20 +60,6 @@ export class TextMsg extends plugin {
   
   let position = favorValues.indexOf(data.favor) + 1;
 
-  let date = new Date();
-  let hours = date.getHours();
-  
-  let timeOfDay;
-  if (hours >= 0 && hours < 6) {
-      timeOfDay = '凌晨';
-  } else if (hours >= 6 && hours < 12) {
-      timeOfDay = '上午';
-  } else if (hours >= 12 && hours < 18) {
-      timeOfDay = '下午';
-  } else {
-      timeOfDay = '晚上';
-  }
-
   let Html = `
   <!DOCTYPE html>
   <html lang="zh">
@@ -95,7 +76,7 @@ export class TextMsg extends plugin {
             <div id="user_line" style=" text-align: center;margin-left: 20px;">
             <br>
             <img alt="" id="avatar" src="https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.user_id}" style="width: 80px; float: left; margin-right: 20px;border-radius: 50%;" />
-            <p style="text-align: left; "><span style="font-size: 1.8em;text-align: center;">${timeOfDay}好！</span><br>${e.nickname}</p>
+            <p style="text-align: left; "><span style="font-size: 1.8em;text-align: center;">${getTimeOfDay()}好！</span><br>${e.nickname}</p>
             <br>
             <div style="text-align: left;font-size: 1.2em;">
             <p>${issign}</p>

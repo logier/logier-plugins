@@ -1,22 +1,19 @@
-setpush:
-  - 功能: 定时发图
+Push:
+  - FunctionName: 定时发图
     isAutoPush: false
-    time: 0 0 */1 * * ?
-    groupList: []
-  - 功能: 摸鱼日历
+    PushTime: 0 0 */1 * * ?
+    PushGroupList: []
+  - FunctionName: 摸鱼日历
     isAutoPush: false
-    time: 0 30 9 * * ?
-    groupList: []
-  - 功能: 今日新闻
+    PushTime: 0 30 9 * * ?
+    PushGroupList: []
+  - FunctionName: 今日新闻
     isAutoPush: false
-    time: 0 30 7 * * ?
-    groupList: []
-  - 功能: 今日番剧
+    PushTime: 0 30 7 * * ?
+    PushGroupList: []
+  - FunctionName: 今日番剧
     isAutoPush: false
-    time: 0 30 18 * * ?
-    groupList: []
+    PushTime: 0 30 18 * * ?
+    PushGroupList: []
 
-isWeatherAutoPush: false
-Weathertime: 0 30 8 * * ?
-PushWeather: []
     

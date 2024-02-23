@@ -1,88 +1,85 @@
-import { readAndParseYAML, getemoji } from '../utils/getdate.js'
-
-
+import { getemoji } from '../utils/getdate.js'
+import setting from "../model/setting.js";
 
 export class TextMsg extends plugin {
     constructor() {
         super({
-            name: '[鸢尾花插件]表情包小偷', // 插件名称
-            dsc: '表情包小偷',  // 插件描述            
-            event: 'message',  // 更多监听事件请参考下方的 Events
-            priority: 9999,   // 插件优先度，数字越小优先度越高
+            name: '[鸢尾花插件]表情包小偷',
+            dsc: '表情包小偷',            
+            event: 'message',
+            priority: 9999,
             rule: [
                 {
-                    reg: '',   // 正则表达式,有关正则表达式请自行百度
-                    fnc: '表情包小偷',  // 执行方法
+                    reg: '',
+                    fnc: '表情包小偷',
                     log: false
                 },
             ]
-        })
-
+        })    
+    }
+    get appconfig () {
+        return setting.getConfig("EmojiThief");
     }
 
     async 表情包小偷(e) { 
+        let rate = this.appconfig.DefalutReplyRate;
         
-    const EmojiConfig = await readAndParseYAML('../config/emojithief.yaml');
-
-    let rate = EmojiConfig.emojirate; // 默认概率
-    let groupMatched = false;
-
-    if (EmojiConfig.emojithief && EmojiConfig.emojithief.length > 0) {
-        for (let config of EmojiConfig.emojithief) {
-            if (config.groupList.includes(e.group_id)) {
-                rate = config.rate;
-                groupMatched = true;
-                break;
-            }
+        if (this.appconfig.ETGroupRate && this.appconfig.ETGroupRate.length > 0) {
+            groupMatched = this.appconfig.ETGroupRate.some(config => {
+                if (!config.groupList.includes(e.group_id)) {
+                    return false;
+                } else {
+                    rate = config.rate;
+                }
+            });
         }
-    }
 
-    if (!groupMatched) return false;
+        let key = `Yunzai:EmojiThief:${e.group_id}_EmojiThief`;
         
-
-        let key = `Yunzai:emojithief:${e.group_id}_logier`;
         e.message.forEach(async item => {
             if (item.asface) {
-                let listStr = await redis.get(key);
-                let list = listStr ? JSON.parse(listStr) : [];
-                if (!list.includes(item.url)) {
-                    logger.info('偷取表情包')
-                    list.push(item.url);
-                    if (list.length > 50) {
-                        list.shift();
+                try {
+                    let listStr = await redis.get(key);
+                    let list = listStr ? JSON.parse(listStr) : [];
+                    if (!list.includes(item.url)) {
+                        logger.info('[表情包小偷]偷取表情包')
+                        list.push(item.url);
+                        if (list.length > 50) {
+                            list.shift();
+                        }
+                        await redis.set(key, JSON.stringify(list));
                     }
-                    await redis.set(key, JSON.stringify(list));
+                } catch (error) {
+                    logger.error(`[表情包小偷]Redis数据库出错: ${error}`);
                 }
             }
         })  
-         
+
         if (Math.random() < rate) {
-            if (Math.random() < Number(EmojiConfig.thiefrate)){
-                let imageUrl = await getemoji(e, EmojiConfig.thiefcategory);
-                if (imageUrl) {
-                    logger.info(`发送“${EmojiConfig.thiefcategory}”表情包`);
-                    e.reply([segment.image(imageUrl)]);
+            try {
+                let emojiUrl = await getemoji(e, this.appconfig.ETEmojihubCategory);
+                let listStr = await redis.get(key);
+                if (listStr && Math.random() >= Number(this.appconfig.ThiefEmojiRate)) {
+                    let list = JSON.parse(listStr);    
+                    if (Array.isArray(list) && list.length) {
+                        let randomIndex = Math.floor(Math.random() * list.length);
+                        emojiUrl = list[randomIndex];
+                    }
                 }
-            } else {
-            let listStr = await redis.get(key);
-            let list = JSON.parse(listStr);
-            if (Array.isArray(list) && list.length) {
-                let randomIndex = Math.floor(Math.random() * list.length);
-                let randomEmojiUrl = list[randomIndex];
-                logger.info(`发送“${randomEmojiUrl}”`);
-                e.reply([segment.image(randomEmojiUrl)])
+                logger.info(`[鸢尾花插件] 发送表情包: ${emojiUrl}`)  
+        
+                // 生成一个2到10秒之间的随机延迟
+                let delay = Math.random() * (10000 - 3000) + 3000;
+        
+                // 使用 setTimeout 函数来延迟回复
+                setTimeout(() => {
+                    e.reply([segment.image(emojiUrl)]);
+                }, delay);
+            } catch (error) {
+                logger.error(`[表情包小偷]表情包发送失败: ${error}`);
             }
         }
-    }
         
- 
         return false;
     }
 }
-
-
-
-
-
-
-

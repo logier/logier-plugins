@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer";
-import { readAndParseYAML, getRandomImage, getImageUrl, getFunctionData, readAndParseYAMLNotasync } from '../utils/getdate.js'
+import { NumToRoman, getImageUrl, getFunctionData } from '../utils/getdate.js'
 import fetch from 'node-fetch';
+import setting from "../model/setting.js";
 
 export class example extends plugin {
   constructor() {
@@ -17,27 +18,26 @@ export class example extends plugin {
       ]
     });
     this.task = {
-      cron: this.pushConfig.Weathertime,
+      cron: this.Config.WeatherPushTime,
       name: '推送城市天气',
       fnc: () => this.推送城市天气()
     }
     Object.defineProperty(this.task, 'log', { get: () => false })
   }
-  
-  get pushConfig () { return  readAndParseYAMLNotasync('../config/push.yaml') }
-  
 
+  get Config () {
+    return setting.getConfig("Weather");
+  }
+  
   async 推送城市天气 (e) {
     logger.info(`[城市天气]开始推送……`);
-    for (let i = 0; i < this.pushConfig.PushWeather.length; i++) {
-      setTimeout(async () => {  // 注意这里我们添加了 async
-        Bot.pickGroup(this.pushConfig.PushWeather[i].group).sendMsg([segment.image(await pushweather(e, this.pushConfig.PushWeather[i].city))]);
+    for (let i = 0; i < this.Config.PushWeather.length; i++) {
+      setTimeout(async () => {  
+        Bot.pickGroup(this.Config.WeatherPushgroup[i].group).sendMsg([segment.image(await pushweather(e, this.Config.WeatherPushgroup[i].city))]);
       }, 1 * 1000); 
     }
     return true
-}
-
-
+  }
 
   async 城市天气 (e) {
 
@@ -46,22 +46,22 @@ export class example extends plugin {
 
     return true
   }
+
 }
 
+const WeatherKey = setting.getConfig("Weather").WeatherKey;
 
 async function pushweather(e, pushcity) {
-
-  const key = await readAndParseYAML('../config/key.yaml');
 
   const city = (e?.msg ?? '').replace(/#?(天气)/, '').trim();
   const cityToUse = city || pushcity;
 
 
-  const {location, name} = await getCityGeo(cityToUse, key.qweather)
+  const {location, name} = await getCityGeo(cityToUse, WeatherKey)
 
-  const output = await getIndices(location,  key.qweather);
+  const output = await getIndices(location,  WeatherKey);
 
-  const {forecastresult, iconDays, iconNights} = await getForecast(location, key.qweather);
+  const {forecastresult, iconDays, iconNights} = await getForecast(location, WeatherKey);
 
   let now = new Date();
   let datatime =  now.toLocaleDateString('zh-CN'); //日期格式
@@ -70,7 +70,7 @@ async function pushweather(e, pushcity) {
 
   const urlConfig = await getFunctionData('url', 'setimage', '城市天气') 
   
-  let imageUrl = urlConfig.Switch ? await getRandomImage('mb') : await getImageUrl(urlConfig.imageUrls);  
+  let imageUrl = await getImageUrl(urlConfig.imageUrls);  
 
   let browser;
   try {
@@ -170,11 +170,8 @@ async function pushweather(e, pushcity) {
 
 
 
-
-
-
-async function getForecast(location, key) {
-  const forecast = `https://devapi.qweather.com/v7/weather/3d?location=${location}&key=${key}`;
+async function getForecast(location, WeatherKey) {
+  const forecast = `https://devapi.qweather.com/v7/weather/3d?location=${location}&key=${WeatherKey}`;
   const forecastresponse = await fetch(forecast);
   const forecastdata = await forecastresponse.json();
 
@@ -216,10 +213,8 @@ async function getForecast(location, key) {
   return {forecastresult, iconDays, iconNights};
 }
 
-
-
-async function getIndices(location, key) {
-  const indices = `https://devapi.qweather.com/v7/indices/1d?type=1,3,5,9,11,14,15,16&location=${location}&key=${key}`;
+async function getIndices(location, WeatherKey) {
+  const indices = `https://devapi.qweather.com/v7/indices/1d?type=1,3,5,9,11,14,15,16&location=${location}&key=${WeatherKey}`;
   const indicesresponse = await fetch(indices);
   const indicesdata = await indicesresponse.json();
 
@@ -231,7 +226,7 @@ async function getIndices(location, key) {
     const name = item.name; // 获取 name 属性
     const text = item.text; // 获取 text 属性
     const level = parseInt(item.level); // 获取 level 属性并转换为整数
-    const romanLevel = toRoman(level); // 将 level 转换为罗马数字
+    const romanLevel = NumToRoman(level); // 将 level 转换为罗马数字
 
     // 检查 level 是否大于或等于3
     if (level >= 3) {
@@ -244,8 +239,8 @@ async function getIndices(location, key) {
   return output;
 }
 
-async function getCityGeo(city, key) {
-  const cityGeo = `https://geoapi.qweather.com/v2/city/lookup?location=${city}&key=${key}&city=`;
+async function getCityGeo(city, WeatherKey) {
+  const cityGeo = `https://geoapi.qweather.com/v2/city/lookup?location=${city}&key=${WeatherKey}&city=`;
   const cityGeoresponse = await fetch(cityGeo);
   const data = await cityGeoresponse.json();
   if (data.code !== '200') {
@@ -259,15 +254,5 @@ async function getCityGeo(city, key) {
 }
 
 
-function toRoman(num) {
-  const roman = { M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1 };
-  let str = '';
 
-  for (let i of Object.keys(roman)) {
-    let q = Math.floor(num / roman[i]);
-    num -= q * roman[i];
-    str += i.repeat(q);
-  }
-  return str;
-}
 

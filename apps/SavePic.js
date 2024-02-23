@@ -1,11 +1,7 @@
-import { readAndParseYAML } from '../utils/getdate.js'
-
+import setting from "../model/setting.js";
 import fs from 'fs';
 import path from 'path';
 import https from 'https';
-
-
-
 
 // TextMsg可自行更改，其他照旧即可。
 export class TextMsg extends plugin {
@@ -44,17 +40,17 @@ export class TextMsg extends plugin {
         })
 
     }
+
+    get appconfig () {
+        return setting.getConfig("Config");
+    }
   
     async 保存表情包(e) {
-
         if (!e.isMaster) {
             logger.info('非主人，取消指令')
             return false
         }
-
-        const config = await readAndParseYAML('../config/config.yaml');
-
-        let fileNumbers = await saveFiles(e, config.emojipath)
+        let fileNumbers = await saveFiles(e, this.appconfig.EmojiPath)
     
         e.reply(`保存成功,编号为${generateRanges(fileNumbers)}`, true);
 
@@ -68,8 +64,7 @@ export class TextMsg extends plugin {
             return false
         }
 
-        const config = await readAndParseYAML('../config/config.yaml');
-        const savePath = config.emojipath;
+        const savePath = this.appconfig.EmojiPath;
         let number = parseInt(this.e.msg.replace(/#?(查看表情)(包)?/, ''));
     
         handleEmoticon(e, savePath, number, "表情包")
@@ -83,8 +78,7 @@ export class TextMsg extends plugin {
             return false
         }
         let number = parseInt(this.e.msg.replace(/#?(删除表情)(包)?/, ''));
-        const config = await readAndParseYAML('../config/config.yaml');
-        const savePath = config.emojipath;
+        const savePath = this.appconfig.EmojiPath;
     
         deleteEmoticon(e, savePath, number, "表情包")
 
@@ -98,9 +92,7 @@ export class TextMsg extends plugin {
             return false
         }
 
-        const config = await readAndParseYAML('../config/config.yaml');
-
-        let fileNumbers = await saveFiles(e, config.setupath)
+        let fileNumbers = await saveFiles(e, this.appconfig.SetuPath)
     
         e.reply(`保存成功,编号为${generateRanges(fileNumbers)}`, true);
 
@@ -113,8 +105,7 @@ export class TextMsg extends plugin {
             return false
         }    
 
-        const config = await readAndParseYAML('../config/config.yaml');
-        const savePath = config.setupath;
+        const savePath = this.appconfig.SetuPath;
         let number = parseInt(this.e.msg.replace(/#?(查看涩图)/, ''));
     
         handleEmoticon(e, savePath, number, "涩图")
@@ -129,8 +120,7 @@ export class TextMsg extends plugin {
             return false
         }
         let number = parseInt(this.e.msg.replace(/#?(删除涩图)(包)?/, ''));
-        const config = await readAndParseYAML('../config/config.yaml');
-        const savePath = config.setupath;
+        const savePath = this.appconfig.SetuPath;
     
         deleteEmoticon(e, savePath, number, "涩图")
 
