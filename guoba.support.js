@@ -1,7 +1,7 @@
 import path from "path";
 import setting from "./model/setting.js";
 import lodash from "lodash";
-import { readAndParseJSON } from './utils/getdate.js'
+import { readAndParseJSON, readAndParseYAML } from './utils/getdate.js'
 
 const _path = process.cwd() + "/plugins/logier-plugin";
 const EmojiIndexs = await readAndParseJSON('../data/EmojiIndex.json');
@@ -13,7 +13,8 @@ const EmojiIndexex = [{label: '表情包仓库', value: '表情包仓库'} , ...
 const personalitys = await readAndParseJSON('../data/personality.json');
 let personality = Object.keys(personalitys).map(k => ({label: k, value: k}));
 
-let Push = setting.getConfig("Push").Push
+const pushs = await readAndParseYAML('../defSet/Push.yaml');
+let push = pushs.setpush
   .filter(item => item.功能 !== '城市天气')
   .map(item => ({label: item.功能, value: item.功能}));
 
@@ -228,7 +229,7 @@ export function supportGuoba() {
           label: "功能",
           component: 'Select',
           componentProps: {
-            options: Push,
+            options: push,
           },
         },
         {
