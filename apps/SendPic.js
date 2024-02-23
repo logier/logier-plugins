@@ -27,7 +27,7 @@ export class example extends plugin {
   get UrlsConfig () { return getFunctionData('Urls', 'Urls', '定时发图') }
 
   get appconfig () {
-    return setting.getConfig("config");
+    return setting.getConfig("Config");
   }
 
 // 定时任务

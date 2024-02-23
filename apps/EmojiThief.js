@@ -22,17 +22,21 @@ export class TextMsg extends plugin {
     }
 
     async 表情包小偷(e) { 
-        let rate = this.appconfig.DefalutReplyRate;
+        
+        let rate = this.appconfig.DefalutReplyRate; // 默认概率
+        let groupMatched = false;
         
         if (this.appconfig.ETGroupRate && this.appconfig.ETGroupRate.length > 0) {
-            groupMatched = this.appconfig.ETGroupRate.some(config => {
-                if (!config.groupList.includes(e.group_id)) {
-                    return false;
-                } else {
+            for (let config of this.appconfig.ETGroupRate) {
+                if (config.groupList.includes(e.group_id)) {
                     rate = config.rate;
+                    groupMatched = true;
+                    break;
                 }
-            });
-        }
+            }
+            if (!groupMatched) return false; // 如果数组不为空且匹配不上，就拒绝
+        } 
+        
 
         let key = `Yunzai:EmojiThief:${e.group_id}_EmojiThief`;
         
