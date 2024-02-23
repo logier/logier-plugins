@@ -7,7 +7,7 @@ function createRules() {
     const apiMap = {};
 
     for (let item of config.CustomApi) {
-        apiMap[item.指令] = item.imageUrls;
+        apiMap[item.FunctionName] = item.imageUrls;
     }
     const regexes = Object.keys(apiMap);
     // 如果 regexes 为空，返回一个不可能匹配的正则表达式
@@ -38,7 +38,7 @@ export class TextMsg extends plugin {
     async CustomApi(e) {
         const apiMap = {};
         for (let item of this.appconfig.CustomApi) {
-            apiMap[item.指令] = item.imageUrls;
+            apiMap[item.FunctionName] = item.imageUrls;
         }
         for (let keyword in apiMap) {
             let regex = new RegExp(`^${keyword}$`);
