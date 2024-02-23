@@ -246,8 +246,10 @@ async function sub(e, searchText) {
 
 async function 检查小说更新(e) {
 
-  if (!novelgrouplist.length) {
-    return;
+  const config = getFunctionData('Push', 'Push', '订阅小说')
+
+  if (!config.isAutoPush) {
+    return false;
   }
 
   // 从数据库中获取数据
@@ -288,14 +290,11 @@ async function 检查小说更新(e) {
 
       if (updatetime[1] !== noveldata[i][currentUrl2].updatetime || chaptername[1] !== noveldata[i][currentUrl2].chaptername) {
 
-        const config = getFunctionData('Push', 'Push', '订阅小说')
-
         for (let i = 0; i < config.PushGroupList.length; i++) {
           setTimeout(async () => {  
             Bot.pickGroup(config.PushGroupList[i]).sendMsg([`《${titleMatch[1]}》有更新\n${chaptername[1]}`, segment.image(imageMatch[1])]);
           }, 1 * 3000); 
         }
-
 
         // 更新数据
         noveldata[i][currentUrl2] = {

@@ -1,5 +1,6 @@
 import { getFunctionData, getRandomUrl } from '../utils/getdate.js'
 import setting from "../model/setting.js";
+import common from '../../../lib/common/common.js' 
 
 export class example extends plugin {
   constructor() {
@@ -69,12 +70,12 @@ async 定时发图 () {
     } else {
       // 如果Switch为false，遍历imageUrls数组并发送每一张图片
       const imageUrls = this.UrlsConfig.imageUrls;
+      const forward = []
         for (let j = 0; j < imageUrls.length; j++) {
-          setTimeout(() => {
-            e.reply([segment.image(imageUrls[j])]);
-          }, j * 3000); 
+            forward.push(segment.image(imageUrls[j]))
         }
-      
+      const msg = await common.makeForwardMsg(e, forward, '定时发图')
+      await this.reply(msg)
     }
 
     return true
