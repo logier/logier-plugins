@@ -55,7 +55,6 @@ async 定时发图 (e) {
         forward.push(segment.image(imageUrls[j]));
       }
       e = {"app":"com.tencent.imagetextbot","desc":"","bizsrc":"","view":"index","ver":"1.0.0.14","prompt":"[图转卡]","appID":"","sourceName":"","actionData":"","actionData_A":"","sourceUrl":"","meta":{"robot":{"cover":"https:\/\/api.mrgnb.cn\/api\/tz.php?url=https:\/\/gchat.qpic.cn\/gchatpic_new\/0\/0-0-30BD3157BB29837CF69054960D6AEEB9\/0","jump_url":"","subtitle":"","title":""}},"config":{"autosize":1,"ctime":1708753437,"token":"1eccb106ac4eee9f08b855b4337caffc"},"text":"","sourceAd":"","extra":""}
-      logger.info(e)
       const msg = await common.makeForwardMsg(e, forward, '定时发图');
       await Bot.pickGroup(this.PushConfig.PushGroupList[i]).sendMsg(msg);
     }
