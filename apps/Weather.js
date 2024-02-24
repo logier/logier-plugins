@@ -68,7 +68,7 @@ async function pushweather(e, pushcity) {
   let days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
   let dayOfWeek = days[now.getDay()]; //日期转换为星期几
 
-  const urlConfig = await getFunctionData('url', 'setimage', '城市天气') 
+  const urlConfig = await getFunctionData('Urls', 'Urls', '城市天气') 
   
   let imageUrl = await getImageUrl(urlConfig.imageUrls);  
 

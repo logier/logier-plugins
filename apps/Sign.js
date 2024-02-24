@@ -60,6 +60,8 @@ export class TextMsg extends plugin {
   
   let position = favorValues.indexOf(data.favor) + 1;
 
+  let nickname = e.nickname ? e.nickname : e.sender.card
+
   let Html = `
   <!DOCTYPE html>
   <html lang="zh">
@@ -76,7 +78,7 @@ export class TextMsg extends plugin {
             <div id="user_line" style=" text-align: center;margin-left: 20px;">
             <br>
             <img alt="" id="avatar" src="https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.user_id}" style="width: 80px; float: left; margin-right: 20px;border-radius: 50%;" />
-            <p style="text-align: left; "><span style="font-size: 1.8em;text-align: center;">${getTimeOfDay()}好！</span><br>${e.nickname}</p>
+            <p style="text-align: left; "><span style="font-size: 1.8em;text-align: center;">${getTimeOfDay()}好！</span><br>${nickname}</p>
             <br>
             <div style="text-align: left;font-size: 1.2em;">
             <p>${issign}</p>

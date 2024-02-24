@@ -117,8 +117,10 @@ async function generateFortune(e) {
   const fortune = JSON.parse(data).fortune;
   logger.info(fortune);
 
+  let nickname = e.nickname ? e.nickname : e.sender.card
+
   let replacedMsg = e.msg.replace(/^#?(算一卦|算卦)/, '');
-  let content = [e.nickname + '心中所念' + (replacedMsg ? '“' + replacedMsg + '”' : '') + '卦象如下:'];
+  let content = [nickname + '心中所念' + (replacedMsg ? '“' + replacedMsg + '”' : '') + '卦象如下:'];
 
   let Html = `
     <!DOCTYPE html>

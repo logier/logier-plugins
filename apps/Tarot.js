@@ -214,7 +214,9 @@ async function 占卜塔罗牌(e, replacedMsg = '', isGPT = false) {
     
   }
 
-  const msg = await common.makeForwardMsg(e, forward, `${e.nickname}的${replacedMsg}占卜`);
+  let nickname = e.nickname ? e.nickname : e.sender.card
+
+  const msg = await common.makeForwardMsg(e, forward, `${nickname}的${replacedMsg}占卜`);
   await e.reply(msg);
 
   return true;
