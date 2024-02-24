@@ -72,13 +72,8 @@ export class TextMsg extends plugin {
                 }
                 logger.info(`[鸢尾花插件] 发送表情包: ${emojiUrl}`)  
         
-                // 生成一个2到10秒之间的随机延迟
-                let delay = Math.random() * (10000 - 3000) + 3000;
-        
-                // 使用 setTimeout 函数来延迟回复
-                setTimeout(() => {
-                    e.reply([segment.image(emojiUrl)]);
-                }, delay);
+                e.reply([segment.image(emojiUrl)]);
+
             } catch (error) {
                 logger.error(`[表情包小偷]表情包发送失败: ${error}`);
             }
