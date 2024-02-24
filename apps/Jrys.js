@@ -114,6 +114,8 @@ async function generateFortune(e) {
   const UrlsConfig = getFunctionData('Urls', 'Urls', '今日运势');
   const imageUrl = await getImageUrl(UrlsConfig.imageUrls);  
 
+  let nickname = e.nickname ? e.nickname : e.sender.card
+
   let data = await redis.get(`Yunzai:logier-plugin:${e.user_id}_jrys`);
   const fortune = JSON.parse(data).fortune;
 
@@ -133,7 +135,7 @@ async function generateFortune(e) {
     </style>
     </head>
     <div class="fortune" style="width: 30%; height: 65rem; float: left; text-align: center; background: rgba(255, 255, 255, 0.6);">
-      <p>${e.nickname}的${await numToChinese(new Date().getDate())}号运势为</p>
+      <p>${nickname}的${await numToChinese(new Date().getDate())}号运势为</p>
       <h2>${fortune.fortuneSummary}</h2>
       <p>${fortune.luckyStar}</p>
       <div class="content" style="margin: 0 auto; padding: 12px 12px; height: 49rem; max-width: 980px; max-height: 1024px; background: rgba(255, 255, 255, 0.6); border-radius: 15px; backdrop-filter: blur(3px); box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3); writing-mode: vertical-lr; text-orientation: mixed;">

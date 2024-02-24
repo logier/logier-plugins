@@ -37,6 +37,7 @@ async 定时发图 (e) {
 
   logger.info(`[定时发图]开始推送……`);
 
+
   if (this.appconfig.SendPicRandom) {
     // 如果Switch为true，获取随机图片并发送
     const image = await getRandomUrl(this.UrlsConfig.imageUrls);
@@ -53,8 +54,9 @@ async 定时发图 (e) {
       for (let j = 0; j < imageUrls.length; j++) {
         forward.push(segment.image(imageUrls[j]));
       }
-      const msg = await common.makeForwardMsg(Bot.pickGroup(this.PushConfig.PushGroupList[i]), forward, '定时发图');
-
+      e = {"app":"com.tencent.imagetextbot","desc":"","bizsrc":"","view":"index","ver":"1.0.0.14","prompt":"[图转卡]","appID":"","sourceName":"","actionData":"","actionData_A":"","sourceUrl":"","meta":{"robot":{"cover":"https:\/\/api.mrgnb.cn\/api\/tz.php?url=https:\/\/gchat.qpic.cn\/gchatpic_new\/0\/0-0-30BD3157BB29837CF69054960D6AEEB9\/0","jump_url":"","subtitle":"","title":""}},"config":{"autosize":1,"ctime":1708753437,"token":"1eccb106ac4eee9f08b855b4337caffc"},"text":"","sourceAd":"","extra":""}
+      logger.info(e)
+      const msg = await common.makeForwardMsg(e, forward, '定时发图');
       await Bot.pickGroup(this.PushConfig.PushGroupList[i]).sendMsg(msg);
     }
 
@@ -65,6 +67,8 @@ async 定时发图 (e) {
 
 
   async 发图 (e) {
+
+    d = e ;
 
     if (this.appconfig.SendPicRandom) {
       // 如果Switch为true，获取随机图片并发送
@@ -78,16 +82,11 @@ async 定时发图 (e) {
             forward.push(segment.image(imageUrls[j]))
         }
       const msg = await common.makeForwardMsg(e, forward, '定时发图')
-      await this.reply(msg)
+      await e.reply(msg)
     }
 
     return true
   }
-
-
-  }
-
-
-
+}
 
 
