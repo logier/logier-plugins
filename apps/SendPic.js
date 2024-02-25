@@ -1,6 +1,7 @@
 import { getFunctionData, getRandomUrl } from '../utils/getdate.js'
 import setting from "../model/setting.js";
 import common from '../../../lib/common/common.js' 
+import _ from 'lodash'
 
 export class example extends plugin {
   constructor() {
@@ -52,8 +53,8 @@ async 定时发图 (e) {
       for (let j = 0; j < imageUrls.length; j++) {
         forward.push(segment.image(imageUrls[j]));
       }
-      const msg = await common.makeForwardMsg(d, forward, '定时发图');
-      await Bot.pickGroup(this.PushConfig.PushGroupList[i]).sendMsg(msg);
+      const testmsg = this.makeforwardMsg(forward, this.PushConfig.PushGroupList[0], 'Group', '定时发图')
+      await Bot.pickGroup(this.PushConfig.PushGroupList[i]).sendMsg(testmsg);
     }
 
   }
@@ -63,8 +64,6 @@ async 定时发图 (e) {
 
 
   async 发图 (e) {
-
-    d = e ;
 
     if (this.appconfig.SendPicRandom) {
       // 如果Switch为true，获取随机图片并发送
@@ -83,6 +82,32 @@ async 定时发图 (e) {
 
     return true
   }
+
+  async makeforwardMsg(msg, id, type = 'Group', dec = undefined) {
+    const nickname = Bot.nickname
+    const user_id = Bot.uin
+    const userInfo = {
+      user_id,
+      nickname
+    }
+    let forwardMsg = []
+    _.forEach(msg, (message) => forwardMsg.push({
+      ...userInfo,
+      message
+    }))
+    /** 制作转发内容 */
+    forwardMsg = await Bot[type === 'Group' ? 'pickGroup' : 'pickFriend'](id).makeForwardMsg(forwardMsg)
+    /** 处理描述，icqq0.4.12及以上 */
+    if (dec) {
+      const detail = forwardMsg.data?.meta?.detail
+      if (detail) {
+        detail.news = [{ text: dec }]
+      }
+    }
+    return forwardMsg
+  }
 }
 
-let d;
+
+
+
