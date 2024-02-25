@@ -28,8 +28,10 @@ export class newcomer extends plugin {
 
     let welcome = await readAndParseJSON('../data/welcome.json');
 
+    let nickname = e.nickname ? e.nickname : e.sender.card
+
     let randomIndex = Math.floor(Math.random() * welcome.length); // 选择一个随机的欢迎消息
-    let msg = welcome[randomIndex].replace("{0}", e.nickname); // 将{0}替换为成员的昵称
+    let msg = welcome[randomIndex].replace("{0}", nickname); // 将{0}替换为成员的昵称
 
     /** 回复 */
     await this.reply([

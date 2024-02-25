@@ -302,18 +302,21 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - [个人博客网站](https://logier.gitee.io/)
 
 ## 鸣谢列表 🎁
+
+[爱发电](https://afdian.net/a/logier)
+
+<img src="./img/afdian-[未认证]logier.jfif" width="60%">
+
+
 <details> <summary>参考仓库列表</summary>
 
 - [今日运势源仓库](https://github.com/twiyin0/koishi-plugin-jryspro)
 - [云崽插件基础示例](https://gitee.com/Zyy955/Miao-Yunzai-plugin)
 - [云崽市场](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-indexn)
 - [向日葵插件](https://gitee.com/xrk114514/xrk-plugin)
-
 </details>
 
 <details> <summary>赞助人列表</summary>
-
-[爱发电](https://afdian.net/a/logier)
 
 | 昵称 | 金额 |
 | :----:| :----: |
