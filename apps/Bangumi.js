@@ -82,6 +82,8 @@ async function getItems() {
     let response = await fetch('https://api.bgm.tv/calendar');
     let data = await response.json();
 
+    logger.info(data)
+
     let now = new Date();
     let weekday = now.getDay(); // 获取当前的星期几，注意 JavaScript 的星期是从 0（周日）开始的
 

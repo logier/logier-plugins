@@ -8,7 +8,7 @@ export class example extends plugin {
       name: '[鸢尾花插件]定时发图',
       dsc: '定时发图',
       event: 'message',
-      priority: 1000,
+      priority: 5000,
       rule: [
         {
           reg: '^#?(定时发图|发图)$',
@@ -36,8 +36,6 @@ async 定时发图 (e) {
   if (!this.PushConfig.isAutoPush) {return false}
 
   logger.info(`[定时发图]开始推送……`);
-
-
   if (this.appconfig.SendPicRandom) {
     // 如果Switch为true，获取随机图片并发送
     const image = await getRandomUrl(this.UrlsConfig.imageUrls);
@@ -54,8 +52,7 @@ async 定时发图 (e) {
       for (let j = 0; j < imageUrls.length; j++) {
         forward.push(segment.image(imageUrls[j]));
       }
-      e = {"app":"com.tencent.imagetextbot","desc":"","bizsrc":"","view":"index","ver":"1.0.0.14","prompt":"[图转卡]","appID":"","sourceName":"","actionData":"","actionData_A":"","sourceUrl":"","meta":{"robot":{"cover":"https:\/\/api.mrgnb.cn\/api\/tz.php?url=https:\/\/gchat.qpic.cn\/gchatpic_new\/0\/0-0-30BD3157BB29837CF69054960D6AEEB9\/0","jump_url":"","subtitle":"","title":""}},"config":{"autosize":1,"ctime":1708753437,"token":"1eccb106ac4eee9f08b855b4337caffc"},"text":"","sourceAd":"","extra":""}
-      const msg = await common.makeForwardMsg(e, forward, '定时发图');
+      const msg = await common.makeForwardMsg(d, forward, '定时发图');
       await Bot.pickGroup(this.PushConfig.PushGroupList[i]).sendMsg(msg);
     }
 
@@ -88,4 +85,4 @@ async 定时发图 (e) {
   }
 }
 
-
+let d;
