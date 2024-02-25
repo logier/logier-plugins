@@ -82,14 +82,12 @@ async function getItems() {
     let response = await fetch('https://api.bgm.tv/calendar');
     let data = await response.json();
 
-    logger.info(data)
-
     let now = new Date();
-    let weekday = now.getDay(); // 获取当前的星期几，注意 JavaScript 的星期是从 0（周日）开始的
-
+    let weekday = (now.getDay() + 6) % 7 + 1; // 将星期日转换为7，星期一到星期六转换为1到6
+    
     // 找到对应星期的项目
     let items = data.find(item => item.weekday.id === weekday).items;
-
+    
     // 提取 name_cn、rating 和 images 属性并组成新的数组
     let itemDetails = items.map(item => {
         return {
