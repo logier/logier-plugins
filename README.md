@@ -305,7 +305,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 [爱发电](https://afdian.net/a/logier)
 
-<img src="./resources/img/afdian-[未认证]logier.jfif" width="60%">
+<img src="./resources/img/afdian-logier.jfif" width="60%">
 
 
 <details> <summary>参考仓库列表</summary>

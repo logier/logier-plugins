@@ -88,6 +88,11 @@ export const helpList = [
         "icon": 13,
         "title": "今日番剧",
         "desc": "#今日番剧，可定时推送"
+      },
+      {
+        "icon": 17,
+        "title": "订阅小说",
+        "desc": "#搜小说 #订阅小说 #查看订阅小说"
       }
     ]
   },
