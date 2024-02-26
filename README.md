@@ -51,15 +51,16 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 | 名称 | 指令 | 名称 | 指令 |
 |-------|------ |-------|------ |
-| 表情包仓库 | #表情包 | 表情包小偷 | 发送消息随机触发|
+| 表情包仓库 | #表情包 | 表情包小偷 | 发送消息随机触发 |
 | 戳一戳表情 | 戳一戳触发 | 保存表情包 | #存(表情\|涩图) <br> #查看(表情包\|涩图)+序号？<br> #删除(表情包\|涩图)+序号  | 
 | 定时发图 | 定时推送 | 摸鱼日历 | 定时推送 | 
 | 今日新闻 | 定时推送 | 城市天气 | 定时推送 |  
 | 今日运势 | #今日运势 #悔签 | cp生成器 | #今日cp | 
 | 算一卦 | #算卦 #悔卦 | 塔罗牌 | #塔罗牌 #占卜 #彩虹塔罗牌 | 
-| 签到 | #签到 | 番剧 | #今日新番 |
+| 签到 | #签到 | 番剧 | #今日番剧 |
 | 自定义图片api | 自定义指令 | 进退群通知 | 进退群触发 | 
 | 问候回复 |  打招呼触发 <br> 例如早安、晚安 | 订阅小说 | #搜小说+轻小说书名 <br> #订阅小说+轻小说书名 <br> #查看订阅小说 |
+| 潜伏模板 |  发送消息随机触发 |  |  |
 <br>
 
 <details> <summary>表情包仓库</summary>
@@ -99,7 +100,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - GPT需要配置key，[如何获取key？](#如何获取key)
 - 若使用GPT回复，可以修改人格，[如何填写人格？](#如何填写人格)
 
-<img src="./resources/img/chuoyichuo.jpg" width="40%">
+<img src="./resources/img/chuoyichuo.jpg" width="60%">
 </details>
 <br>
 
@@ -132,21 +133,24 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 </details>
 <br>
 
-<details> <summary>今日运势</summary>
+<details> <summary>今日番剧</summary>
 
-- [今日运势图片api](#如何获取图片api)
-
-<img src="./resources/img/jrys.jpg" width="40%">
+<img src="./resources/img/今日新番.png" width="40%">
 </details>
 <br>
 
-<details> <summary>算一卦</summary>
+<details> <summary>今日运势、算一卦</summary>
 
-- [算一卦图片api](#如何获取图片api)
+- [如何获取图片api](#如何获取图片api)
+
+<img src="./resources/img/jrys.jpg" width="40%">
+
 
 <img src="./resources/img/算一卦.jpg" width="40%">
 </details>
+
 <br>
+
 
 <details> <summary>塔罗牌</summary>
 
@@ -168,7 +172,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - 请使用横图图源 [如何获取图片api？](#如何获取图片api)
 - 竖图适配也许做，也许不做。
 
-<img src="./resources/img/签到.jpg" width="40%">
+<img src="./resources/img/签到.jpg" width="60%">
 </details>
 <br>
 
@@ -178,7 +182,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - 进群时会发送其头像和一句 俏皮话欢迎。
 - 退群时有必要说俏皮话吗？
 
-<img src="./resources/img/进退群.png" width="40%">
+<img src="./resources/img/进退群.png" width="60%">
 </details>
 <br>
 
@@ -188,7 +192,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - GPT回复，需要key，[如何获取key？](#如何获取key)
 - [如何填写人格？](#如何填写人格)
 
-<img src="./resources/img/问候回复.png" width="40%">
+<img src="./resources/img/问候回复.png" width="60%">
 </details>
 <br>
 
@@ -199,16 +203,24 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - 可以离婚（
 - 离婚一天只能一次。
 
-<img src="./resources/img/marry.webp" width="40%">
+<img src="./resources/img/marry.webp" width="60%">
 </details>
 <br>
 
-<details> <summary>今日新番</summary>
+
+
+<details> <summary>今日cp</summary>
 
 - 随机抽一个倒霉蛋群友组成cp
 - 这个功能测试的时候快被群友昵称的特殊字符整疯了
 
 <img src="./resources/img/今日cp.png" width="40%">
+</details>
+<br>
+
+<details> <summary>潜伏模板</summary>
+
+<img src="./resources/img/潜伏模板.png" width="60%">
 </details>
 <br>
 
@@ -226,7 +238,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 │   │   ├── greyscale100.gif
 支持jpg、jpeg、png、webp、gif
 ```
-寻图逻辑是当前目录下没有图片就随机选择一个文件夹继续搜寻
+寻图逻辑获取文件夹和子文件夹下的所有图片然后随机一张
 
 <br>
 
@@ -267,36 +279,6 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 ### Cron表达式
 
 👉[Cron表达式在线生成器](https://cron.qqe2.com/)
-```
-各位代表的意思 *-代表任意值 ？-不指定值，仅日期和星期域支持该字符。 （想了解更多，请自行搜索Cron表达式学习）
-    *  *  *  *  *  *
-    ┬  ┬  ┬  ┬  ┬  ┬
-    │  │  │  │  │  |
-    │  │  │  │  │  └ 星期几，取值：0 - 7，其中 0 和 7 都表示是周日
-    │  │  │  │  └─── 月份，取值：1 - 12
-    │  │  │  └────── 日期，取值：1 - 31
-    │  │  └───────── 时，取值：0 - 23
-    │  └──────────── 分，取值：0 - 59
-    └─────────────── 秒，取值：0 - 59（可选）
-```
-
-### 如何填写人格
-
-```
-  "人格": [
-      {
-          "role": "system",
-          "content": "content"
-      },
-      {
-          "role": "user",
-          "content": "content"
-      }
-  ],
-大致是这样的，最新版支持锅巴配置人格，本插件目录下data文件夹内personality.json文件有很多人格可以参考。
-```
-
-
 
 ## 作者相关 🎲
 - [QQ群](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY)
