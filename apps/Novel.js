@@ -4,7 +4,7 @@ import { getFunctionData } from '../utils/getdate.js'
 export class example extends plugin {
   constructor() {
     super({
-      name: '小说订阅',
+      name: '[鸢尾花插件]小说订阅',
       dsc: '小说订阅',
       event: 'message',
       priority: 5000,
