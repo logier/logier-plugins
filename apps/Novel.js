@@ -91,10 +91,9 @@ export class example extends plugin {
       return false
   }
     let noveldata = await redis.get(`Yunzai:logier-plugin:lightnovel`);
-
-    const replacedMsg = e.msg.replace(/^#?(删除订阅小说)/, '');
-  
     noveldata = JSON.parse(noveldata);
+
+    const replacedMsg = e.msg.replace(/^#?(删除订阅小说)/, '').trim();
   
     if (Array.isArray(noveldata)) {
       // 查找与输入标题匹配的对象
@@ -161,21 +160,50 @@ async function search(e,searchText) {
 
     const titleMatch = data.match(/<meta property="og:title" content="(.*?)"\s*>/);
     const imageMatch = data.match(/<meta property="og:image" content="(.*?)"\s*>/);
-    const tagsMatch = data.match(/<meta property="og:novel:tags" content="(.*?)"\s*>/);
     const authorMatch = data.match(/<meta property="og:novel:author" content="(.*?)"\s*>/);
-    const updatetime = data.match(/<meta property="og:novel:update_time" content="(.*?)"\s*>/);
-    const chaptername = data.match(/<meta property="og:novel:latest_chapter_name" content="(.*?)"\s*>/);
+    const updateTimeMatch = data.match(/<meta property="og:novel:update_time" content="(.*?)"\s*>/);
+    const chapterNameMatch = data.match(/<meta property="og:novel:latest_chapter_name" content="(.*?)"\s*>/);
     const wordCountMatch = data.match(/<span>字数：(.*?)<\/span>/);
     const recommandCountMatch = data.match(/<span>总推荐：(.*?)<\/span>/);
     const weekCountMatch = data.match(/<span>周推荐：(.*?)<\/span>/);
     const userRatingMatch = data.match(/<li>\s*<span class="fr">.*?<\/span><a href="https:\/\/www.linovelib.com\/user\/.*?\.html" target="_blank">(.*?)<\/a>\s*<br>\s*(.*?)\s*<\/li>/);
 
-    if (!titleMatch || !imageMatch || !tagsMatch || !authorMatch) {
-      e.reply(`未获取到${searchText}`, true)
-      throw new Error('Required metadata not found');
+    let content = '';
+
+    if (titleMatch) {
+      content += `标题：${titleMatch[1]}\n`;
+    }
+    if (authorMatch) {
+      content += `作者：${authorMatch[1]}\n`;
+    }
+    if (updateTimeMatch) {
+      content += `最后更新日期：${updateTimeMatch[1]}\n`;
+    }
+    if (chapterNameMatch) {
+      content += `最后更新章节：${chapterNameMatch[1]}\n`;
+    }
+    if (wordCountMatch) {
+      content += `字数：${wordCountMatch[1]}\n`;
+    }
+    if (recommandCountMatch) {
+      content += `总推荐：${recommandCountMatch[1]}\n`;
+    }
+    if (weekCountMatch) {
+      content += `周推荐：${weekCountMatch[1]}\n`;
+    }
+    if (userRatingMatch) {
+      content += `最近互动：${userRatingMatch[1]} ${userRatingMatch[2]}\n`;
     }
 
-    const content = `标题：${titleMatch[1]}\n作者：${authorMatch[1]}\n最后更新日期：${updatetime[1]}\n最后更新章节：${chaptername[1]}\n字数：${wordCountMatch[1]}\n总推荐：${recommandCountMatch[1]}\n周推荐：${weekCountMatch[1]}\n最近互动：${userRatingMatch[1]} ${userRatingMatch[2]}`
+    if (content === '') {
+      console.error('No data found');
+      return;
+    }
+
+    const replyContent = [content];
+    if (imageMatch) {
+      replyContent.push(segment.image(imageMatch[1]));
+    }
     e.reply([content, segment.image(imageMatch[1])]);
   } finally {
     await browser.close();
