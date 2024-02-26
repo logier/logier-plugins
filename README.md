@@ -98,7 +98,6 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - 戳一戳发送表情包，配置和**表情包仓库**共用。
 - 配置概率，默认为0，全部用表情包回复，提高会概率用GPT回复。
 - GPT需要配置key，[如何获取key？](#如何获取key)
-- 若使用GPT回复，可以修改人格，[如何填写人格？](#如何填写人格)
 
 <img src="./resources/img/chuoyichuo.jpg" width="60%">
 </details>
@@ -190,7 +189,6 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 - 发送早安、中午好、晚上好等词回复。
 - GPT回复，需要key，[如何获取key？](#如何获取key)
-- [如何填写人格？](#如何填写人格)
 
 <img src="./resources/img/问候回复.png" width="60%">
 </details>
