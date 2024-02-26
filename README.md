@@ -3,7 +3,7 @@
 
 <div align="center">
   <a href="https://logier.gitee.io/">
-    <img src="./img/logo.png" alt="Logo" height="120">
+    <img src="./resources/img/logo.png" alt="Logo" height="120">
   </a>
 <br>
 
@@ -41,7 +41,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 发送 **#鸢尾花帮助** 获取插件详细信息
 <details> <summary>鸢尾花帮助</summary>
-<img src="./img/help.jpg" >
+<img src="./resources/img/help.jpg" >
 </details>
 
 <br>
@@ -71,15 +71,15 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 指令 | 表情包 | 指令 | 表情包 |
 | :----:| :----: | :----:| :----: |
 | 表情包仓库 | 全随机 | 自定义表情包 | 自定义表情包 |
-| 阿夸 | <img src="./img/阿夸70.webp" width="50px"> | 阿尼亚 | <img src="./img/阿尼亚52.webp" width="50px"> |
-| 白圣女 | <img src="./img/白圣女19.webp" width="50px"> | 柴郡 | <img src="./img/柴郡82.webp" width="50px"> |
-| 甘城猫猫 | <img src="./img/nacho10.webp" width="50px"> | 狗妈 | <img src="./img/54.webp" width="50px"> |
-| chiikawa | <img src="./img/chiikawa65.webp" width="50px"> | 龙图 | <img src="./img/long4.gif" width="50px"> |
-| capoo | <img src="./img/capoo7.webp" width="50px"> | 小黑子 | <img src="./img/什么？有人黑我？.webp" width="50px"> |
-| 亚托莉 | <img src="./img/亚托莉8.webp" width="50px"> | 真寻 | <img src="./img/真寻酱17.webp" width="50px"> |
-| 七濑胡桃 | <img src="./img/menhera8.webp" width="50px"> | 小狐狸 | <img src="./img/2509595_68132875_p0.webp" width="50px"> |
-| 喵内 | <img src="./img/v2-1149a5b7f21e7dcced326221b5d76187_720w.webp" width="50px"> | 波奇 | <img src="./img/v2-1cecb2cfb0a7b224db54a1500564068d.webp" width="50px"> |
-| 心海 | <img src="./img/axsgQ2s-pnkZ1rT1kS74-2v.gif" width="50px"> |  |  |
+| 阿夸 | <img src="./resources/img/阿夸70.webp" width="50px"> | 阿尼亚 | <img src="./resources/img/阿尼亚52.webp" width="50px"> |
+| 白圣女 | <img src="./resources/img/白圣女19.webp" width="50px"> | 柴郡 | <img src="./resources/img/柴郡82.webp" width="50px"> |
+| 甘城猫猫 | <img src="./resources/img/nacho10.webp" width="50px"> | 狗妈 | <img src="./resources/img/54.webp" width="50px"> |
+| chiikawa | <img src="./resources/img/chiikawa65.webp" width="50px"> | 龙图 | <img src="./resources/img/long4.gif" width="50px"> |
+| capoo | <img src="./resources/img/capoo7.webp" width="50px"> | 小黑子 | <img src="./resources/img/什么？有人黑我？.webp" width="50px"> |
+| 亚托莉 | <img src="./resources/img/亚托莉8.webp" width="50px"> | 真寻 | <img src="./resources/img/真寻酱17.webp" width="50px"> |
+| 七濑胡桃 | <img src="./resources/img/menhera8.webp" width="50px"> | 小狐狸 | <img src="./resources/img/2509595_68132875_p0.webp" width="50px"> |
+| 喵内 | <img src="./resources/img/v2-1149a5b7f21e7dcced326221b5d76187_720w.webp" width="50px"> | 波奇 | <img src="./resources/img/v2-1cecb2cfb0a7b224db54a1500564068d.webp" width="50px"> |
+| 心海 | <img src="./resources/img/axsgQ2s-pnkZ1rT1kS74-2v.gif" width="50px"> |  |  |
 </details>
 <br>
 
@@ -98,7 +98,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - GPT需要配置key，[如何获取key？](#如何获取key)
 - 若使用GPT回复，可以修改人格，[如何填写人格？](#如何填写人格)
 
-<img src="./img/chuoyichuo.jpg" width="40%">
+<img src="./resources/img/chuoyichuo.jpg" width="40%">
 </details>
 <br>
 
@@ -127,7 +127,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - 配置发送时间，采用cron表达式。[如何写Cron表达式？](#cron表达式)
 - 使用和风天气API获得天气信息
 
-<img src="./img/weather.jpg" width="40%">
+<img src="./resources/img/weather.jpg" width="40%">
 </details>
 <br>
 
@@ -135,7 +135,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 - [今日运势图片api](#如何获取图片api)
 
-<img src="./img/jrys.jpg" width="40%">
+<img src="./resources/img/jrys.jpg" width="40%">
 </details>
 <br>
 
@@ -143,7 +143,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 - [算一卦图片api](#如何获取图片api)
 
-<img src="./img/算一卦.jpg" width="40%">
+<img src="./resources/img/算一卦.jpg" width="40%">
 </details>
 <br>
 
@@ -152,12 +152,12 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - 由AI解析占卜，需要gptkey [如何获取key？](#如何获取key)
 - 发送塔罗牌+想占卜的东西即可
 
-<img src="./img/塔罗牌.webp" width="40%">
+<img src="./resources/img/塔罗牌.webp" width="40%">
 
 - 支持抽三张占卜，发送 占卜+想占卜的东西 即可。
 - 注意！三牌占卜会用合并转发形式发送，部分适配器可能不支持。
 
-<img src="./img/占卜.png" width="40%">
+<img src="./resources/img/占卜.png" width="40%">
 </details>
 <br>
 
@@ -167,7 +167,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - 请使用横图图源 [如何获取图片api？](#如何获取图片api)
 - 竖图适配也许做，也许不做。
 
-<img src="./img/签到.jpg" width="40%">
+<img src="./resources/img/签到.jpg" width="40%">
 </details>
 <br>
 
@@ -177,7 +177,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - 进群时会发送其头像和一句 俏皮话欢迎。
 - 退群时有必要说俏皮话吗？
 
-<img src="./img/进退群.png" width="40%">
+<img src="./resources/img/进退群.png" width="40%">
 </details>
 <br>
 
@@ -187,7 +187,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - GPT回复，需要key，[如何获取key？](#如何获取key)
 - [如何填写人格？](#如何填写人格)
 
-<img src="./img/问候回复.png" width="40%">
+<img src="./resources/img/问候回复.png" width="40%">
 </details>
 <br>
 
@@ -198,7 +198,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - 可以离婚（
 - 离婚一天只能一次。
 
-<img src="./img/marry.webp" width="40%">
+<img src="./resources/img/marry.webp" width="40%">
 </details>
 <br>
 
@@ -207,7 +207,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - 随机抽一个倒霉蛋群友组成cp
 - 这个功能测试的时候快被群友昵称的特殊字符整疯了
 
-<img src="./img/今日cp.png" width="40%">
+<img src="./resources/img/今日cp.png" width="40%">
 </details>
 <br>
 
@@ -237,13 +237,13 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 1.点击领取内测免费API Key
 
-<img src="./img/chatanywhere.png">
+<img src="./resources/img/chatanywhere.png">
 
 <br>
 
 2.复制这一串东西填入
 
-<img src="./img/apikey.png" >
+<img src="./resources/img/apikey.png" >
 </details>
 <br>
 
@@ -258,7 +258,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 [我的个人博客](https://logier.gitee.io/gallery/)有很多我收集的图片api
 <details> <summary>图片api预览</summary>
-<img src="./img/gallery.webp" >
+<img src="./resources/img/gallery.webp" >
 </details>
 <br>
 
@@ -305,7 +305,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 [爱发电](https://afdian.net/a/logier)
 
-<img src="./img/afdian-[未认证]logier.jfif" width="60%">
+<img src="./resources/img/afdian-[未认证]logier.jfif" width="60%">
 
 
 <details> <summary>参考仓库列表</summary>
