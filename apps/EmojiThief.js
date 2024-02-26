@@ -24,12 +24,14 @@ export class TextMsg extends plugin {
     async 表情包小偷(e) { 
         
         let rate = this.appconfig.DefalutReplyRate; // 默认概率
+        let EmojiRate = this.appconfig.DefalutEmojiRate
         let groupMatched = false;
         
         if (this.appconfig.ETGroupRate && this.appconfig.ETGroupRate.length > 0) {
             for (let config of this.appconfig.ETGroupRate) {
                 if (config.groupList.includes(e.group_id)) {
                     rate = config.rate;
+                    EmojiRate = config.EmojiRate
                     groupMatched = true;
                     break;
                 }
@@ -37,7 +39,6 @@ export class TextMsg extends plugin {
             if (!groupMatched) return false; // 如果数组不为空且匹配不上，就拒绝
         } 
         
-
         let key = `Yunzai:EmojiThief:${e.group_id}_EmojiThief`;
         
         e.message.forEach(async item => {
@@ -63,7 +64,7 @@ export class TextMsg extends plugin {
             try {
                 let emojiUrl = await getemoji(e, this.appconfig.ETEmojihubCategory);
                 let listStr = await redis.get(key);
-                if (listStr && Math.random() >= Number(this.appconfig.ThiefEmojiRate)) {
+                if (listStr && Math.random() >= Number(EmojiRate)) {
                     let list = JSON.parse(listStr);    
                     if (Array.isArray(list) && list.length) {
                         let randomIndex = Math.floor(Math.random() * list.length);

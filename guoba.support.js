@@ -109,6 +109,17 @@ export function supportGuoba() {
                 step: 0.01,
               },
           },
+          {
+            field: 'EmojiRate',
+            label: '表情包仓库概率',
+            bottomHelpMessage: '使用表情包仓库发图的概率',
+            component: "Slider",
+              componentProps: {
+                min: 0,
+                max: 1,
+                step: 0.1,
+              },
+          },
         ],
       },
     },
@@ -124,9 +135,9 @@ export function supportGuoba() {
       },
     },
     {
-      field: 'EmojiThief.ThiefEmojiRate',
+      field: 'EmojiThief.DefalutEmojiRate',
       label: '仓库概率',
-      bottomHelpMessage: '使用表情包仓库发图的概率，如果偷的图比较少推荐拉高点，减少发图重复',
+      bottomHelpMessage: '使用表情包仓库发图的默认概率，如果偷的图比较少推荐拉高点，减少发图重复',
       component: "Slider",
       componentProps: {
         min: 0,
