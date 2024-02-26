@@ -36,7 +36,7 @@ export function supportGuoba() {
       description: "表情包仓库、定时系列和运势系列",
       icon: "mdi:stove",
       iconColor: "#d19f56",
-      iconPath: path.join(_path, "img/-zue37Q5-e39pZlT3cSiw-il.jpeg"),
+      iconPath: path.join(_path, "resources/img/-zue37Q5-e39pZlT3cSiw-il.jpeg"),
     },
       // 配置项信息
     configInfo: {
@@ -216,20 +216,8 @@ export function supportGuoba() {
       ],
     },
   },
-  {
-    field: 'GPTconfig.GPTModel',
-    label: '模型',
-    bottomHelpMessage: 'gpt模型，chatanywhere免费key最高只支持gpt-3.5-turbo',
-    component: 'Input',
-  },
-  {
-    field: 'GPTconfig.GPTUrl',
-    label: '地址',
-    bottomHelpMessage: 'gpt请求地址，key是chatanywhere的不用修改这里',
-    component: 'Input',
-  },
 
- 
+
 
   {
     component: 'Divider',
@@ -351,7 +339,6 @@ export function supportGuoba() {
     },
   },
 
-
   {
     component: 'Divider',
     label: '自定义指令图片api相关设置'
@@ -384,6 +371,32 @@ export function supportGuoba() {
     },
   },
 
+  {
+    component: 'Divider',
+    label: '潜伏模板设置'
+  },
+  {
+    field: 'Customize.CustomizeRate',
+    label: '回复概率',
+    bottomHelpMessage: '收到群聊消息后，随机gpt回复的概率',
+    component: "Slider",
+      componentProps: {
+        min: 0,
+        max: 1,
+        step: 0.01,
+      },
+  },
+  {
+    field: 'Customize.CustomizeEmojiCategory',
+    label: '图类',
+    bottomHelpMessage: '随机回复后发送的表情包类别',
+    component: 'Select',
+    componentProps: {
+      allowAdd: true,
+      allowDel: true,
+      options: EmojiIndexex,
+    },
+  },
   
 
   {
@@ -412,6 +425,35 @@ export function supportGuoba() {
     },
   },
 
+  {
+    component: 'Divider',
+    label: '戳一戳表情包设置'
+  },
+  {
+    field: 'Config.PokeEmojiRate',
+    label: '戳戳GPT',
+    helpMessage: '如果gpt请求失败，会转为回复表情包',
+    bottomHelpMessage: '戳一戳时，使用gpt回复的概率',
+    component: "Slider",
+      componentProps: {
+        min: 0,
+        max: 1,
+        step: 0.1,
+      },
+  },
+  {
+    field: 'Config.PokeEmojiCategory',
+    label: '戳一戳表情包',
+    helpMessage: '“表情包仓库”就是全随机',
+    bottomHelpMessage: '戳一戳表情包回复时使用的表情包种类',
+    component: 'Select',
+    componentProps: {
+      allowAdd: true,
+      allowDel: true,
+      options: EmojiIndexex,
+    },
+  },
+
 {
   component: 'Divider',
   label: '保存图片设置'
@@ -429,33 +471,22 @@ export function supportGuoba() {
   component: 'Input',
 },
 
+
 {
   component: 'Divider',
-  label: '戳一戳表情包设置'
+  label: 'GPT请求设置'
 },
 {
-  field: 'Config.PokeEmojiRate',
-  label: '戳戳GPT',
-  helpMessage: '如果gpt请求失败，会转为回复表情包',
-  bottomHelpMessage: '戳一戳时，使用gpt回复的概率',
-  component: "Slider",
-    componentProps: {
-      min: 0,
-      max: 1,
-      step: 0.1,
-    },
+  field: 'GPTconfig.GPTModel',
+  label: '模型',
+  bottomHelpMessage: 'gpt模型，chatanywhere免费key最高只支持gpt-3.5-turbo',
+  component: 'Input',
 },
 {
-  field: 'Config.PokeEmojiCategory',
-  label: '戳一戳表情包',
-  helpMessage: '“表情包仓库”就是全随机',
-  bottomHelpMessage: '戳一戳表情包回复时使用的表情包种类',
-  component: 'Select',
-  componentProps: {
-    allowAdd: true,
-    allowDel: true,
-    options: EmojiIndexex,
-  },
+  field: 'GPTconfig.GPTUrl',
+  label: '地址',
+  bottomHelpMessage: 'gpt请求地址，key是chatanywhere的不用修改这里',
+  component: 'Input',
 },
 
 ],
