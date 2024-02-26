@@ -243,7 +243,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 ### 如何获取key？
 
-塔罗牌、问候回复和戳一戳回复需要GPT，可以前往[chatanywhere](https://github.com/chatanywhere/GPT_API_free?tab=readme-ov-file#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8)免费获得。
+- 塔罗牌、问候回复和戳一戳回复需要GPT，可以前往[chatanywhere](https://github.com/chatanywhere/GPT_API_free?tab=readme-ov-file#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8)免费获得。
 
 <details> <summary>还是不懂？</summary>
 
@@ -260,13 +260,11 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 <br>
 
 
-城市天气可以前往[和风天气](https://console.qweather.com/#/apps)免费获得，👉[和风天气官方教程](https://dev.qweather.com/docs/configuration/project-and-key/)
+- 城市天气可以前往[和风天气](https://console.qweather.com/#/apps)免费获得，👉[和风天气官方教程](https://dev.qweather.com/docs/configuration/project-and-key/)
 <br>
 <br>
 
 ### 如何获取图片api
-
-本插件自带一个logier严选的pid索引，使用p站反代获取图片，推荐自行更换更稳定的图源，最好本地图源。
 
 [我的个人博客](https://logier.gitee.io/gallery/)有很多我收集的图片api
 <details> <summary>图片api预览</summary>
