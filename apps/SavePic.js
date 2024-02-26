@@ -210,7 +210,6 @@ async function saveFiles(e, savepath) {
             }
         }
     } else if (e.source) {
-
         const reply = (await e.group.getChatHistory(e.source.seq, 1)).pop()?.message;
         if (reply) {
             for (let item of reply) {

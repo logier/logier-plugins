@@ -97,6 +97,8 @@ async function getItems() {
         };
     }).filter(item => item.name && item.score && item.image); // 过滤掉任何属性为空的项
 
+    logger.info(itemDetails)
+
     return itemDetails;
 }
 
