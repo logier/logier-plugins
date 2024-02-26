@@ -20,9 +20,6 @@
 
 ### **24.02.26 更新潜伏模板，群聊中收到消息后概率GPT回复并发送表情包，对俗手哥拙劣的模仿**
 ### **24.02.23 破坏性更新，修复了更新后配置项丢失的问题，以及启动插件缺失yaml文件的问题，更新后需要重新配置，谨慎更新**
-### **24.02.05 优化定时配置，现在可以在云崽运行时修改定时发送相关配置，而不用重启刷新**
-### **24.02.04 大幅优化锅巴配置，更新后需要重新配置**
-
 
 ## 安装教程 ✨
 
@@ -40,14 +37,13 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 ## 插件功能 👓
 
-发送 **#鸢尾花帮助** 获取插件详细信息
-<details> <summary>鸢尾花帮助</summary>
-<img src="./resources/img/help.jpg" >
-</details>
+- 发送 **#鸢尾花帮助** 获取插件详细信息
+
+- 推荐使用[锅巴插件](https://gitee.com/guoba-yunzai/guoba-plugin)进行配置
 
 <br>
 
-插件配置很多，但关键配置可通过锅巴配置
+
 
 | 名称 | 指令 | 名称 | 指令 |
 |-------|------ |-------|------ |
@@ -62,6 +58,8 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 问候回复 |  打招呼触发 <br> 例如早安、晚安 | 订阅小说 | #搜小说+轻小说书名 <br> #订阅小说+轻小说书名 <br> #查看订阅小说 |
 | 潜伏模板 |  发送消息随机触发 |  |  |
 <br>
+
+### 表情包系列
 
 <details> <summary>表情包仓库</summary>
 
@@ -89,7 +87,6 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 - 配置群号，当群里有人发表情包时，会记录到数据库。
 - 配置概率，当配置群里有人发消息时，会概率把之前记录的表情包发送。
-- 因为需要asface参数，目前只支持icqq。
 </details>
 <br>
 
@@ -115,18 +112,19 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 </details>
 <br>
 
-<details> <summary>定时发图、摸鱼日历、今日新闻、今日番剧</summary>
+### 定时系列
+
+<details> <summary>定时发图、摸鱼日历、今日新闻</summary>
 
 - [定时发图如何获取图片api？](#如何获取图片api)
-- 配置发送时间，采用cron表达式。[如何写Cron表达式？](#cron表达式)
+- 配置发送时间，采用cron表达式。👉[Cron表达式在线生成器](https://cron.qqe2.com/)
 </details>
 <br>
 
-
 <details> <summary>城市天气</summary>
 
-- 配置发送时间，采用cron表达式。[如何写Cron表达式？](#cron表达式)
-- 使用和风天气API获得天气信息
+- 配置发送时间，采用cron表达式。👉[Cron表达式在线生成器](https://cron.qqe2.com/)
+- 使用和风天气API获得天气信息。[如何获取key？](#如何获取key)
 
 <img src="./resources/img/weather.jpg" width="40%">
 </details>
@@ -137,6 +135,8 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 <img src="./resources/img/今日新番.png" width="40%">
 </details>
 <br>
+
+### 运势系列
 
 <details> <summary>今日运势、算一卦</summary>
 
@@ -175,6 +175,28 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 </details>
 <br>
 
+<details> <summary>今日老婆</summary>
+
+- 重复发送marry会看到今天娶了谁。
+- 使用图片形式发送，带有一句结婚祝词。
+- 可以离婚（
+- 离婚一天只能一次。
+
+<img src="./resources/img/marry.webp" width="60%">
+</details>
+<br>
+
+<details> <summary>今日cp</summary>
+
+- 随机抽一个倒霉蛋群友组成cp
+- 这个功能测试的时候快被群友昵称的特殊字符整疯了
+
+<img src="./resources/img/今日cp.png" width="40%">
+</details>
+<br>
+
+### 小修系列
+
 <details> <summary>进退群通知</summary>
 
 - 修改自官方插件。
@@ -194,27 +216,6 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 </details>
 <br>
 
-<details> <summary>今日老婆</summary>
-
-- 重复发送marry会看到今天娶了谁。
-- 使用图片形式发送，带有一句结婚祝词。
-- 可以离婚（
-- 离婚一天只能一次。
-
-<img src="./resources/img/marry.webp" width="60%">
-</details>
-<br>
-
-
-
-<details> <summary>今日cp</summary>
-
-- 随机抽一个倒霉蛋群友组成cp
-- 这个功能测试的时候快被群友昵称的特殊字符整疯了
-
-<img src="./resources/img/今日cp.png" width="40%">
-</details>
-<br>
 
 <details> <summary>潜伏模板</summary>
 
@@ -274,9 +275,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 <br>
 
 
-### Cron表达式
 
-👉[Cron表达式在线生成器](https://cron.qqe2.com/)
 
 ## 作者相关 🎲
 - [QQ群](https://qm.qq.com/cgi-bin/qm/qr?k=Tx0KJBxwamQ1slXC4d3ZVhSigQ9MiCmJ&jump_from=webapi&authKey=BJVVNjuciQCnetGahh3pNOirLULs1XA7fQMn/LlPWAWk5GDdr2WWB/zHim1k1OoY)
