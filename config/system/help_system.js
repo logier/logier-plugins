@@ -7,7 +7,7 @@ export const helpCfg = {
   "themeExclude": [
     "default"
   ],
-  "colCount": 2,
+  "colCount": 3,
   "bgBlur": true
 }
 export const helpList = [
@@ -16,23 +16,38 @@ export const helpList = [
     "list": [
       {
         "icon": 1,
-        "title": "表情包仓库",
-        "desc": "#表情包"
+        "title": "#表情包",
+        "desc": "随机发送一张表情包"
       },
       {
         "icon": 2,
-        "title": "表情包小偷",
-        "desc": "偷取群友表情包，并随机发送"
+        "title": "戳一戳",
+        "desc": "表情包或者gpt回复"
       },
       {
         "icon": 3,
-        "title": "保存表情包",
-        "desc": "#存表情 #查看表情包 #删除表情包"
-      },
+        "title": "表情包小偷",
+        "desc": "偷取群友表情包，并随机发送"
+      }
+    ]
+  },
+  {
+    "group": "保存表情包",
+    "list": [
       {
         "icon": 4,
-        "title": "戳一戳表情包",
-        "desc": "表情包或者ai回复戳一戳"
+        "title": "#保存表情包",
+        "desc": "指令+图片 或引用回复图片 即可保存"
+      },
+      {
+        "icon": 5,
+        "title": "#查看表情包(编号)?",
+        "desc": "输入编号就查看编号对应的图片"
+      },
+      {
+        "icon": 6,
+        "title": "#删除表情包+编号",
+        "desc": "删除对应编号的图片"
       }
     ]
   },
@@ -40,24 +55,49 @@ export const helpList = [
     "group": "今日系列",
     "list": [
       {
-        "icon": 5,
-        "title": "今日签到",
-        "desc": "#签到"
-      },
-      {
-        "icon": 6,
-        "title": "今日运势",
-        "desc": "#今日运势"
-      },
-      {
         "icon": 7,
-        "title": "算一卦",
-        "desc": "#算一卦"
+        "title": "#签到",
+        "desc": "签个到吧"
       },
       {
         "icon": 8,
-        "title": "塔罗牌",
-        "desc": "#塔罗牌 或 #占卜 +内容"
+        "title": "#今日运势",
+        "desc": "看看你今天的运势"
+      },
+      {
+        "icon": 9,
+        "title": "#算一卦",
+        "desc": "为担忧的事情算一卦吧"
+      },
+      {
+        "icon": 11,
+        "title": "marry",
+        "desc": "抽一个冤种做老婆"
+      },
+      {
+        "icon": 12,
+        "title": "#今日cp",
+        "desc": "抽一个冤种做cp"
+      }
+    ]
+  },
+  {
+    "group": "塔罗牌",
+    "list": [
+      {
+        "icon": 13,
+        "title": "#塔罗牌(占卜内容)?",
+        "desc": "随机抽取一张塔罗牌占卜"
+      },
+      {
+        "icon": 14,
+        "title": "#占卜(占卜内容)?",
+        "desc": "随机抽取三张塔罗牌占卜"
+      },
+      {
+        "icon": 15,
+        "title": "#彩虹塔罗牌",
+        "desc": "随机抽取一张彩虹社塔罗牌"
       }
     ]
   },
@@ -65,34 +105,29 @@ export const helpList = [
     "group": "定时系列",
     "list": [
       {
-        "icon": 9,
+        "icon": 16,
         "title": "定时发图",
-        "desc": "#发图,可定时推送"
-      },
-      {
-        "icon": 10,
-        "title": "摸鱼日历",
-        "desc": "#摸鱼日历，可定时推送"
-      },
-      {
-        "icon": 11,
-        "title": "今日新闻",
-        "desc": "#今日新闻，可定时推送"
-      },
-      {
-        "icon": 12,
-        "title": "城市天气",
-        "desc": "#天气 + 城市, 可定时推送"
-      },
-      {
-        "icon": 13,
-        "title": "今日番剧",
-        "desc": "#今日番剧，可定时推送"
+        "desc": "#定时发图"
       },
       {
         "icon": 17,
-        "title": "订阅小说",
-        "desc": "#搜小说 #订阅小说 #查看订阅小说"
+        "title": "摸鱼日历",
+        "desc": "#摸鱼日历"
+      },
+      {
+        "icon": 18,
+        "title": "今日新闻",
+        "desc": "#今日新闻"
+      },
+      {
+        "icon": 19,
+        "title": "城市天气",
+        "desc": "#天气 + 城市"
+      },
+      {
+        "icon": 10,
+        "title": "今日番剧",
+        "desc": "#今日番剧"
       }
     ]
   },
@@ -100,19 +135,19 @@ export const helpList = [
     "group": "小修系列",
     "list": [
       {
-        "icon": 14,
+        "icon": 20,
         "title": "进退群通知",
-        "desc": "进群诙谐欢迎"
+        "desc": "进群欢迎"
       },
       {
-        "icon": 15,
+        "icon": 21,
         "title": "问候回复",
-        "desc": "发送“早上好”试试吧"
+        "desc": "发个 早上好 试试吧"
       },
       {
-        "icon": 16,
-        "title": "自定义图片api",
-        "desc": "自定义指令"
+        "icon": 22,
+        "title": "潜伏模板",
+        "desc": "群聊中随机GPT回复"
       }
     ]
   }
