@@ -217,6 +217,24 @@ async function sub(e, searchText) {
   const browser = await puppeteer.launch({headless: 'new', args: ['--no-sandbox','--disable-setuid-sandbox'] });
 
   try {
+    // 获取当前的订阅列表
+    let arrayData = JSON.parse(await redis.get(`Yunzai:logier-plugin:lightnovel`)) || []; 
+
+    // 检查是否已经订阅了这本小说
+    for (let i = 0; i < arrayData.length; i++) {
+      const novelData = Object.values(arrayData[i])[0];
+      logger.info(novelData.titleMatch)
+      if (novelData.titleMatch === searchText) {
+        e.reply(`您已经订阅了《${searchText}》`);
+        return true;
+      }
+    }
+  } catch (error) {
+    console.error('Error checking subscription:', error);
+  }
+  
+    
+  try {
     const page = await browser.newPage();
     await page.goto('https://www.linovelib.com/S6/');
     //await new Promise(r => setTimeout(r, 3500)); 
@@ -228,7 +246,7 @@ async function sub(e, searchText) {
         page.waitForNavigation(),
       ]);
     } catch (error) {
-      console.warn('No security check appeared.');
+
     }
 
     await page.type('#searchkey', searchText);
