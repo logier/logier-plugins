@@ -121,7 +121,7 @@ export class example extends plugin {
 }
 
 async function search(e,searchText) {
-  const browser = await puppeteer.launch({headless: 'new', args: ['--no-sandbox','--disable-setuid-sandbox'] });
+  const browser = await puppeteer.launch({headless: 'new', args: ['--no-sandbox','--disable-setuid-sandbox', '--proxy-server='] });
 
   try {
     const page = await browser.newPage();
@@ -214,7 +214,7 @@ async function search(e,searchText) {
 
 
 async function sub(e, searchText) {
-  const browser = await puppeteer.launch({headless: 'new', args: ['--no-sandbox','--disable-setuid-sandbox'] });
+  const browser = await puppeteer.launch({headless: 'new', args: ['--no-sandbox','--disable-setuid-sandbox', '--proxy-server='] });
 
   try {
     // 获取当前的订阅列表
@@ -223,7 +223,6 @@ async function sub(e, searchText) {
     // 检查是否已经订阅了这本小说
     for (let i = 0; i < arrayData.length; i++) {
       const novelData = Object.values(arrayData[i])[0];
-      logger.info(novelData.titleMatch)
       if (novelData.titleMatch === searchText) {
         e.reply(`您已经订阅了《${searchText}》`);
         return true;
@@ -322,7 +321,7 @@ async function 检查小说更新(e) {
     // 获取currentUrl2
     const currentUrl2 = Object.keys(noveldata[i])[0];
 
-    const browser = await puppeteer.launch({headless: 'new', args: ['--no-sandbox','--disable-setuid-sandbox'] });
+    const browser = await puppeteer.launch({headless: 'new', args: ['--no-sandbox','--disable-setuid-sandbox', '--proxy-server='] });
 
     try {
       const page = await browser.newPage();
