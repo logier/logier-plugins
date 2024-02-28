@@ -155,7 +155,7 @@ export function NumToRoman(num) {
 
 
 export async function getemoji(e, category) {
-    const BASE_URL = 'https://gitee.com/logier/emojihub/raw/dev/';
+    const BASE_URL = 'https://gitee.com/logier/emojihub/raw/master/';
     try {
         const EmojiHub = setting.getConfig("EmojiHub");
         const BlackList = EmojiHub.BlackList;
