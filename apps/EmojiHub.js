@@ -25,9 +25,11 @@ export class TextMsg extends plugin {
 
     async 表情包仓库(e) {
         const category = Object.entries(emojiMap).find(([key, value]) => new RegExp(key).test(e.msg))?.[1];
+        logger.info(category)
 
         if (category) {
             const imageUrl = await getemoji(e, category);
+            logger.info(imageUrl)
             if (imageUrl) {
                 logger.info(`[表情包仓库]发送“${category}”表情包`);
                 e.reply([segment.image(imageUrl)]);
