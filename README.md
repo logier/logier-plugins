@@ -299,5 +299,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 昵称 | 金额 |
 | :----:| :----: |
 | 悠修 | 10元 |
+| 慕蝶 | 5元 |
+| Hirasawa Yui | 5元 |
 
 </details>
