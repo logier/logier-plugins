@@ -168,6 +168,8 @@ async function search(e,searchText) {
     const weekCountMatch = data.match(/<span>周推荐：(.*?)<\/span>/);
     const userRatingMatch = data.match(/<li>\s*<span class="fr">.*?<\/span><a href="https:\/\/www.linovelib.com\/user\/.*?\.html" target="_blank">(.*?)<\/a>\s*<br>\s*(.*?)\s*<\/li>/);
 
+    logger.info(imageMatch[1])
+
     let content = '';
 
     if (titleMatch) {

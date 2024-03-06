@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 import { getTimeOfDay, getImageUrl, getFunctionData } from '../utils/getdate.js'
-
+import fetch from 'node-fetch';
 
 
 
