@@ -31,10 +31,10 @@ export class example extends plugin {
   
   async 推送城市天气 (e) {
     logger.info(`[城市天气]开始推送……`);
-    for (let i = 0; i < this.Config.PushWeather.length; i++) {
+    for (let i = 0; i < this.Config.WeatherPushgroup.length; i++) {
       setTimeout(async () => {  
         Bot.pickGroup(this.Config.WeatherPushgroup[i].group).sendMsg([segment.image(await pushweather(e, this.Config.WeatherPushgroup[i].city))]);
-      }, 1 * 1000); 
+      }, i * 3000); 
     }
     return true
   }
