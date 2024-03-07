@@ -257,7 +257,13 @@ async function getAllImageFiles(dirPath, imageFiles = []) {
 }
 
 export async function getRandomUrl(imageUrls) {
-    let imageUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+    let imageUrl;
+
+    if (Array.isArray(imageUrls)) {
+        imageUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+    } else {
+        imageUrl = imageUrls;
+    }
 
     if (fs.existsSync(imageUrl) && fs.lstatSync(imageUrl).isDirectory()) {
         let imageFiles = await getAllImageFiles(imageUrl);

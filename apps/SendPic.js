@@ -51,7 +51,7 @@ async 定时发图 (e) {
     for (let i = 0; i < this.PushConfig.PushGroupList.length; i++) {
       const forward = []
       for (let j = 0; j < imageUrls.length; j++) {
-        forward.push(segment.image(imageUrls[j]));
+        forward.push(await getRandomUrl(imageUrls[j]));
       }
       const testmsg = this.makeforwardMsg(forward, this.PushConfig.PushGroupList[0], 'Group', '定时发图')
       await Bot.pickGroup(this.PushConfig.PushGroupList[i]).sendMsg(testmsg);
@@ -74,7 +74,7 @@ async 定时发图 (e) {
       const imageUrls = this.UrlsConfig.imageUrls;
       const forward = []
         for (let j = 0; j < imageUrls.length; j++) {
-            forward.push(segment.image(imageUrls[j]))
+            forward.push(segment.image(await getRandomUrl(imageUrls[j])))
         }
       const msg = await common.makeForwardMsg(e, forward, '定时发图')
       await e.reply(msg)
