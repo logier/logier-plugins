@@ -65,7 +65,7 @@ export class TextMsg extends plugin {
            for (let i = 0; i < this.BangumiConfig.PushGroupList.length; i++) {
             setTimeout(() => {
               Bot.pickGroup(this.BangumiConfig.PushGroupList[i]).sendMsg([segment.image(image)]);
-            }, 1 * 1000); 
+            }, i * 3000); 
           }
          } catch (error) {
            logger.info('图片渲染失败');
