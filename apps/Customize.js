@@ -32,6 +32,11 @@ export class greetings extends plugin {
         if (!this.GPTconfig.GPTKey){
           return false
         }
+
+        if (!e.msg) {
+          logger.info('[潜伏模板]非文本消息，不回复')
+          return false
+        }
       
         if (Math.random() > Number(this.appconfig.CustomizeRate)) {return false}
         
