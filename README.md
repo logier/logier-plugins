@@ -301,5 +301,6 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 悠修 | 10元 |
 | 慕蝶 | 5元 |
 | Hirasawa Yui | 5元 |
+| EF-2000台风 | 50元 |
 
 </details>

@@ -30,6 +30,8 @@ export class example extends plugin {
   }
   
   async 推送城市天气 (e) {
+    if (!this.Config.WeatherPushSwitc) {return false}
+    
     logger.info(`[城市天气]开始推送……`);
     for (let i = 0; i < this.Config.WeatherPushgroup.length; i++) {
       setTimeout(async () => {  

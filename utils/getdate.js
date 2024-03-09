@@ -34,7 +34,6 @@ export async function getPersonality() {
     }
 }
 
-
 export async function gpt(messages, GPTKey = null, GPTUrl = null, GPTModel = null) {
     const Config = setting.getConfig("GPTconfig");
 
@@ -42,6 +41,14 @@ export async function gpt(messages, GPTKey = null, GPTUrl = null, GPTModel = nul
     GPTKey = GPTKey || Config.GPTKey;
     GPTUrl = GPTUrl || Config.GPTUrl;
     GPTModel = GPTModel || Config.GPTModel;
+
+        // 检查并修正GPTUrl
+        if (!GPTUrl.endsWith('/')) {
+            GPTUrl += '/';
+        }
+        if (!GPTUrl.endsWith('v1/chat/completions')) {
+            GPTUrl += 'v1/chat/completions';
+        }
 
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + GPTKey );
@@ -71,6 +78,7 @@ export async function gpt(messages, GPTKey = null, GPTUrl = null, GPTModel = nul
 
     return true;
 }
+
 
 
 
