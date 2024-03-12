@@ -485,7 +485,7 @@ export function supportGuoba() {
 {
   field: 'GPTconfig.GPTUrl',
   label: '地址',
-  bottomHelpMessage: 'gpt请求地址，key是chatanywhere的不用修改这里',
+  bottomHelpMessage: '使用openai官方key请修改为https://gpt.lucent.blog/v1/chat/completions',
   component: 'Input',
 },
 
