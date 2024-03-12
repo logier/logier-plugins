@@ -42,18 +42,12 @@ export async function gpt(messages, GPTKey = null, GPTUrl = null, GPTModel = nul
     GPTUrl = GPTUrl || Config.GPTUrl;
     GPTModel = GPTModel || Config.GPTModel;
 
-        // 检查并修正GPTUrl
-        if (!GPTUrl.endsWith('/')) {
-            GPTUrl += '/';
-        }
-        if (!GPTUrl.endsWith('v1/chat/completions')) {
-            GPTUrl += 'v1/chat/completions';
-        }
-
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + GPTKey );
     myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
     myHeaders.append("Content-Type", "application/json");
+
+    //logger.info(GPTUrl)
 
     var raw = JSON.stringify({
         "model": GPTModel,
@@ -69,8 +63,11 @@ export async function gpt(messages, GPTKey = null, GPTUrl = null, GPTModel = nul
 
     try {
         let response = await fetch(GPTUrl, requestOptions);
+        //logger.info(response)
         let result = await response.json();
+        //logger.info(result)
         let content = result.choices[0].message.content;
+        //logger.info(content)
         return content;
     } catch (error) {
         console.log('error', error);

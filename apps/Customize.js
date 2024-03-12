@@ -44,6 +44,7 @@ export class greetings extends plugin {
           {"role": "user", "content": `${e.nickname}说：${e.msg}`}];
         let gptmsg = await getPersonality()
         gptmsg.push(...arr2);
+        logger.info(gptmsg)
         const content = await gpt(gptmsg);
       
       
@@ -52,8 +53,13 @@ export class greetings extends plugin {
           return false
         }
       
-        // 使用正则表达式分割 content
-        const sentences = content.split(/(?<=[。！?;；:：])/g);
+        let sentences
+        if (typeof content === 'string') {
+          sentences = content.split(/(?<=[。！?;；:：])/g);
+        } else {
+          logger.info('未获取到内容', content);
+        }
+        
       
         // 轮流回复
         for (let index = 0; index < sentences.length; index++) {
