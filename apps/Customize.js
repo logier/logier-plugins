@@ -27,12 +27,11 @@ export class greetings extends plugin {
         return setting.getConfig("GPTconfig");
       }
 
-    async 潜伏(e) {
-            
+      async 潜伏(e) {
         if (!this.GPTconfig.GPTKey){
           return false
         }
-
+    
         if (!e.msg) {
           logger.info('[潜伏模板]非文本消息，不回复')
           return false
@@ -42,14 +41,13 @@ export class greetings extends plugin {
         
         let arr2 = [        
           {"role": "user", "content": `${e.nickname}说：${e.msg}`}];
-        let gptmsg = await getPersonality()
-        gptmsg.push(...arr2);
-        logger.info(gptmsg)
-        const content = await gpt(gptmsg);
+        let gptmsgInitial = await getPersonality()
+        let gptmsg = [...gptmsgInitial, ...arr2]; // 创建一个新的数组，包含初始的 "personality" 和用户的消息
+        //logger.info(gptmsg)
+        const content = await gpt(gptmsg);   
       
-      
-        if (!content) {
-          logger.info('[潜伏模板]gptkey错误，结束进程')
+        if (content == true) {
+          logger.info('[潜伏模板]key或url配置错误，')
           return false
         }
       
