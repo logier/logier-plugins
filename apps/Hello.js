@@ -37,10 +37,10 @@ export class greetings extends plugin {
     gptmsg.push(...arr2);
     const content = await gpt(gptmsg);
 
-    if (!content) {
-        logger.warn('GPT错误')
+    if (content == true) {
+        logger.info('[鸢尾花插件]key或url配置错误，')
         return false
-    }
+      }
     e.reply(content, true)
 
     return true;

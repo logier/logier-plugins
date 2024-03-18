@@ -70,7 +70,7 @@ export async function gpt(messages, GPTKey = null, GPTUrl = null, GPTModel = nul
         //logger.info(content)
         return content;
     } catch (error) {
-        console.log('error', error);
+        
     }
 
     return true;

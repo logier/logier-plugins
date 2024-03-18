@@ -107,11 +107,12 @@ async function 抽塔罗牌(e, replacedMsg = '', isGPT = false) {
     meaning = await gpt(gptInput);
 
     // 如果没有生成内容，记录错误并结束进程
-    if (!meaning) {
-      logger.info('gptkey错误，结束进程');
+    if (meaning == true) {
+      logger.info('[鸢尾花插件]key或url配置错误，');
       return false;
     }
   }
+
 
 
 let browser;
@@ -206,7 +207,7 @@ async function 占卜塔罗牌(e, replacedMsg = '', isGPT = false) {
 
     const content = await gpt(message);
 
-    if (!content) {
+    if (content == true) {
       logger.info('gpt出错，没有返回内容');
     } else {
       forward.push(content);

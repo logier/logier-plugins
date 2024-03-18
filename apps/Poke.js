@@ -33,7 +33,7 @@ export class TextMsg extends plugin {
                 let gptmsg = await getPersonality()
                 gptmsg.push(userMessage);
                 const content = await gpt(gptmsg);
-                if (content) {
+                if (!content == ture) {
                     e.reply(content)
                 } else {
                     logger.info(`GPT调用失败，改为发送“${this.appconfig.PokeEmojiCategory}”表情包`);
