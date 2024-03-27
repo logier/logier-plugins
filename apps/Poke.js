@@ -33,12 +33,12 @@ export class TextMsg extends plugin {
                 let gptmsg = await getPersonality()
                 gptmsg.push(userMessage);
                 const content = await gpt(gptmsg);
-                if (!content == true) {
-                    e.reply(content)
-                } else {
+                if (content == true) {
                     logger.info(`GPT调用失败，改为发送“${this.appconfig.PokeEmojiCategory}”表情包`);
                     sendEmoji(e, this.appconfig.PokeEmojiCategory);
-                }
+                    return true
+                  }
+                  e.reply(content)
             }
         }
         return true
