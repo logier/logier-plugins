@@ -61,4 +61,4 @@ export class example extends plugin {
   
   }
   
-  const newsimageUrl = 'http://bjb.yunwj.top/php/tp/60.jpg';// 60s新闻图片的 URL
+  const newsimageUrl = 'https://api.03c3.cn/api/zb';// 60s新闻图片的 URL
