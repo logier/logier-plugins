@@ -210,7 +210,11 @@ async function generateFortune(e) {
 
   let browser;
   try {
-    browser = await puppeteer.launch({headless: 'new', args: ['--no-sandbox','--disable-setuid-sandbox'] });
+    browser = await puppeteer.launch({
+      headless: 'new',
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--no-proxy-server']
+    });
+    
     const page = await browser.newPage();
     await page.setContent(Html)
     const imgElement = await page.$('.tu img');

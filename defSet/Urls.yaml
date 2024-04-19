@@ -3,7 +3,6 @@ Urls:
     imageUrls:
       - https://t.mwm.moe/mp
       - https://t.mwm.moe/ysmp
-      - https://api.vvhan.com/api/girl
       - https://www.loliapi.com/acg/pe/
       - https://api.likepoems.com/img/pe/
   - FunctionName: 今日签到
@@ -12,7 +11,6 @@ Urls:
       - https://www.dmoe.cc/random.php
       - https://t.mwm.moe/ys
       - https://t.mwm.moe/fj
-      - https://api.vvhan.com/api/girl
       - https://api.asxe.vip/scenery.php
       - https://api.horosama.com/random.php
       - https://api.likepoems.com/img/pc/
