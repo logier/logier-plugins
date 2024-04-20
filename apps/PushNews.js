@@ -61,4 +61,5 @@ export class example extends plugin {
   
   }
   
-  const newsimageUrl = 'https://api.03c3.cn/api/zb';// 60s新闻图片的 URL
+  const newsimageUrl = 'https://dayu.qqsuu.cn/weiyujianbao/apis.php';// 60s新闻图片的 URL
+  //打工人日历 
