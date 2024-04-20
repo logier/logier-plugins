@@ -50,6 +50,7 @@ export class TextMsg extends plugin {
             logger.info('非主人，取消指令')
             return false
         }
+
         let fileNumbers = await saveFiles(e, this.appconfig.EmojiPath)
     
         e.reply(`保存成功,编号为${generateRanges(fileNumbers)}`, true);
@@ -66,6 +67,11 @@ export class TextMsg extends plugin {
 
         const savePath = this.appconfig.EmojiPath;
         let number = parseInt(this.e.msg.replace(/#?(查看表情)(包)?/, ''));
+
+        if (!number) {
+            logger.info('无编号')
+            return false
+        }
     
         handleEmoticon(e, savePath, number, "表情包")
     
@@ -91,6 +97,11 @@ export class TextMsg extends plugin {
             logger.info('非主人，取消指令')
             return false
         }
+
+        if (!e.img && !e.source) {
+            logger.info('没有图片')
+            return false
+        } 
 
         let fileNumbers = await saveFiles(e, this.appconfig.SetuPath)
     
