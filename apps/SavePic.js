@@ -222,6 +222,7 @@ async function saveFiles(e, savepath) {
         }
     } else if (e.source) {
         const reply = (await e.group.getChatHistory(e.source.seq, 1)).pop()?.message;
+        logger.info(reply)
         if (reply) {
             for (let item of reply) {
                 if (item.type === 'image') {
@@ -237,6 +238,24 @@ async function saveFiles(e, savepath) {
                 }
             }
         }
+    } else if ((await e.getReply()).message) {
+        const reply = (await e.getReply()).message;
+        if (reply) {
+            for (let item of reply) {
+                if (item.type === 'image') {
+                    try {
+                        const fileNumber = await saveFile(item.url, savepath);
+                        console.log(`File saved successfully with number ${fileNumber}`);
+                        fileNumbers.push(fileNumber);
+                    } catch (err) {
+                        console.error(err);
+                        e.reply("保存失败，请再次尝试或手动保存", true);
+                        return true;
+                    }
+                }
+            }
+        }
+
     } else {
         return false;
     }
