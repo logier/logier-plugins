@@ -33,7 +33,7 @@ export class greetings extends plugin {
         }
     
         if (!e.msg) {
-          logger.info('[潜伏模板]非文本消息，不回复')
+          //logger.info('[潜伏模板]非文本消息，不回复')
           return false
         }
       

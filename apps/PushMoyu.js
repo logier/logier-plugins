@@ -34,7 +34,8 @@ export class example extends plugin {
     
     let fetchUrl = await fetch(moyuapiUrl).catch(err => logger.error(err));
     let imgUrl = await fetchUrl.json();
-    imgUrl = await imgUrl.url;
+    imgUrl = await imgUrl.img;
+    imgUrl = imgUrl.replace("data:image/png;base64,", "base64://");
 
     logger.info(`[摸鱼日历]开始推送……`);
     for (let i = 0; i < this.moyuConfig.PushGroupList.length; i++) {
@@ -49,15 +50,17 @@ export class example extends plugin {
   async 摸鱼日历 (e) {
     let fetchUrl = await fetch(moyuapiUrl).catch(err => logger.error(err));
     let imgUrl = await fetchUrl.json();
-    imgUrl = await imgUrl.url;
+    imgUrl = await imgUrl.img;
+    imgUrl = imgUrl.replace("data:image/png;base64,", "base64://");
 
     e.reply([segment.image(imgUrl)]);
 
     return true
-  }
+}
+
 
 }
 
-const moyuapiUrl = 'https://api.vvhan.com/api/moyu?type=json';// 摸鱼日历接口地址
+const moyuapiUrl = 'https://root.zhuayuya.com:8325/get_calendar';// 摸鱼日历接口地址
 
 
