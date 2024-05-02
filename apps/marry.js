@@ -12,10 +12,10 @@ export class example extends plugin {
                     reg: "^(#|/)?(今日老婆|marry)$",
                     fnc: '今日老婆',
                 },
-                {
+                /*{
                     reg: "^(#|/)?(休妻|悔婚)$",
                     fnc: '悔婚',
-                }
+                }*/
             ]
         })
     };
@@ -46,7 +46,7 @@ export class example extends plugin {
             replyMessage = `今天已经迎娶【${marrydata.lastmarry.nickname}】了哦~`, 
             imageUrl = `https://q1.qlogo.cn/g?b=qq&s=0&nk=${marrydata.lastmarry.user_id}`
             // logger.info(marrydata)
-        } else if (!marrydata && isSameDayCP || notMarryToday && isSameDayCP) {
+        } /*else if (!marrydata && isSameDayCP || notMarryToday && isSameDayCP) {
             replyMessage = `今天已经被【${cpdata.lastCP.nickname}】娶走了哦~`;
             imageUrl = `https://q1.qlogo.cn/g?b=qq&s=0&nk=${cpdata.lastCP.user_id}`
             // logger.info("3")
@@ -54,7 +54,7 @@ export class example extends plugin {
             this.setContext('继续cp');
             replyMessage = `之前【${cpdata.lastCP.nickname}】和你组成CP了，如果想继续请回复“是的”`;
             // logger.info("4")
-        } else {
+        }*/ else {
             await redis.del(`Yunzai:logier-plugin:${e.group_id}_${e.user_id}_marry`);
             await redis.del(`Yunzai:logier-plugin:${e.group_id}_${randomWife.user_id}_cp`);
         }
