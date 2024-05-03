@@ -3,6 +3,7 @@ import { NumToRoman, getImageUrl, getFunctionData } from '../utils/getdate.js'
 import fetch from 'node-fetch';
 import setting from "../model/setting.js";
 
+
 export class example extends plugin {
   constructor() {
     super({
@@ -30,7 +31,7 @@ export class example extends plugin {
   }
   
   async 推送城市天气 (e) {
-    if (!this.Config.WeatherPushSwitc) {return false}
+    if (!this.Config.WeatherPushSwitch) {return false}
     
     logger.info(`[城市天气]开始推送……`);
     for (let i = 0; i < this.Config.WeatherPushgroup.length; i++) {
@@ -42,6 +43,9 @@ export class example extends plugin {
   }
 
   async 城市天气 (e) {
+
+    logger.info(this.Config.WeatherPushSwitch)
+    logger.info(this.Config.WeatherPushgroup)
 
     const image = await pushweather(e);  // 添加了 await
     e.reply([segment.image(image)]);    
