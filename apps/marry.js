@@ -22,14 +22,14 @@ export class example extends plugin {
     async 今日老婆(e) {
         const date_time = formatDate(new Date()); 
         let marrydata = JSON.parse(await redis.get(`Yunzai:logier-plugin:${e.group_id}_${e.user_id}_marry`));
-        let cpdata = JSON.parse(await redis.get(`Yunzai:logier-plugin:${e.group_id}_${e.user_id}_cp`));
+        //let cpdata = JSON.parse(await redis.get(`Yunzai:logier-plugin:${e.group_id}_${e.user_id}_cp`));
         let [randomWife, selfMember] = await getRandomWife(e);
         
         let isSameDayMarry = marrydata && marrydata.lastmarryDate == date_time;
-        let isSameDayCP = cpdata && cpdata.lastCPDate == date_time;
+        //let isSameDayCP = cpdata && cpdata.lastCPDate == date_time;
         
         let notMarryToday = marrydata && !isSameDayMarry;
-        let notCPToday = cpdata && !isSameDayCP;
+        //let notCPToday = cpdata && !isSameDayCP;
         
         let replyMessage = '';
 
@@ -40,7 +40,7 @@ export class example extends plugin {
         let imageUrl;
         let content;
         
-        if (!marrydata && !cpdata || notMarryToday || notMarryToday && notCPToday) {
+        if (!marrydata  || notMarryToday ) {
             // logger.info("1")
         } else if (isSameDayMarry) {
             replyMessage = `今天已经迎娶【${marrydata.lastmarry.nickname}】了哦~`, 
@@ -56,7 +56,7 @@ export class example extends plugin {
             // logger.info("4")
         }*/ else {
             await redis.del(`Yunzai:logier-plugin:${e.group_id}_${e.user_id}_marry`);
-            await redis.del(`Yunzai:logier-plugin:${e.group_id}_${randomWife.user_id}_cp`);
+            //await redis.del(`Yunzai:logier-plugin:${e.group_id}_${randomWife.user_id}_cp`);
         }
 
         
@@ -72,7 +72,7 @@ export class example extends plugin {
     }
 
 
-    async 悔婚(e) {
+    /*async 悔婚(e) {
         const isRemarry = true;
         const date_time = formatDate(new Date()); 
         const marrydata = JSON.parse(await redis.get(`Yunzai:logier-plugin:${e.group_id}_${e.user_id}_marry`));
@@ -126,7 +126,7 @@ export class example extends plugin {
         
         return true;
 
-        }
+        }*/
 
     }
     
@@ -149,12 +149,12 @@ async function handleMarryAndCP(isRemarry, e, date_time, randomWife, selfMember,
         lastmarry: randomWife,
         isRemarry: isRemarry,
     };
-    let cp = {
+    /*let cp = {
         lastCPDate: date_time,
         lastCP: selfMember,
-    };
+    };*/
     await redis.set(`Yunzai:logier-plugin:${e.group_id}_${e.user_id}_marry`, JSON.stringify(marry));
-    await redis.set(`Yunzai:logier-plugin:${e.group_id}_${randomWife.user_id}_cp`, JSON.stringify(cp));
+    //await redis.set(`Yunzai:logier-plugin:${e.group_id}_${randomWife.user_id}_cp`, JSON.stringify(cp));
     let content = isRemarry ? `解怨释结，更莫相憎；一别两宽，各生欢喜。` : "";
     let replyMessage = `${randomWife.nickname}成为了你的新老婆哦~`;
     let imageUrl = `https://q1.qlogo.cn/g?b=qq&s=0&nk=${randomWife.user_id}`;
@@ -173,6 +173,7 @@ async function getRandomWife(e) {
     let excludeUserIds = [String(e.self_id), String(e.user_id), '2854196310'];
     let filteredArrMember = arrMember.filter(member => !excludeUserIds.includes(String(member.user_id)));
     const randomWife = filteredArrMember[Math.floor(Math.random() * filteredArrMember.length)];
+    
     return [randomWife, selfMember];
 }
 
