@@ -13,16 +13,16 @@ const EmojiIndexex = [{label: '表情包仓库', value: '表情包仓库'} , ...
 const personalitys = await readAndParseJSON('../data/personality.json');
 let personality = Object.keys(personalitys).map(k => ({label: k, value: k}));
 
-
 export function supportGuoba() {
 
   let allGroup = [];
   Bot.gl.forEach((v, k) => { allGroup.push({label: `${v.group_name}(${k})`, value: k}); });
-  allGroup.push({label: 'default', value: 'default'}); 
-  
+  allGroup.push({label: 'default', value: 'default'});
+
   let setimage = [{label: `定时发图`, value: `定时发图`},{label: `今日运势`, value: `今日运势`},{label: `算一卦`, value: `算一卦`},{label: `今日签到`, value: `今日签到`},{label: `城市天气`, value: `城市天气`},{label: `default`, value: `default`}]
 
-  let push = [{label: `定时发图`, value: `定时发图`},{label: `摸鱼日历`, value: `摸鱼日历`},{label: `今日新闻`, value: `今日新闻`},{label: `今日番剧`, value: `今日番剧`},{label: `订阅小说`, value: `订阅小说`}]
+  let push = [{label: `定时发图`, value: `定时发图`},{label: `今日番剧`, value: `今日番剧`}]
+  let API = [{label: `摸鱼日历`, value: `摸鱼日历`},{label: `今日新闻`, value: `今日新闻`},{label: `真寻日报`, value: `真寻日报`}]
 
   return {
     pluginInfo: {
@@ -167,7 +167,7 @@ export function supportGuoba() {
       bottomHelpMessage: '请前往https://github.com/chatanywhere/GPT_API_free获得',
       component: 'InputPassword',
       componentProps: {
-        placeholder: 'GPTkey',   
+        placeholder: 'GPTkey',
       },
   },
   {
@@ -217,11 +217,59 @@ export function supportGuoba() {
     },
   },
 
+  {
+    component: 'Divider',
+    label: '新闻,日历  API,推送相关设置'
+  },
+  {
+    field: "API.API",
+    label: "设定",
+    bottomHelpMessage: '设定功能',
+    component: "GSubForm",
+    componentProps: {
+      multiple: true,
+      schemas: [
+        {
+          field: "FunctionName",
+          label: "功能",
+          component: 'Select',
+          componentProps: {
+          options: API,
+          },
+        },
+        {
+          field: 'SourceUrl',
+          label: 'API链接',
+          bottomHelpMessage: '资源路径,响应直接为image',
+          component: 'Input',
+        },
+        {
+          field: 'isAutoPush',
+          label: '推送开关',
+          component: 'Switch'
+        },
+        {
+          field: 'PushTime',
+          label: '推送时间',
+          component: 'EasyCron',
+        },
+        {
+          field: 'PushGroupList',
+          label: '推送群号',
+          bottomHelpMessage: '推送群号',
+          component: 'GSelectGroup',
+        },
+
+      ],
+    },
+  },
+
+
 
 
   {
     component: 'Divider',
-    label: '推送相关设置'
+    label: '发图,番剧推送相关设置'
   },
   {
     field: "Push.Push",
@@ -247,8 +295,7 @@ export function supportGuoba() {
         {
           field: 'PushTime',
           label: '推送时间',
-          bottomHelpMessage: '推送时间，使用cron表达式',
-          component: 'Input',
+          component: 'EasyCron',
         },
         {
           field: 'PushGroupList',
@@ -256,6 +303,7 @@ export function supportGuoba() {
           bottomHelpMessage: '推送群号',
           component: 'GSelectGroup',
         },
+
       ],
     },
   },
@@ -279,8 +327,8 @@ export function supportGuoba() {
   {
     field: 'Weather.WeatherPushTime',
     label: '推送时间',
-    bottomHelpMessage: '推送天气时间，使用cron表达式',
-    component: 'Input',
+    component: 'EasyCron',
+          
   },
   {
     field: "Weather.WeatherPushgroup",
@@ -397,7 +445,7 @@ export function supportGuoba() {
       options: EmojiIndexex,
     },
   },
-  
+
 
   {
     component: 'Divider',

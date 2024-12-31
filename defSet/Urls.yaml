@@ -3,14 +3,20 @@ Urls:
     imageUrls:
       - https://t.mwm.moe/mp
       - https://t.mwm.moe/ysmp
-      - https://www.loliapi.com/acg/pe/
       - https://api.likepoems.com/img/pe/
+      - https://t.alcy.cc/mp
+      - https://t.alcy.cc/moemp
+      - https://t.alcy.cc/ysmp
   - FunctionName: 今日签到
     imageUrls:
       - https://t.mwm.moe/pc
       - https://www.dmoe.cc/random.php
-      - https://t.mwm.moe/ys
-      - https://t.mwm.moe/fj
       - https://api.asxe.vip/scenery.php
       - https://api.horosama.com/random.php
       - https://api.likepoems.com/img/pc/
+      - https://t.alcy.cc/moez
+      - https://t.alcy.cc/ycy
+      - https://t.alcy.cc/ai
+      - https://t.alcy.cc/ysz
+      - https://t.alcy.cc/pc
+      - https://t.alcy.cc/moe

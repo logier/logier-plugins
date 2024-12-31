@@ -14,7 +14,7 @@ export class newcomer extends plugin {
   /** 接受到消息都会执行一次 */
   async accept (e) {
     /** 定义入群欢迎内容 */
-    
+
     /** 冷却cd 30s */
     let cd = 30
 
@@ -26,12 +26,21 @@ export class newcomer extends plugin {
     if (await redis.get(key)) return
     redis.set(key, '1', { EX: cd })
 
-    let welcome = await readAndParseJSON('../data/welcome.json');
+    let welcome = await readAndParseJSON('../data/welcome.json')
 
-    let nickname = e.nickname ? e.nickname : e.sender.card
+    let nickname
+    if (e.nickname) {
+      nickname = e.nickname
+    } else if (e.sender && e.sender.card) {
+      nickname = e.sender.card
+    } else {
+      // 从成员列表里获取该用户昵称
+      let memberMap = await e.group.getMemberMap()
+      nickname = (memberMap && memberMap.get(e.user_id)) ? memberMap.get(e.user_id).nickname : ''
+    }
 
-    let randomIndex = Math.floor(Math.random() * welcome.length); // 选择一个随机的欢迎消息
-    let msg = welcome[randomIndex].replace("{0}", nickname); // 将{0}替换为成员的昵称
+    let randomIndex = Math.floor(Math.random() * welcome.length) // 选择一个随机的欢迎消息
+    let msg = welcome[randomIndex].replace('{0}', nickname) // 将{0}替换为成员的昵称
 
     /** 回复 */
     await this.reply([
@@ -69,8 +78,5 @@ export class outNotice extends plugin {
     }
     logger.mark(`[退出通知]${this.e.logText} ${msg}`)
     await this.reply(msg)
-
   }
 }
-
-

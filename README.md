@@ -1,4 +1,3 @@
-
 # 鸢尾花插件(logier-plugin)
 
 <div align="center">
@@ -11,13 +10,15 @@
 
  <img src="https://count.getloli.com/get/@:logier?theme=moebooru-h" alt=":logier" />
 </div>
-<br>
+
+
 
 ***如果发现bug，希望及时Q群告知我或提交issue***
 ***如果喜欢本插件，就点点star吧***
 
 ## 更新日志 💡
 
+### **24.08.16 添加自定义摸鱼日历和今日新闻api**
 ### **24.02.26 更新潜伏模板，群聊中收到消息后概率GPT回复并发送表情包，对俗手哥拙劣的模仿**
 ### **24.02.23 破坏性更新，修复了更新后配置项丢失的问题，以及启动插件缺失yaml文件的问题，更新后需要重新配置，谨慎更新**
 
@@ -30,6 +31,11 @@ gitee
 ```
 git clone --depth=1 https://gitee.com/logier/logier-plugins.git ./plugins/logier-plugin/
 ```
+gitee([@xiaodoubi](https://gitee.com/cnxiaodoubi/logier-plugins)分支版本)
+```
+git clone --depth=1 https://gitee.com/cnxiaodoubi/logier-plugins.git ./plugins/logier-plugin/
+```
+
 github
 ```
 git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logier-plugin/
@@ -46,7 +52,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 
 | 名称 | 指令 | 名称 | 指令 |
-|-------|------ |-------|------ |
+|:-------:|:------:|:-------:|:------:|
 | 表情包仓库 | #表情包 | 表情包小偷 | 发送消息随机触发 |
 | 戳一戳表情 | 戳一戳触发 | 保存表情包 | #存(表情\|涩图) <br> #查看(表情包\|涩图)+序号？<br> #删除(表情包\|涩图)+序号  | 
 | 定时发图 | 定时推送 | 摸鱼日历 | 定时推送 | 
@@ -55,11 +61,11 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 算一卦 | #算卦 #悔卦 | 塔罗牌 | #塔罗牌 #占卜 #彩虹塔罗牌 | 
 | 签到 | #签到 | 番剧 | #今日番剧 |
 | 自定义图片api | 自定义指令 | 进退群通知 | 进退群触发 | 
-| 问候回复 |  打招呼触发 <br> 例如早安、晚安 | 订阅小说 | #搜小说+轻小说书名 <br> #订阅小说+轻小说书名 <br> #查看订阅小说 |
-| 潜伏模板 |  发送消息随机触发 |  |  |
-<br>
+| 问候回复 |  打招呼触发 <br> 例如早安、晚安 | 发送消息随机触发| 潜伏模板|
+
 
 ### 表情包系列
+
 
 <details> <summary>表情包仓库</summary>
 
@@ -81,6 +87,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | 喵内 | <img src="./resources/img/v2-1149a5b7f21e7dcced326221b5d76187_720w.webp" width="50px"> | 波奇 | <img src="./resources/img/v2-1cecb2cfb0a7b224db54a1500564068d.webp" width="50px"> |
 | 心海 | <img src="./resources/img/axsgQ2s-pnkZ1rT1kS74-2v.gif" width="50px"> |  |  |
 </details>
+
 <br>
 
 <details> <summary>表情包小偷</summary>
@@ -88,6 +95,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - 配置群号，当群里有人发表情包时，会记录到数据库。
 - 配置概率，当配置群里有人发消息时，会概率把之前记录的表情包发送。
 </details>
+
 <br>
 
 <details> <summary>戳一戳表情包</summary>
@@ -98,6 +106,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 <img src="./resources/img/chuoyichuo.jpg" width="60%">
 </details>
+
 <br>
 
 <details> <summary>保存表情包</summary>
@@ -110,6 +119,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - **删除表情包+编号**会删除此编号的图片
 - 支持双路径保存
 </details>
+
 <br>
 
 ### 定时系列
@@ -119,6 +129,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 - [定时发图如何获取图片api？](#如何获取图片api)
 - 配置发送时间，采用cron表达式。👉[Cron表达式在线生成器](https://cron.qqe2.com/)
 </details>
+
 <br>
 
 <details> <summary>城市天气</summary>
@@ -128,13 +139,22 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 <img src="./resources/img/weather.jpg" width="40%">
 </details>
+
 <br>
 
 <details> <summary>今日番剧</summary>
 
 <img src="./resources/img/今日新番.png" width="40%">
 </details>
+
 <br>
+
+
+
+
+
+
+
 
 ### 运势系列
 
@@ -163,6 +183,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 <img src="./resources/img/占卜.png" width="40%">
 </details>
+
 <br>
 
 
@@ -173,6 +194,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 <img src="./resources/img/签到.jpg" width="60%">
 </details>
+
 <br>
 
 <details> <summary>今日老婆</summary>
@@ -184,6 +206,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 <img src="./resources/img/marry.webp" width="60%">
 </details>
+
 <br>
 
 <details> <summary>今日cp</summary>
@@ -193,6 +216,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 <img src="./resources/img/今日cp.png" width="40%">
 </details>
+
 <br>
 
 ### 小修系列
@@ -205,6 +229,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 <img src="./resources/img/进退群.png" width="60%">
 </details>
+
 <br>
 
 <details> <summary>问候回复</summary>
@@ -214,13 +239,16 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 <img src="./resources/img/问候回复.png" width="60%">
 </details>
+
 <br>
+
 
 
 <details> <summary>潜伏模板</summary>
 
 <img src="./resources/img/潜伏模板.png" width="60%">
 </details>
+
 <br>
 
 
@@ -257,12 +285,15 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 
 <img src="./resources/img/apikey.png" >
 </details>
+
 <br>
 
 
 - 城市天气可以前往[和风天气](https://console.qweather.com/#/apps)免费获得，👉[和风天气官方教程](https://dev.qweather.com/docs/configuration/project-and-key/)
+
 <br>
-<br>
+
+
 
 ### 如何获取图片api
 
@@ -270,6 +301,7 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 <details> <summary>图片api预览</summary>
 <img src="./resources/img/gallery.webp" >
 </details>
+
 <br>
 
 
@@ -304,3 +336,5 @@ git clone --depth=1 https://github.com/logier/logier-plugins.git ./plugins/logie
 | EF-2000台风 | 50元 |
 
 </details>
+
+

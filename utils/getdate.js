@@ -51,17 +51,17 @@ export async function gpt(messages, GPTKey = null, GPTUrl = null, GPTModel = nul
 
     logger.info(GPTUrl)
 
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + GPTKey );
     myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
+    let raw = JSON.stringify({
         "model": GPTModel,
         "messages": messages
     });
 
-    var requestOptions = {
+    let requestOptions = {
         method: 'POST',
         headers: myHeaders,
         body: raw,
@@ -74,21 +74,17 @@ export async function gpt(messages, GPTKey = null, GPTUrl = null, GPTModel = nul
         let content = result.choices[0].message.content;
         return content;
     } catch (error) {
-        
+
     }
 
     return true;
 }
 
-
-
-
-
 async function readCategoryFiles(category) {
     const files = await readAndParseJSON(`../data/${category}.json`);
     return getRandomFile(files);
   }
-  
+
 export async function getRandomImage(category) {
 let file;
 if (['pc', 'mb', 'sq'].includes(category)) {
@@ -113,7 +109,7 @@ return allFiles[Math.floor(Math.random() * allFiles.length)];
 export function getTimeOfDay() {
     let date = new Date();
     let hours = date.getHours();
-    
+
     let timeOfDay;
     if (hours >= 0 && hours < 6) {
         timeOfDay = '凌晨';
@@ -124,10 +120,10 @@ export function getTimeOfDay() {
     } else {
         timeOfDay = '晚上';
     }
-    
+
     return timeOfDay;
   }
-  
+
 
 
 export async function numToChinese(num) {
@@ -153,7 +149,7 @@ export async function numToChinese(num) {
 export function NumToRoman(num) {
     const roman = { M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1 };
     let str = '';
-  
+
     for (let i of Object.keys(roman)) {
       let q = Math.floor(num / roman[i]);
       num -= q * roman[i];
@@ -170,7 +166,7 @@ export async function getemoji(e, category) {
         const EmojiHub = setting.getConfig("EmojiHub");
         const BlackList = EmojiHub.BlackList;
         const groupData = BlackList.find(item => String(item.group) === String(e.group_id)) || BlackList.find(item => item.group === 'default');
-        const exclude = groupData ? groupData.Emojiindexs : [];        
+        const exclude = groupData ? groupData.Emojiindexs : [];
 
         const EmojiIndex = await readAndParseJSON('../data/EmojiIndex.json');
         const EmojiConfig = setting.getConfig("Config");
@@ -180,7 +176,7 @@ export async function getemoji(e, category) {
             logger.info(`[鸢尾花插件] 表情包在黑名单: ${category}`)
         }
         if (!exclude.includes(category)) {
- 
+
             if (category === '表情包仓库') {
                 if (Math.random() < Number(EmojiConfig.CustomerRate)) {
                     imageUrl = await getRandomUrl(EmojiConfig.CustomeEmoji);

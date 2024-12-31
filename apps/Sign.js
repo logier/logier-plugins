@@ -1,74 +1,274 @@
-import puppeteer from "puppeteer";
+import puppeteer from 'puppeteer'
 import { getTimeOfDay, getImageUrl, getFunctionData } from '../utils/getdate.js'
-import fetch from 'node-fetch';
-
-
+import fetch from 'node-fetch'
 
 // TextMsg可自行更改，其他照旧即可。
 export class TextMsg extends plugin {
-  constructor() {
-      super({
-          name: '[鸢尾花插件]今日签到', // 插件名称
-          dsc: '今日签到',  // 插件描述            
-          event: 'message',  // 更多监听事件请参考下方的 Events
-          priority: 5000,   // 插件优先度，数字越小优先度越高
-          rule: [
-              {
-                  reg: '^#?(今日)?(签到|打卡)$',   // 正则表达式,有关正则表达式请自行百度
-                  fnc: '今日签到'  // 执行方法
-              }
-          ]
-      })
-
+  constructor () {
+    super({
+      name: '[鸢尾花插件]今日签到', // 插件名称
+      dsc: '今日签到', // 插件描述
+      event: 'message', // 更多监听事件请参考下方的 Events
+      priority: 5000, // 插件优先度，数字越小优先度越高
+      rule: [
+        {
+          reg: '^#?(今日)?(签到|打卡)$', // 正则表达式,有关正则表达式请自行百度
+          fnc: '今日签到' // 执行方法
+        }
+      ]
+    })
   }
 
   get UrlsConfig () { return getFunctionData('Urls', 'Urls', '今日签到') }
 
-  async 今日签到(e) {
+  async 今日签到 (e) {
+    let now = new Date()
+    let datatime = now.toLocaleDateString('zh-CN') // 日期格式
 
-  let now = new Date();
-  let datatime =  now.toLocaleDateString('zh-CN'); //日期格式
+    const response = await fetch('https://v1.hitokoto.cn')
+    const hitokodata = await response.json()
+    const content = hitokodata.hitokoto
 
-  const response = await fetch('https://v1.hitokoto.cn');
-  const hitokodata = await response.json();
-  const content = hitokodata.hitokoto;
-  
-  let imageUrl = await getImageUrl(this.UrlsConfig.imageUrls, './plugins/logier-plugin/resources/gallery/114388636.webp');  
+    let imageUrl = await getImageUrl(this.UrlsConfig.imageUrls, './plugins/logier-plugin/resources/gallery/114388636.webp')
 
-  let data = JSON.parse(await redis.get(`Yunzai:logier-plugin:${e.user_id}_sign`));
-  const addfavor = Math.floor(Math.random() * 10) + 1;
-  let  issign = `好感度+${addfavor}`
-  if (!data) {
-      data = { favor: addfavor, time: datatime };
-  } else if (data.time !== datatime) {
-      data.favor += addfavor;
-      data.time = datatime;
-  } else if (data.time == datatime) {
-     issign = `今日已经签到了`
-} 
-  
-  await redis.set(`Yunzai:logier-plugin:${e.user_id}_sign`, JSON.stringify(data));
-  let finaldata = JSON.parse(await redis.get(`Yunzai:logier-plugin:${e.user_id}_sign`));
-  
-  let groupdata = JSON.parse(await redis.get(`Yunzai:logier-plugin:group${e.group_id}_sign`)) || {};
-  groupdata[e.user_id] = data.favor;
+    let data = JSON.parse(await redis.get(`Yunzai:logier-plugin:${e.user_id}_sign`))
+    const addfavor = Math.floor(Math.random() * 10) + 1
+    let issign = `好感度+${addfavor}`
+    if (!data) {
+      data = { favor: addfavor, time: datatime }
+    } else if (data.time !== datatime) {
+      data.favor += addfavor
+      data.time = datatime
+    } else if (data.time == datatime) {
+      issign = '今日已经签到了'
+    }
 
-  await redis.set(`Yunzai:logier-plugin:group${e.group_id}_sign`, JSON.stringify(groupdata));
-  
-  let favorValues = Object.values(groupdata);
-  favorValues.sort((a, b) => b - a);
-  
-  let position = favorValues.indexOf(data.favor) + 1;
+    await redis.set(`Yunzai:logier-plugin:${e.user_id}_sign`, JSON.stringify(data))
+    let finaldata = JSON.parse(await redis.get(`Yunzai:logier-plugin:${e.user_id}_sign`))
 
-  let nickname = e.nickname ? e.nickname : e.sender.card
+    let groupdata = JSON.parse(await redis.get(`Yunzai:logier-plugin:group${e.group_id}_sign`)) || {}
+    groupdata[e.user_id] = data.favor
 
-  let Html = `
+    await redis.set(`Yunzai:logier-plugin:group${e.group_id}_sign`, JSON.stringify(groupdata))
+
+    let favorValues = Object.values(groupdata)
+    favorValues.sort((a, b) => b - a)
+
+    let position = favorValues.indexOf(data.favor) + 1
+
+    let nickname = e.nickname ? e.nickname : e.sender.card
+
+    let Html = `
   <!DOCTYPE html>
   <html lang="zh">
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Document</title>
+      <link rel="stylesheet" href="https://cdn.atxrom.com/logier/CSS/sign.css"> 
+      
+      <style>
+       html,
+       body {
+           width: 900px;
+       }
+       #main {
+           display: grid;
+           grid-template-areas: "i";
+           width: 900px;
+           overflow: hidden;
+       }
+       #cav {
+           grid-area: i;
+           z-index: -1;
+           /* visibility: hidden; */
+           width: 100%;
+           height: 100%;
+       }
+       #wrapper {
+           grid-area: i;
+           display: grid;
+           grid-template-columns: 30% 70%;
+       }
+       #left {
+           padding: 10px;
+       }
+       #right {
+           padding: 10px;
+           display: flex;
+           flex-direction: column;
+           justify-content: center;
+           align-items: center;
+       }
+       
+        #cont_img {
+            width: 90%;
+            border-radius: 10px;
+            filter: drop-shadow(0px 0px 10px black);
+        }
+       .img_around {
+           width: 80%;
+           height: 60px;
+       }
+       #img_top {
+           display: flex;
+           justify-content: end;
+           align-items: end;
+           padding: 10px;
+       }
+       #date_text {
+           font-size: 36px;
+           font-weight: bold;
+           color: white;
+           filter: drop-shadow(1px 1px 0px black);
+       }
+       
+        html {
+            line-height: 1.15; /* 1 */
+            -webkit-text-size-adjust: 100%; /* 2 */
+        }
+       body {
+           margin: 0;
+       }
+       main {
+           display: block;
+       }
+       h1 {
+           font-size: 2em;
+           margin: 0.67em 0;
+       }
+       hr {
+           box-sizing: content-box; /* 1 */
+           height: 0; /* 1 */
+           overflow: visible; /* 2 */
+       }
+       pre {
+           font-family: monospace, monospace; /* 1 */
+           font-size: 1em; /* 2 */
+       }
+       a {
+           background-color: transparent;
+       }
+       abbr[title] {
+           border-bottom: none; /* 1 */
+           text-decoration: underline; /* 2 */
+           text-decoration: underline dotted; /* 2 */
+       }
+       b,
+       strong {
+           font-weight: bolder;
+       }
+       code,
+       kbd,
+       samp {
+           font-family: monospace, monospace; /* 1 */
+           font-size: 1em; /* 2 */
+       }
+       small {
+           font-size: 80%;
+       }
+       sub,
+       sup {
+           font-size: 75%;
+           line-height: 0;
+           position: relative;
+           vertical-align: baseline;
+       }
+       sub {
+           bottom: -0.25em;
+       }
+       sup {
+           top: -0.5em;
+       }
+       img {
+           border-style: none;
+       }
+       button,
+       input,
+       optgroup,
+       select,
+       textarea {
+           font-family: inherit;
+           font-size: 100%;
+           line-height: 1.15;
+           margin: 0;
+       }
+       button,
+       input {
+           overflow: visible;
+       }
+       button,
+       select {
+           text-transform: none;
+       }
+       button,
+       [type="button"],
+       [type="reset"],
+       [type="submit"] {
+           -webkit-appearance: button;
+       }
+       button::-moz-focus-inner,
+       [type="button"]::-moz-focus-inner,
+       [type="reset"]::-moz-focus-inner,
+       [type="submit"]::-moz-focus-inner {
+           border-style: none;
+           padding: 0;
+       }
+       button:-moz-focusring,
+       [type="button"]:-moz-focusring,
+       [type="reset"]:-moz-focusring,
+       [type="submit"]:-moz-focusring {
+           outline: 1px dotted ButtonText;
+       }
+       fieldset {
+           padding: 0.35em 0.75em 0.625em;
+       }
+       legend {
+           box-sizing: border-box; /* 1 */
+           color: inherit; /* 2 */
+           display: table; /* 1 */
+           max-width: 100%; /* 1 */
+           padding: 0; /* 3 */
+           white-space: normal; /* 1 */
+       }
+       progress {
+           vertical-align: baseline;
+       }
+       textarea {
+           overflow: auto;
+       }
+       [type="checkbox"],
+       [type="radio"] {
+           box-sizing: border-box; /* 1 */
+           padding: 0; /* 2 */
+       }
+       [type="number"]::-webkit-inner-spin-button,
+       [type="number"]::-webkit-outer-spin-button {
+           height: auto;
+       }
+       [type="search"] {
+           -webkit-appearance: textfield; /* 1 */
+           outline-offset: -2px; /* 2 */
+       }
+       [type="search"]::-webkit-search-decoration {
+           -webkit-appearance: none;
+       }
+       ::-webkit-file-upload-button {
+           -webkit-appearance: button; /* 1 */
+           font: inherit; /* 2 */
+       }
+       details {
+           display: block;
+       }
+       summary {
+           display: list-item;
+       }
+       template {
+           display: none;
+       }
+       [hidden] {
+           display: none;
+       }          
+       </style>
     </head>
     <body>
       <div id="main">
@@ -100,213 +300,7 @@ export class TextMsg extends plugin {
       </div>
     </body>
   </html>
-  <style>
-    html,
-    body {
-      width: 900px;
-    }
-    #main {
-      display: grid;
-      grid-template-areas: "i";
-      width: 900px;
-      overflow: hidden;
-    }
-    #cav {
-      grid-area: i;
-      z-index: -1;
-      /* visibility: hidden; */
-      width: 100%;
-      height: 100%;
-    }
-    #wrapper {
-      grid-area: i;
-      display: grid;
-      grid-template-columns: 30% 70%;
-    }
-    #left {
-      padding: 10px;
-    }
-    #right {
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-  </style>
-  
-  <style>
-    #cont_img {
-      width: 90%;
-      border-radius: 10px;
-      filter: drop-shadow(0px 0px 10px black);
-    }
-    .img_around {
-      width: 80%;
-      height: 60px;
-    }
-    #img_top {
-      display: flex;
-      justify-content: end;
-      align-items: end;
-      padding: 10px;
-    }
-    #date_text {
-      font-size: 36px;
-      font-weight: bold;
-      color: white;
-      filter: drop-shadow(1px 1px 0px black);
-    }
-  </style>
-  
-  <style>
-    html {
-      line-height: 1.15; /* 1 */
-      -webkit-text-size-adjust: 100%; /* 2 */
-    }
-    body {
-      margin: 0;
-    }
-    main {
-      display: block;
-    }
-    h1 {
-      font-size: 2em;
-      margin: 0.67em 0;
-    }
-    hr {
-      box-sizing: content-box; /* 1 */
-      height: 0; /* 1 */
-      overflow: visible; /* 2 */
-    }
-    pre {
-      font-family: monospace, monospace; /* 1 */
-      font-size: 1em; /* 2 */
-    }
-    a {
-      background-color: transparent;
-    }
-    abbr[title] {
-      border-bottom: none; /* 1 */
-      text-decoration: underline; /* 2 */
-      text-decoration: underline dotted; /* 2 */
-    }
-    b,
-    strong {
-      font-weight: bolder;
-    }
-    code,
-    kbd,
-    samp {
-      font-family: monospace, monospace; /* 1 */
-      font-size: 1em; /* 2 */
-    }
-    small {
-      font-size: 80%;
-    }
-    sub,
-    sup {
-      font-size: 75%;
-      line-height: 0;
-      position: relative;
-      vertical-align: baseline;
-    }
-    sub {
-      bottom: -0.25em;
-    }
-    sup {
-      top: -0.5em;
-    }
-    img {
-      border-style: none;
-    }
-    button,
-    input,
-    optgroup,
-    select,
-    textarea {
-      font-family: inherit;
-      font-size: 100%;
-      line-height: 1.15;
-      margin: 0;
-    }
-    button,
-    input {
-      overflow: visible;
-    }
-    button,
-    select {
-      text-transform: none;
-    }
-    button,
-    [type="button"],
-    [type="reset"],
-    [type="submit"] {
-      -webkit-appearance: button;
-    }
-    button::-moz-focus-inner,
-    [type="button"]::-moz-focus-inner,
-    [type="reset"]::-moz-focus-inner,
-    [type="submit"]::-moz-focus-inner {
-      border-style: none;
-      padding: 0;
-    }
-    button:-moz-focusring,
-    [type="button"]:-moz-focusring,
-    [type="reset"]:-moz-focusring,
-    [type="submit"]:-moz-focusring {
-      outline: 1px dotted ButtonText;
-    }
-    fieldset {
-      padding: 0.35em 0.75em 0.625em;
-    }
-    legend {
-      box-sizing: border-box; /* 1 */
-      color: inherit; /* 2 */
-      display: table; /* 1 */
-      max-width: 100%; /* 1 */
-      padding: 0; /* 3 */
-      white-space: normal; /* 1 */
-    }
-    progress {
-      vertical-align: baseline;
-    }
-    textarea {
-      overflow: auto;
-    }
-    [type="checkbox"],
-    [type="radio"] {
-      box-sizing: border-box; /* 1 */
-      padding: 0; /* 2 */
-    }
-    [type="number"]::-webkit-inner-spin-button,
-    [type="number"]::-webkit-outer-spin-button {
-      height: auto;
-    }
-    [type="search"] {
-      -webkit-appearance: textfield; /* 1 */
-      outline-offset: -2px; /* 2 */
-    }
-    [type="search"]::-webkit-search-decoration {
-      -webkit-appearance: none;
-    }
-    ::-webkit-file-upload-button {
-      -webkit-appearance: button; /* 1 */
-      font: inherit; /* 2 */
-    }
-    details {
-      display: block;
-    }
-    summary {
-      display: list-item;
-    }
-    template {
-      display: none;
-    }
-    [hidden] {
-      display: none;
-    }
-  </style>
+
   <script>
     //这里其实就是导入了一个全局变量myimg
     //如果想要替换，直接把这个script的src去掉
@@ -377,40 +371,29 @@ export class TextMsg extends plugin {
         ctx.globalAlpha = 1;
       };
     }
-  </script>
-          `;
- 
-    let browser;
+  </script> `
+
+
+    let browser
     try {
       if (!imageUrl) {
-        throw new Error('无法获取图片URL');
+        throw new Error('无法获取图片URL')
       }
-      browser = await puppeteer.launch({headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-      const page = await browser.newPage();
+      browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] })
+      const page = await browser.newPage()
       await page.setContent(Html)
-      const imgElement = await page.$('#main');
+
+      const imgElement = await page.$('#main')
       // 对图片元素进行截图
-      const image = await imgElement.screenshot();
+      const image = Buffer.from(await imgElement.screenshot())
       e.reply(segment.image(image))
     } catch (error) {
-      logger.info('图片渲染失败');
+      logger.info('图片渲染失败')
     } finally {
       if (browser) {
-        await browser.close();
+        await browser.close()
       }
     }
-    return true;
-
+    return true
+  }
 }
-
-}
-
-
-
-
-
-
-
-
-
-
