@@ -9,6 +9,7 @@
 - 表情包小偷：缓存图片发送失败（QQ 图片 rkey 过期）时自动删除过期链接并换用表情包仓库图片（Issue `#3`、`I9IXPX`）。
 - `generateRanges()` 兼容字符串编号与非数组输入，避免旧保存记录触发 `sort is not a function`（Issue `#1`）。
 - README 重写：快速开始、功能表、常见问题、Fork 链接与更新说明。
+- 框架兼容：`apps/update.js` 改为按需加载框架更新插件，精简框架（如 yunzai-bot-lite）不再因缺少 `plugins/other/update.js` 导致整个插件加载失败，并提示手动 `git pull`；README 增加 TRSS-Yunzai、Miao-Yunzai、Yunzai-Bot、yunzai-bot-lite 的兼容性测试结果。
 
 > 此条为待合并变更，尚未经过真实云崽/QQ 适配器的集成测试。图片下载目前只接受 HTTP(S) 地址和常见图片 MIME 类型，单张默认限制 20 MiB、超时 15 秒。
 

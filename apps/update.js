@@ -1,8 +1,13 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { execSync } from 'child_process'
-import { update } from '../../other/update.js'
 import { Version, Plugin_Name } from '../components/index.js'
 import render from '../components/render/render.js'
+
+// 精简版框架（如 yunzai-bot-lite）没有 plugins/other/update.js，按需加载避免整个插件加载失败。
+const updateModule = await import('../../other/update.js').catch(() => null)
+const update = updateModule?.update
+
+const NO_UPDATE_PLUGIN = '当前云崽框架未提供更新插件（plugins/other/update.js），请手动 git pull 更新'
 
 export class ql_update extends plugin {
   constructor () {
@@ -30,6 +35,7 @@ export class ql_update extends plugin {
   }
 
   async update_plugin () {
+    if (!update) return this.e.reply(NO_UPDATE_PLUGIN)
     let Update_Plugin = new update()
     Update_Plugin.e = this.e
     Update_Plugin.reply = this.reply
@@ -47,6 +53,7 @@ export class ql_update extends plugin {
   }
 
   async update_log () {
+    if (!update) return this.e.reply(NO_UPDATE_PLUGIN)
     let Update_Plugin = new update()
     Update_Plugin.e = this.e
     Update_Plugin.reply = this.reply

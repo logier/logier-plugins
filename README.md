@@ -201,6 +201,19 @@ node scripts/check-source.mjs   # 语法与 JSON 校验
 node --test tests/*.test.mjs    # 单元测试
 ```
 
+### 云崽框架兼容性
+
+以下框架已在无 QQ 登录的条件下验证过插件加载与可离线执行的指令（2026-11 测试）：
+
+| 框架 | 测试版本 | 验证结果 |
+| :--- | :--- | :--- |
+| [TRSS-Yunzai](https://gitee.com/TimeRainStarSky/TRSS-Yunzai) | 最新 master | 加载插件 42 个，HTTP 服务正常启动，无报错 |
+| [Miao-Yunzai](https://gitee.com/yoimiya-kokomi/Miao-Yunzai) | 3.1.3 | 25 个应用模块全部加载 |
+| [Yunzai-Bot](https://gitee.com/yoimiya-kokomi/Yunzai-Bot) | 3.0.0 | 离线 `lib/tools/test.js` 加载成功，实际执行保存/查看/删除表情包与表情包小偷写 Redis |
+| [yunzai-bot-lite](https://gitee.com/Nwflower/yunzai-bot-lite) | 最新 master | 加载成功；该框架没有 `plugins/other/update.js`，插件已改为按需加载并提供手动更新提示 |
+
+> 未登录 QQ 的测试覆盖插件加载、指令分发、图片下载与本地文件/Redis 读写；消息发送、渲染图片在 QQ 客户端的显示效果仍需真实账号验证。
+
 ---
 
 ## Fork 与衍生版本
