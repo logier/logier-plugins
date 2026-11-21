@@ -26,12 +26,16 @@ export async function readAndParseJSON(filePath) {
 
 export async function getPersonality() {
     const Config = setting.getConfig("GPTconfig");
+    let base;
     if (Config.DefaultPersonalitySwitch) {
         const personalitys = await readAndParseJSON('../data/personality.json');
-        return personalitys[Config.DefaultPersonality];
+        base = personalitys?.[Config.DefaultPersonality];
     } else {
-        return Config.CustomPersonality;
+        base = Config.CustomPersonality;
     }
+    // 问候、戳一戳等场景会向返回的数组追加临时消息；必须返回副本，
+    // 否则会污染 setting 缓存中的全局配置（Issue #7）。
+    return Array.isArray(base) ? base.map(item => ({ ...item })) : [];
 }
 
 export async function gpt(messages, GPTKey = null, GPTUrl = null, GPTModel = null) {

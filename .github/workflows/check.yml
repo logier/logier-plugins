@@ -1,0 +1,26 @@
+name: Source checks (no Yunzai required)
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ['20', '22', '24']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Check JavaScript syntax and JSON
+        run: node scripts/check-source.mjs
+      - name: Run isolated unit tests
+        run: node --test tests/*.test.mjs
