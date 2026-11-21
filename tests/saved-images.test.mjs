@@ -14,10 +14,16 @@ async function withServer(fn) {
   const server = createServer((req, res) => {
     if (req.url === '/redirect') {
       res.writeHead(302, { location: '/png' }).end();
+    } else if (req.url === '/relative') {
+      res.writeHead(302, { location: 'png' }).end();
+    } else if (req.url === '/loop') {
+      res.writeHead(302, { location: '/loop' }).end();
     } else if (req.url === '/missing') {
       res.writeHead(404).end('not found');
     } else if (req.url === '/html') {
       res.writeHead(200, { 'content-type': 'text/html' }).end('<html></html>');
+    } else if (req.url === '/declared-oversize') {
+      res.writeHead(200, { 'content-type': 'image/png', 'content-length': '1000' }).end(Buffer.alloc(100));
     } else if (req.url === '/oversize') {
       res.writeHead(200, { 'content-type': 'image/png' }).end(Buffer.alloc(100));
     } else {
@@ -51,11 +57,12 @@ test('image URLs are extracted from quoted message segments', () => {
   ]), ['https://example.com/a.png', 'http://example.com/b.png', 'https://example.com/c.png']);
 });
 
-test('saveImage handles redirect and writes only a valid image extension', async () => {
+test('saveImage follows absolute and relative redirects and returns the file name', async () => {
   await withServer(async (base) => withTempDir(async (dir) => {
-    assert.equal(await saveImage(`${base}/redirect`, dir), 1);
-    assert.deepEqual(await readdir(dir), ['1.png']);
-    assert.deepEqual(await readFile(join(dir, '1.png')), png);
+    assert.equal(await saveImage(`${base}/redirect`, dir), '1.png');
+    assert.equal(await saveImage(`${base}/relative`, dir), '2.png');
+    assert.deepEqual((await readdir(dir)).sort(), ['1.png', '2.png']);
+    assert.deepEqual(await readFile(join(dir, '2.png')), png);
   }));
 });
 
@@ -63,15 +70,23 @@ test('saveImage never leaves partial files after bad response or oversized body'
   await withServer(async (base) => withTempDir(async (dir) => {
     await assert.rejects(saveImage(`${base}/missing`, dir), /HTTP 404/);
     await assert.rejects(saveImage(`${base}/html`, dir), /不支持的图片类型/);
+    await assert.rejects(saveImage(`${base}/declared-oversize`, dir, { maxBytes: 32 }), /大小限制/);
     await assert.rejects(saveImage(`${base}/oversize`, dir, { maxBytes: 32 }), /大小限制/);
+    assert.deepEqual(await readdir(dir), []);
+  }));
+});
+
+test('saveImage stops after too many redirects', async () => {
+  await withServer(async (base) => withTempDir(async (dir) => {
+    await assert.rejects(saveImage(`${base}/loop`, dir), /重定向次数过多/);
     assert.deepEqual(await readdir(dir), []);
   }));
 });
 
 test('concurrent saves allocate distinct numbers', async () => {
   await withServer(async (base) => withTempDir(async (dir) => {
-    const numbers = await Promise.all(Array.from({ length: 5 }, () => saveImage(`${base}/png`, dir)));
-    assert.deepEqual(numbers.sort((a, b) => a - b), [1, 2, 3, 4, 5]);
+    const names = await Promise.all(Array.from({ length: 5 }, () => saveImage(`${base}/png`, dir)));
+    assert.deepEqual(names.map((name) => Number.parseInt(name, 10)).sort((a, b) => a - b), [1, 2, 3, 4, 5]);
     assert.equal((await readdir(dir)).length, 5);
   }));
 });

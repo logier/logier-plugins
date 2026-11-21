@@ -2,7 +2,8 @@
 import http from 'node:http';
 import https from 'node:https';
 import path from 'node:path';
-import { mkdir, readdir, open, unlink } from 'node:fs/promises';
+import { createWriteStream } from 'node:fs';
+import { mkdir, readdir, unlink } from 'node:fs/promises';
 import { Transform } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 
@@ -15,6 +16,8 @@ const MIME_EXTENSIONS = Object.freeze({
   'image/bmp': 'bmp',
 });
 const IMAGE_FILENAME = /^([1-9]\d*)\.(jpe?g|png|gif|webp|bmp)$/i;
+const REDIRECT_STATUS = new Set([301, 302, 303, 307, 308]);
+const MAX_REDIRECTS = 5;
 // 同一目录的编号分配需要串行，否则并发保存会抢到同一个编号。
 const directoryLocks = new Map();
 
@@ -68,31 +71,46 @@ async function withDirectoryLock(dir, fn) {
   }
 }
 
-function getImageResponse(input, timeoutMs, redirects = 0) {
+/**
+ * 请求图片响应并手动跟随重定向。timeoutMs 是连接/读取的空闲时限，
+ * deadline 让多次重定向共享同一个总截止时间，避免每跳都重新计时。
+ */
+function requestImage(input, timeoutMs, deadline, redirects = 0) {
   return new Promise((resolve, reject) => {
     let url;
     try {
       url = new URL(input);
-      if (url.protocol !== 'https:' && url.protocol !== 'http:') throw new Error('只支持 HTTP(S) 图片地址');
+      if (url.protocol !== 'https:' && url.protocol !== 'http:') {
+        throw new Error('只支持 HTTP(S) 图片地址');
+      }
     } catch (error) {
       reject(error);
       return;
     }
+    const remaining = deadline - Date.now();
+    if (remaining <= 0) {
+      reject(new Error('图片下载超时'));
+      return;
+    }
+
     const client = url.protocol === 'https:' ? https : http;
     const request = client.get(url, (response) => {
       const status = response.statusCode ?? 0;
-      if ([301, 302, 303, 307, 308].includes(status)) {
+      if (REDIRECT_STATUS.has(status)) {
         response.resume();
-        if (!response.headers.location || redirects >= 5) {
+        const location = response.headers.location;
+        if (!location || redirects >= MAX_REDIRECTS) {
           reject(new Error('图片重定向次数过多或缺少目标地址'));
           return;
         }
+        let next;
         try {
-          const next = new URL(response.headers.location, url).toString();
-          resolve(getImageResponse(next, timeoutMs, redirects + 1));
+          next = new URL(location, url).toString();
         } catch (error) {
           reject(error);
+          return;
         }
+        resolve(requestImage(next, timeoutMs, deadline, redirects + 1));
         return;
       }
       if (status !== 200) {
@@ -102,20 +120,34 @@ function getImageResponse(input, timeoutMs, redirects = 0) {
       }
       resolve(response);
     });
-    request.setTimeout(timeoutMs, () => request.destroy(new Error('图片下载超时')));
+    request.setTimeout(Math.max(1, remaining), () => request.destroy(new Error('图片下载超时')));
     request.on('error', reject);
   });
 }
 
-/** 下载图片，分配未使用的数字编号；失败时删除不完整文件。返回文件编号。 */
+/** 下载图片并按目录内最小未占用编号命名；失败时删除不完整文件。返回文件名（如 "3.png"）。 */
 export async function saveImage(url, saveDir, { maxBytes = 20 * 1024 * 1024, timeoutMs = 15000 } = {}) {
   if (typeof saveDir !== 'string' || !saveDir.trim()) throw new Error('未配置图片保存目录');
   if (!Number.isFinite(maxBytes) || maxBytes <= 0) throw new Error('maxBytes 必须为正数');
   if (!Number.isFinite(timeoutMs) || timeoutMs <= 0) throw new Error('timeoutMs 必须为正数');
+  if (typeof url !== 'string' || !url) throw new Error('图片地址为空');
+  // 先校验协议，避免非法地址也去创建保存目录。
+  let parsedUrl;
+  try {
+    parsedUrl = new URL(url);
+  } catch {
+    throw new Error('只支持 HTTP(S) 图片地址');
+  }
+  if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+    throw new Error('只支持 HTTP(S) 图片地址');
+  }
+
   const directory = path.resolve(saveDir);
+  const deadline = Date.now() + timeoutMs;
+
   return withDirectoryLock(directory, async () => {
     await mkdir(directory, { recursive: true });
-    const response = await getImageResponse(url, timeoutMs);
+    const response = await requestImage(url, timeoutMs, deadline);
     const mime = String(response.headers['content-type'] ?? '').split(';')[0].trim().toLowerCase();
     const extension = MIME_EXTENSIONS[mime];
     if (!extension) {
@@ -123,31 +155,35 @@ export async function saveImage(url, saveDir, { maxBytes = 20 * 1024 * 1024, tim
       throw new Error(`不支持的图片类型：${mime || '未提供 Content-Type'}`);
     }
     const contentLength = Number(response.headers['content-length']);
-    if (contentLength > maxBytes) {
+    if (Number.isFinite(contentLength) && contentLength > maxBytes) {
       response.destroy();
       throw new Error('图片超过大小限制');
     }
 
-    let filePath;
-    let handle;
+    const occupied = new Set(imageNumbers(await readdir(directory)));
+    let number = 1;
+    while (occupied.has(number)) number++;
+    const fileName = `${number}.${extension}`;
+    const filePath = path.join(directory, fileName);
+    // flags: 'wx' 保证不覆盖已有文件；'open' 之后才允许在失败时删除，避免误删他人文件。
+    const target = createWriteStream(filePath, { flags: 'wx' });
+    let created = false;
+    target.once('open', () => { created = true; });
+
+    let received = 0;
+    const limit = new Transform({
+      transform(chunk, encoding, callback) {
+        received += chunk.length;
+        callback(received > maxBytes ? new Error('图片超过大小限制') : null, chunk);
+      },
+    });
+
     try {
-      const occupied = new Set(imageNumbers(await readdir(directory)));
-      let number = 1;
-      while (occupied.has(number)) number++;
-      filePath = path.join(directory, `${number}.${extension}`);
-      handle = await open(filePath, 'wx');
-      let received = 0;
-      const limit = new Transform({
-        transform(chunk, encoding, callback) {
-          received += chunk.length;
-          callback(received > maxBytes ? new Error('图片超过大小限制') : null, chunk);
-        },
-      });
-      await pipeline(response, limit, handle.createWriteStream());
-      return number;
+      await pipeline(response, limit, target);
+      return fileName;
     } catch (error) {
       response.destroy();
-      if (handle && filePath) await unlink(filePath).catch(() => {});
+      if (created) await unlink(filePath).catch(() => {});
       throw error;
     }
   });

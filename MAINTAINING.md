@@ -18,7 +18,7 @@
 - `scripts/check-source.mjs`：对 JavaScript 做语法检查、对 JSON 做解析检查；无需云崽和第三方依赖。
 - `tests/personality.test.mjs`：回归测试 `utils/getdate.js` 的 `getPersonality()`，覆盖 Issue #7 的人格配置污染问题。
 - `tests/saved-images.test.mjs`、`tests/emoji-thief.test.mjs`：表情包保存与表情包小偷的纯逻辑回归测试。
-- `utils/saved-images.mjs`、`utils/emoji-thief.mjs`：不依赖云崽的工具函数。
+- `utils/saved-images.mjs`、`utils/emoji-thief.mjs`：不依赖云崽的工具函数；`saveImage()` 返回已写入的文件名（含编号与扩展名），调用方无需再扫描目录。
 
 ## 本地或 Codespaces 可选命令
 

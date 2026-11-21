@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runInNewContext } from 'node:vm';
-import { parseEmojiList, mergeEmojiList, normalizeRate } from '../utils/emoji-thief.mjs';
+import { listsEqual, parseEmojiList, mergeEmojiList, normalizeRate } from '../utils/emoji-thief.mjs';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const source = readFileSync(join(root, 'apps/EmojiThief.js'), 'utf8');
@@ -15,12 +15,13 @@ function makePlugin(config, { random = 0.5, emojiUrl = 'https://example.com/fall
   const sent = [];
   const errors = [];
   let fallbackCalls = 0;
+  let redisGets = 0;
   const Plugin = runInNewContext(`${classSource}\nTextMsg`, {
     plugin: class { constructor(opts) { this.options = opts; } },
     setting: { getConfig: () => config },
-    mergeEmojiList, parseEmojiList, normalizeRate,
+    listsEqual, mergeEmojiList, parseEmojiList, normalizeRate,
     redis: {
-      get: async (key) => data.get(key) ?? null,
+      get: async (key) => { redisGets++; return data.get(key) ?? null; },
       set: async (key, value) => { data.set(key, value); },
     },
     getemoji: async () => { fallbackCalls++; return emojiUrl; },
@@ -31,6 +32,7 @@ function makePlugin(config, { random = 0.5, emojiUrl = 'https://example.com/fall
   return {
     instance: new Plugin(), data, sent, errors,
     get fallbackCalls() { return fallbackCalls; },
+    get redisGets() { return redisGets; },
     event: (message, group_id = 123) => ({ group_id, message, reply: async (msg) => sent.push(msg) }),
   };
 }
@@ -41,12 +43,23 @@ test('Redis corrupted data is ignored; list remains unique and bounded to 50', (
   const items = Array.from({ length: 60 }, (_, i) => `url-${i}`);
   assert.deepEqual(mergeEmojiList(null, items), items.slice(-50));
   assert.deepEqual(mergeEmojiList(JSON.stringify(['a', 'a']), ['a', 'b']), ['a', 'b']);
+  assert.deepEqual(mergeEmojiList(null, 'not-an-array'), []);
+  assert.equal(listsEqual(['a', 'b'], ['a', 'b']), true);
+  assert.equal(listsEqual(['a'], ['b']), false);
   assert.equal(normalizeRate('0.5'), 0.5);
   assert.equal(normalizeRate(2), 1);
   assert.equal(normalizeRate(-1), 0);
+  assert.equal(normalizeRate(undefined, 0.5), 0.5);
+  assert.equal(normalizeRate('broken', 2), 1);
 });
 
-test('one message with multiple emoji images is saved completely', async () => {
+test('emoji list keeps only the newest 50 entries', () => {
+  const full = Array.from({ length: 50 }, (_, i) => `u${i}`);
+  assert.deepEqual(mergeEmojiList(full, ['n1', 'n2']), [...full.slice(2), 'n1', 'n2']);
+  assert.equal(mergeEmojiList(full, ['u49']).length, 50);
+});
+
+test('one message with multiple emoji images is saved completely and reads Redis once', async () => {
   const ctx = makePlugin({ DefalutReplyRate: 0, DefalutEmojiRate: 0, ETGroupRate: [] });
   const message = [
     { type: 'image', asface: true, url: 'https://example.com/1.png' },
@@ -57,6 +70,13 @@ test('one message with multiple emoji images is saved completely', async () => {
   const stored = JSON.parse(ctx.data.get('Yunzai:EmojiThief:123_EmojiThief'));
   assert.deepEqual(stored, ['https://example.com/1.png', 'https://example.com/2.png']);
   assert.equal(ctx.sent.length, 0);
+  assert.equal(ctx.redisGets, 1);
+});
+
+test('rate 0 without images skips Redis entirely', async () => {
+  const ctx = makePlugin({ DefalutReplyRate: 0, DefalutEmojiRate: 0, ETGroupRate: [] });
+  await ctx.instance.表情包小偷(ctx.event([]));
+  assert.equal(ctx.redisGets, 0);
 });
 
 test('group override accepts numeric/string group ids; cache reply avoids fallback request', async () => {
