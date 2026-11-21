@@ -1,0 +1,18 @@
+{
+  "name": "logier-alemonjs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "鸢尾花插件的 ALemonJS 适配版（实验性，文本指令）",
+  "main": "lib/index.js",
+  "scripts": {
+    "dev": "npx lvy app.ts",
+    "build": "npx lvy build",
+    "app": "node index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "alemonjs": "^2.1.109",
+    "lvyjs": "^0.3.1"
+  }
+}

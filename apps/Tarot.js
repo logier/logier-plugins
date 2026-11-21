@@ -1,7 +1,20 @@
 import puppeteer from 'puppeteer'
+import path from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import common from '../../../lib/common/common.js'
 import { readAndParseJSON, gpt } from '../utils/getdate.js'
 import setting from '../model/setting.js'
+
+const pluginRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+
+// 仅大阿尔卡那（0-21）有本地牌面；其余牌使用通用牌背，避免依赖已失效的远端图床。
+function tarotImageFile (key) {
+  const n = Number(key)
+  if (Number.isInteger(n) && n >= 0 && n <= 21) {
+    return path.join(pluginRoot, 'resources', 'nijitarot', `${n}.webp`)
+  }
+  return path.join(pluginRoot, 'resources', 'img', '塔罗牌.webp')
+}
 
 export class TextMsg extends plugin {
   constructor () {
@@ -69,7 +82,7 @@ export class TextMsg extends plugin {
     const selection = options[Math.floor(Math.random() * options.length)]
     let [position, meaning] = selection.split(': ')
 
-    e.reply([`你抽到的牌是……\n第${randomKey}位\n${randomCard.name_cn}（${randomCard.name_en}）\n${position}：\n${meaning}`, segment.image(`./plugins/logier-plugin/resources/nijitarot/${randomKey}.webp`)])
+    e.reply([`你抽到的牌是……\n第${randomKey}位\n${randomCard.name_cn}（${randomCard.name_en}）\n${position}：\n${meaning}`, segment.image(tarotImageFile(randomKey))])
 
     return true
   }
@@ -83,8 +96,8 @@ async function 抽塔罗牌 (e, replacedMsg = '', isGPT = false) {
   const randomKey = keys[Math.floor(Math.random() * keys.length)]
   const randomCard = tarot.cards[randomKey]
 
-  // 获取塔罗牌的图片URL
-  const imageUrl = `https://gitee.com/logier/logier-plugin/raw/master/resources/%E5%A1%94%E7%BD%97%E7%89%8C/${randomCard.type}/${randomCard.pic}.webp`
+  // 获取塔罗牌的图片 URL（本地牌面，缺失时使用通用牌背）
+  const imageUrl = pathToFileURL(tarotImageFile(randomKey)).href
 
   // 创建塔罗牌的正位和逆位选项并随机选择一个选项
   const options = [`正位: ${randomCard.meaning.up}`, `逆位: ${randomCard.meaning.down}`]
@@ -119,20 +132,14 @@ async function 抽塔罗牌 (e, replacedMsg = '', isGPT = false) {
       <html>
        <head>
           <style>
-                    /* 定义自定义字体 */
-          @font-face {
-              font-family: 'HarmonyOS';
-              src: url('https://dd.atxrom.com/font/HarmonyOS.woff2') format('woff2');
-              font-weight: normal; /* 可以添加，如果字体有特定的重量 */
-              font-style: normal;  /* 可以添加，如果字体有特定的样式（如斜体） */
-          }
+                    /* 使用系统字体，避免依赖已失效的字体 CDN */
           
           /* 基础样式重置 */
           html, body {
               margin: 0;
               padding: 0;
               box-sizing: border-box; /* 添加此属性可以简化元素宽度和高度的计算 */
-              font-family: 'HarmonyOS', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+              font-family: 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
               line-height: 2.0; /* 可以添加一个默认的行高，使文本更易读 */
               /* 其他基础样式，如字体颜色、背景颜色等，也可以在这里设置 */
           }
@@ -237,7 +244,7 @@ async function 占卜塔罗牌 (e, replacedMsg = '', isGPT = false) {
     const position = Math.random() < 0.5 ? 'up' : 'down'
     cardPositions.push(position)
 
-    const imageUrl = `https://gitee.com/logier/logier-plugin/raw/master/resources/%E5%A1%94%E7%BD%97%E7%89%8C/${randomCard.type}/${randomCard.pic}.webp`
+    const imageUrl = tarotImageFile(randomKey)
 
     const forwardMsg = [
       `你抽到的第${i + 1}张牌是 ${randomCard.name_cn} (${randomCard.name_en})\n\n${position === 'up' ? '正位' : '逆位'}:  ${randomCard.meaning[position]}\n\n卡牌描述： ${position === 'up' ? randomCard.info.description : randomCard.info.reverseDescription}`,

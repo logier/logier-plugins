@@ -125,7 +125,7 @@ async function generateFortune (e) {
         /* 定义自定义字体 */
            @font-face {
                font-family: 'HarmonyOS';
-               src: url('https://dd.atxrom.com/font/HarmonyOS.woff2') format('woff2');
+               src: local('HarmonyOS Sans SC'), local('Microsoft YaHei');
                font-weight: normal; /* 可以添加，如果字体有特定的重量 */
                font-style: normal;  /* 可以添加，如果字体有特定的样式（如斜体） */
            }

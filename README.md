@@ -17,6 +17,8 @@
 - [配置](#配置)
 - [常见问题](#常见问题)
 - [更新与兼容](#更新与兼容)
+- [接口状态与本地资源](#接口状态与本地资源)
+- [ALemonJS 版](#alemonjs-版实验性)
 - [Fork 与衍生版本](#fork-与衍生版本)
 - [鸣谢](#鸣谢)
 
@@ -213,6 +215,51 @@ node --test tests/*.test.mjs    # 单元测试
 | [yunzai-bot-lite](https://gitee.com/Nwflower/yunzai-bot-lite) | 最新 master | 加载成功；该框架没有 `plugins/other/update.js`，插件已改为按需加载并提供手动更新提示 |
 
 > 未登录 QQ 的测试覆盖插件加载、指令分发、图片下载与本地文件/Redis 读写；消息发送、渲染图片在 QQ 客户端的显示效果仍需真实账号验证。
+
+---
+
+## 接口状态与本地资源
+
+插件已尽量把图片、字体和每日文本改为本地资源，减少对第三方图床的依赖。可随时体检：
+
+```bash
+node scripts/audit-api.mjs                # 默认 8 秒超时
+node scripts/audit-api.mjs --timeout 15000
+```
+
+| 功能 | 默认来源 | 状态（2026-11 实测） | 兜底 |
+| :--- | :--- | :--- | :--- |
+| 摸鱼日历 / 今日新闻 | 60s API（`60s.viki.moe`） | 可用（约 0.4–0.8s） | 接口失败时读取 `data/daily-fallback.json` |
+| 塔罗牌 / 占卜图片 | `resources/nijitarot/*.webp`、`resources/img/塔罗牌.webp` | 本地文件 | 无网络依赖 |
+| 天气图标 | `resources/font/qweather-icons.*` | 本地文件（CSS 内联字体） | 无网络依赖 |
+| 今日番剧 | `api.bgm.tv` | 国内直连常超时（限时 10s） | 有 Redis 缓存时用缓存 |
+| 一言 | `v1.hitokoto.cn` | 部分网络超时 | 失败时跳过 |
+| CP 生成图 | `api.xingzhige.com` | 可用（约 1–2s） | — |
+| 和风天气 | `geoapi.qweather.com` | 服务存活，需要自备 Key | — |
+
+已移除的失效地址（DNS 失效 / 403 / 502）：`api.vvhan.com`、`moyu.atxrom.com`、`dd.atxrom.com`、`ap.atxrom.com`、`api.03c3.cn`、旧图床 `gitee.com/logier/logier-plugin/raw/...`。如果旧配置里还填着这些地址，改成本表默认值或本地目录即可。
+
+> 第三方接口随时可能变化，`scripts/audit-api.mjs` 会打印状态码与耗时，便于定期检查。
+
+---
+
+## ALemonJS 版（实验性）
+
+仓库内的 [`alemonjs/`](./alemonjs/) 是一个独立的 [ALemonJS](https://alemonjs.com/) 应用，不依赖云崽，目前迁移了文本类功能：
+
+| 指令 | 功能 |
+| :--- | :--- |
+| `#摸鱼日历` / `#摸鱼` | 日期、周/年进度、摸鱼语录 |
+| `#今日新闻` / `#新闻` | 60 秒读懂世界（最多 15 条） |
+| `#鸢尾花帮助` / `#帮助` | 指令列表 |
+
+```bash
+cd alemonjs
+npm install
+npx lvy app.ts       # 开发模式；构建用 npx lvy build
+```
+
+还需要按 ALemonJS 文档接入消息平台（如 `@alemonjs/qq-bot`）。**表情包保存、塔罗牌、天气图片与定时推送尚未迁移**；该适配版是按官方模板编写的实验性代码，尚未完成真实运行时验证，详见 [`alemonjs/README.md`](./alemonjs/README.md)。
 
 ---
 

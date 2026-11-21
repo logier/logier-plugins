@@ -192,7 +192,7 @@ async function generateFortune (e, replyMessage, content, imageUrl) {
              /* 自定义字体定义 */
           @font-face {
               font-family: 'HarmonyOS';
-              src: url('https://dd.atxrom.com/font/HarmonyOS.woff2') format('woff2');
+              src: local('HarmonyOS Sans SC'), local('Microsoft YaHei');
               font-weight: normal; /* 明确指定字体权重，尽管默认为normal */
               font-style: normal;  /* 明确指定字体样式，尽管默认为normal */
           }

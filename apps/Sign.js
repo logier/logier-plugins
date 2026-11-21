@@ -24,9 +24,15 @@ export class TextMsg extends plugin {
     let now = new Date()
     let datatime = now.toLocaleDateString('zh-CN') 
 
-    const response = await fetch('https://v1.hitokoto.cn')
-    const hitokodata = await response.json()
-    const content = hitokodata.hitokoto
+    // 一言接口偶尔超时，失败时使用默认文案，不影响签到。
+    let content = '今天也要开心呀'
+    try {
+      const response = await fetch('https://v1.hitokoto.cn', { signal: AbortSignal.timeout(8000) })
+      if (response.ok) {
+        const hitokodata = await response.json()
+        content = hitokodata.hitokoto || content
+      }
+    } catch { /* 忽略一言接口异常 */ }
 
     let imageUrl = await getImageUrl(this.UrlsConfig.imageUrls, './plugins/logier-plugin/resources/gallery/114388636.webp')
 

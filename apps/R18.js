@@ -21,6 +21,10 @@ export class example extends plugin {
 
       async 三次元 (e) {
 
+        if (!newsimageUrl) {
+          e.reply('三次元接口未配置，请设置环境变量 R18_API 或修改 apps/R18.js 中的地址');
+          return false
+        }
         e.reply([segment.image(newsimageUrl)]);
     
         return true
@@ -28,4 +32,5 @@ export class example extends plugin {
     
     }
 
-const newsimageUrl = 'https://ap.atxrom.com/r18';// 三次元接口地址 自己用
+// 三次元图片接口（自备）。默认留空，避免请求已失效的第三方地址。
+const newsimageUrl = process.env.R18_API || '';

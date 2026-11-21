@@ -1,8 +1,21 @@
 import puppeteer from 'puppeteer'
 import { NumToRoman, getImageUrl, getFunctionData } from '../utils/getdate.js'
 import fetch from 'node-fetch'
+import { readFileSync } from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import setting from '../model/setting.js'
+
+const pluginRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+
+// 将和风图标字体内联为 data URI，离线渲染不再依赖任何 CDN。
+const QWEATHER_ICON_CSS = readFileSync(path.join(pluginRoot, 'resources/font/qweather-icons.css'), 'utf8')
+  .replace(/url\((["']?)[^"')]+\.(woff2|woff|ttf)\1\)/g, (_match, _quote, ext) => {
+    const file = path.join(pluginRoot, 'resources/font/fonts', `qweather-icons.${ext}`)
+    const mime = ext === 'ttf' ? 'font/ttf' : `font/${ext}`
+    return `url("data:${mime};base64,${readFileSync(file).toString('base64')}")`
+  })
 
 export class example extends plugin {
   constructor () {
@@ -84,7 +97,7 @@ async function pushweather (e, pushcity) {
          <!DOCTYPE html>
          <html>
          <head>
-         <link rel="stylesheet" href="https://gitee.com/cnxiaodoubi/logier-plugins/raw/master/resources/font/qweather-icons.css">
+         <style>${QWEATHER_ICON_CSS}</style>
          </head>
          <body>
          <div class="tu">

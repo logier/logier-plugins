@@ -91,14 +91,18 @@ export class TextMsg extends plugin {
 
 async function getItems () {
 
-    let response = await fetch('https://api.bgm.tv/calendar');
-    let data = await response.json();
+    // 国内直连 api.bgm.tv 经常超时，限制等待时间并检查状态码。
+    const response = await fetch('https://api.bgm.tv/calendar', { signal: AbortSignal.timeout(10000) });
+    if (!response.ok) { throw new Error(`HTTP ${response.status}`) }
+    const data = await response.json();
 
     let now = new Date();
     let weekday = now.getDay(); // 获取当前的星期几，注意 JavaScript 的星期是从 0（周日）开始的
 
-    // 找到对应星期的项目
-    let items = data.find(item => item.weekday.id === weekday).items;
+    // 找到对应星期的项目（接口异常时返回空列表，避免直接崩溃）。
+    const day = Array.isArray(data) ? data.find(item => item.weekday?.id === weekday) : null;
+    const items = Array.isArray(day?.items) ? day.items : [];
+    if (!items.length) { return [] }
 
     // 提取 name_cn、rating 和 images 属性并组成新的数组
     let itemDetails = items.map(item => {

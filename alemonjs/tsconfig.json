@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "paths": {
+      "@src/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*", "app.ts"],
+  "extends": "lvyjs/tsconfig.json"
+}

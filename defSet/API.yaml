@@ -1,16 +1,17 @@
 API:
   - FunctionName: 摸鱼日历
-    SourceUrl: https://api.vvhan.com/api/moyu
+    # 内置接口为 60s API（JSON 文字）；此处可填图片 API，内置接口失败时作为兜底。
+    SourceUrl: https://60s.viki.moe/v2/moyu
     isAutoPush: false
-    "PushTime": 0 0 */1 * * ?
+    "PushTime": 0 0 8 * * *
     PushGroupList: []
   - FunctionName: 今日新闻
-    SourceUrl: https://api.03c3.cn/api/zb
+    SourceUrl: https://60s.viki.moe/v2/60s
     isAutoPush: false
-    "PushTime": 00 30 9 * * ?
+    "PushTime": 0 30 9 * * *
     PushGroupList: []
   - FunctionName: 真寻日报
-    SourceUrl: https://moyu.atxrom.com/
+    SourceUrl: https://60s.viki.moe/v2/60s
     isAutoPush: false
-    "PushTime": 0 30 7 * * ?
+    "PushTime": 0 30 7 * * *
     PushGroupList: []

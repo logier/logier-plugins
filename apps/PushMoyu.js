@@ -1,4 +1,5 @@
 import { getFunctionData, getImageUrl } from '../utils/getdate.js'
+import { getMoyuText } from '../utils/daily-api.mjs'
 
 export class example extends plugin {
   constructor () {
@@ -16,7 +17,7 @@ export class example extends plugin {
     })
     this.task = {
       // 老配置可能没有 PushTime，缺省时退回每天 08:00，避免插件加载失败。
-      cron: this.moyuConfig.PushTime || '0 8 * * *',
+      cron: this.moyuConfig.PushTime || '0 0 8 * * *',
       name: '推送摸鱼日历',
       fnc: () => this.推送摸鱼日历(),
       log: false
@@ -26,25 +27,43 @@ export class example extends plugin {
 
   get moyuConfig () { return getFunctionData('API', 'API', '摸鱼日历') ?? {} }
 
-  // 定时任务
+  // 优先使用内置 JSON 接口生成文字日历；不可用时退回用户配置的图片 API。
+  async 获取内容 () {
+    try {
+      const text = await getMoyuText()
+      if (text) { return { text } }
+    } catch (error) {
+      logger.error(`[摸鱼日历]内置接口失败: ${error}`)
+    }
+
+    const source = this.moyuConfig.SourceUrl
+    if (source) {
+      const imageUrl = await getImageUrl(source).catch(() => null)
+      if (imageUrl) { return { imageUrl } }
+    }
+    return null
+  }
+
   async 推送摸鱼日历 () {
     if (!this.moyuConfig.isAutoPush) { return false }
-    if (!this.moyuConfig.SourceUrl) {
-      logger.error('[摸鱼日历]未配置 SourceUrl，跳过推送')
+
+    const groups = Array.isArray(this.moyuConfig.PushGroupList) ? this.moyuConfig.PushGroupList : []
+    if (!groups.length) {
+      logger.info('[摸鱼日历]未配置推送群，跳过推送')
+      return false
+    }
+
+    const content = await this.获取内容()
+    if (!content) {
+      logger.error('[摸鱼日历]没有可用的内容，跳过推送')
       return false
     }
 
     logger.info('[摸鱼日历]开始推送……')
-    const imageUrl = await getImageUrl(this.moyuConfig.SourceUrl)
-    if (!imageUrl) {
-      logger.error('[摸鱼日历]获取图片失败，跳过推送')
-      return false
-    }
-
-    const groups = Array.isArray(this.moyuConfig.PushGroupList) ? this.moyuConfig.PushGroupList : []
     for (let i = 0; i < groups.length; i++) {
       setTimeout(() => {
-        Bot.pickGroup(groups[i]).sendMsg([segment.image(imageUrl)])
+        const message = content.text ? [content.text] : [segment.image(content.imageUrl)]
+        Bot.pickGroup(groups[i]).sendMsg(message)
       }, 1 * 1000)
     }
 
@@ -52,13 +71,13 @@ export class example extends plugin {
   }
 
   async 摸鱼日历 (e) {
-    const imageUrl = await getImageUrl(this.moyuConfig.SourceUrl)
-    if (!imageUrl) {
-      await e.reply('获取摸鱼日历失败，请稍后再试')
+    const content = await this.获取内容()
+    if (!content) {
+      await e.reply('获取摸鱼日历失败，请稍后再试或配置可用的图片 API')
       return false
     }
 
-    await e.reply([segment.image(imageUrl)])
+    await e.reply(content.text ?? [segment.image(content.imageUrl)])
     return true
   }
 }

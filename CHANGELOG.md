@@ -10,8 +10,12 @@
 - `generateRanges()` 兼容字符串编号与非数组输入，避免旧保存记录触发 `sort is not a function`（Issue `#1`）。
 - README 重写：快速开始、功能表、常见问题、Fork 链接与更新说明。
 - 框架兼容：`apps/update.js` 改为按需加载框架更新插件，精简框架（如 yunzai-bot-lite）不再因缺少 `plugins/other/update.js` 导致整个插件加载失败，并提示手动 `git pull`；README 增加 TRSS-Yunzai、Miao-Yunzai、Yunzai-Bot、yunzai-bot-lite 的兼容性测试结果。
+- 接口本地化：塔罗牌图片、天气图标与字体改用仓库内资源；摸鱼日历/今日新闻改用 60s API，接口失败时读取 `data/daily-fallback.json` 兜底。
+- 移除失效地址：`dd.atxrom.com` 字体、`ap.atxrom.com` 三次元默认地址、`logier/logier-plugin` 旧图床；番剧接口增加 10 秒超时与空数据保护；三次元改为通过环境变量 `R18_API` 配置。
+- 新增 `scripts/audit-api.mjs` 接口体检脚本与 `docs/adr/` 架构记录。
+- 新增 `alemonjs/` ALemonJS 实验性适配版（摸鱼日历/今日新闻/帮助文本指令），README 增加接口状态表与 ALemonJS 使用说明。
 
-> 此条为待合并变更，尚未经过真实云崽/QQ 适配器的集成测试。图片下载目前只接受 HTTP(S) 地址和常见图片 MIME 类型，单张默认限制 20 MiB、超时 15 秒。
+> 已通过离线运行时探针（Yunzai-Bot 3.0.0）验证保存/查看/删除表情包与 Redis 写入；QQ 客户端的实际消息显示仍需真实账号验证。图片下载目前只接受 HTTP(S) 地址和常见图片 MIME 类型，单张默认限制 20 MiB、超时 15 秒。
 
 # 1.2.2
 
