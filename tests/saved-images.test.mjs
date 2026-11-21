@@ -95,3 +95,9 @@ test('saveImage rejects invalid protocols and missing directories', async () => 
   await assert.rejects(saveImage('file:///etc/passwd', '/tmp/unused'), /只支持 HTTP\(S\)/);
   await assert.rejects(saveImage('https://example.com/test.png', ''), /未配置/);
 });
+
+test('generateRanges tolerates strings and non-array input', () => {
+  assert.equal(generateRanges([1, 2, 3, 5, '7', 7, 0, -1, 'x', null]), '1-3, 5, 7');
+  assert.equal(generateRanges(null), '');
+  assert.equal(generateRanges('oops'), '');
+});

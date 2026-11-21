@@ -76,12 +76,35 @@ export class TextMsg extends plugin {
     if (Math.random() >= rate) return false
     try {
       let emojiUrl
+      let fromCache = false
       // 随机值达到阈值时优先复用群友的表情包，否则访问表情包仓库。
       if (stored.length && Math.random() >= emojiRate) {
         emojiUrl = stored[Math.floor(Math.random() * stored.length)]
+        fromCache = true
       }
       if (!emojiUrl) emojiUrl = await getemoji(e, config.ETEmojihubCategory)
-      if (emojiUrl) await e.reply([segment.image(emojiUrl)])
+      if (!emojiUrl) return false
+
+      if (!fromCache) {
+        await e.reply([segment.image(emojiUrl)])
+        return false
+      }
+
+      try {
+        await e.reply([segment.image(emojiUrl)])
+      } catch (error) {
+        // QQ 图片链接带有时效性的 rkey，缓存的表情包可能已经过期。
+        // 发送失败时删除过期链接，并改用表情包仓库兜底。
+        logger.info(`[表情包小偷]缓存图片已失效，改用表情包仓库: ${error}`)
+        stored = stored.filter(url => url !== emojiUrl)
+        try {
+          await redis.set(key, JSON.stringify(stored))
+        } catch (writeError) {
+          logger.error(`[表情包小偷]清理过期表情包失败: ${writeError}`)
+        }
+        const fresh = await getemoji(e, config.ETEmojihubCategory)
+        if (fresh) await e.reply([segment.image(fresh)])
+      }
     } catch (error) {
       logger.error(`[表情包小偷]表情包发送失败: ${error}`)
     }

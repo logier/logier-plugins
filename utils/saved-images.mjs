@@ -39,7 +39,12 @@ export function findImageFile(files, number) {
 }
 
 export function generateRanges(numbers) {
-  const sorted = [...new Set(numbers.filter((n) => Number.isSafeInteger(n) && n > 0))].sort((a, b) => a - b);
+  // 兼容调用方误传字符串编号或非数组的情况，避免旧代码直接崩溃。
+  const list = Array.isArray(numbers) ? numbers : [];
+  const sorted = [...new Set(list
+    .map((n) => (typeof n === 'number' ? n : Number(n)))
+    .filter((n) => Number.isSafeInteger(n) && n > 0))]
+    .sort((a, b) => a - b);
   const ranges = [];
   for (let i = 0; i < sorted.length; i++) {
     const start = sorted[i];

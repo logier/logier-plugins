@@ -100,3 +100,21 @@ test('no reply is sent for private messages, unmatched groups or missing fallbac
   await ctx.instance.表情包小偷(ctx.event([]));
   assert.equal(ctx.sent.length, 0);
 });
+
+test('expired cached image is removed and replaced with a hub image', async () => {
+  const key = 'Yunzai:EmojiThief:123_EmojiThief';
+  const ctx = makePlugin(
+    { DefalutReplyRate: 1, DefalutEmojiRate: 0, ETGroupRate: [] },
+    { emojiUrl: 'https://example.com/fresh.png' },
+  );
+  ctx.data.set(key, JSON.stringify(['https://example.com/expired.png']));
+  const event = ctx.event([]);
+  event.reply = async (message) => {
+    if (String(message[0]).includes('expired.png')) throw new Error('Request failed with status code 400');
+    ctx.sent.push(message);
+  };
+  await ctx.instance.表情包小偷(event);
+  assert.equal(ctx.sent.length, 1);
+  assert.match(String(ctx.sent[0][0]), /fresh\.png/);
+  assert.deepEqual(JSON.parse(ctx.data.get(key)), []);
+});
